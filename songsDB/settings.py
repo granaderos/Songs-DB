@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'songs.apps.SongsConfig',
 ]
 
 MIDDLEWARE = [
@@ -76,9 +77,9 @@ WSGI_APPLICATION = 'songsDB.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'songsDB',
+        'NAME': 'songsdb',
         'USER': 'postgres',
-        'PASSWORD': '208012'
+        'PASSWORD': '208012',
         'HOST': 'localhost',
         'POST': '5432'
 

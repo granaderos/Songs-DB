@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 class Artist(models.Model):
-    name = models.CharField(max_length=64)
+    name = models.CharField(max_length=64, unique=True)
 
     def __str__(self):
         return self.name
@@ -11,13 +11,14 @@ class Artist(models.Model):
 
 class Album(models.Model):
     title = models.CharField(max_length=64)
+    artist = models.ForeignKey(Artist, default="", on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title
 
 
 class Genre(models.Model):
-    genre = models.CharField(max_length=64)
+    genre = models.CharField(max_length=64, unique=True)
 
     def __str__(self):
         return self.genre
@@ -25,9 +26,9 @@ class Genre(models.Model):
 
 class Song(models.Model):
     title = models.CharField(max_length=64)
-    artist = models.ForeignKey(Artist, on_delete=models.CASCADE)
     album = models.ForeignKey(Album, on_delete=models.CASCADE)
     genre = models.ForeignKey(Genre, on_delete=models.CASCADE)
+    path = models.FileField(upload_to="mp3_files/", default="")
 
     def __str__(self):
         return self.title
