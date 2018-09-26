@@ -16,10 +16,17 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.conf.urls import include
+from django.contrib.auth import views as auth_views
+# from songs.forms import CustomAthenticationForm
+
+from django.contrib.auth.forms import AuthenticationForm
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", include("songs.urls")),
+    path("login/", auth_views.login, {"template_name": "registration/login.html", "authentication_form": AuthenticationForm}, name="login"),
+    path("accounts/", include("django.contrib.auth.urls")),
 ]
 
 # Customising Django Admin Site

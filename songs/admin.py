@@ -5,8 +5,6 @@ from . models import Album
 from . models import Song
 from . models import Playlist
 
-
-
 # Register your models here.
 admin.site.register(Artist)
 admin.site.register(Genre)
