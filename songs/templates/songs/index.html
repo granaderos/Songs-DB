@@ -26,6 +26,24 @@
                 </div>
             </div>
         </form>
+
+        <div class="">
+            <div class="card-group"></div>    
+
+                {% for genre in genres %}
+                <a href="">
+                    <div class="card">
+                        <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
+                        <div class="card-body">
+                            <h5 class="card-title">{{ genre }}</h5>
+                            <!-- <p class="card-text"><small class="text-muted">{{ genre.song }}</small></p> -->
+                        </div>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+
     </div>
 
 {% endblock %}
