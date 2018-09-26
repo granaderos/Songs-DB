@@ -19,5 +19,11 @@ from django.conf.urls import include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("", include("songs.urls"))
+    path("", include("songs.urls")),
 ]
+
+# Customising Django Admin Site
+
+admin.site.site_header = "Songs Database Administration"
+admin.site.index_title = "Songs Database"
+admin.site.site_title = "Songs Database"
