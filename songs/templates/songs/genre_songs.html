@@ -1,0 +1,38 @@
+{% extends "songs/base.html" %}
+
+{% block page_title %}
+    {{ genre }} | Songs
+{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        <p class="alert alert-info">Genre: <strong>{{ genre }}</strong></p>
+
+        <table class="table">
+            <tr>
+                <th></th>
+                <th></th>
+                <th>Title</th>
+                <th>Artist</th>
+                <th>Album</th>
+
+                
+            </tr>
+            {% for song in songs %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td><i class="fa fa-play-circle"></i></td>
+                    <td>{{ song }}</td>
+                    <td>{{ song.album.artist }}</td>
+                    <td>{{ song.album }}</td>
+                </tr>
+            {% empty %}
+                <tr><td colspan="5" class="alert alert-warning">No available songs for this genre.</td></tr>
+            {% endfor %}
+        </table>
+        <hr>
+        <a href="javascript:window.history.back()">&lt;&lt; Back</a>
+    </div>
+
+{% endblock %}
