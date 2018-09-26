@@ -1,4 +1,7 @@
 from django.shortcuts import render
+from django.http import HttpResponse
+from django.utils.encoding import smart_str
+
 from . models import Genre
 from . models import Artist
 from . models import Album
@@ -22,3 +25,12 @@ def search_song(request):
     songs = Song.objects.filter(title__contains=search_keyword)
 
     return render(request, "songs/search_songs.html", context={"songs": songs, "search_filter": search_filter, "search_keyword": search_keyword})
+
+def download_song(request):
+    path = request.GET["path"]
+    with open(path, 'rb') as mp3:
+        response = HttpResponse(mp3, content_type="audio/mpeg") 
+        # without the below line, the browser will play it.
+        response["Content-disposition"] = "attachment; filename=%s" % smart_str(path)
+        
+        return response
