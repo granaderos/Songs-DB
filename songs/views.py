@@ -22,7 +22,18 @@ def search_song(request):
     search_filter = request.GET["search_filter"]
     search_keyword = request.GET["search_keyword"]
 
-    songs = Song.objects.filter(title__contains=search_keyword)
+    #songs = Song.objects.filter(search_filter__icontains=search_keyword)
+
+    songs = None
+
+    if search_filter == "title":
+        songs = Song.objects.filter(title__icontains=search_keyword)
+    elif search_filter == "genre":
+        songs = Song.objects.filter(genre__genre__icontains=search_keyword)
+    elif search_filter == "album":
+        songs = Song.objects.filter(album__title__icontains=search_keyword)
+    else:
+        songs = Song.objects.filter(album__artist__name__icontains=search_keyword)
 
     return render(request, "songs/search_songs.html", context={"songs": songs, "search_filter": search_filter, "search_keyword": search_keyword})
 
