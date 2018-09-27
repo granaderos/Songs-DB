@@ -22,7 +22,7 @@
             {% for song in songs %}
                 <tr>
                     <td>{{ forloop.counter }}</td>
-                    <td title="play"><i style="cursor: pointer;" class="fa fa-play-circle"></i></td>
+                    <td title="play"><i onclick="play('{{ song.id }}')" style="cursor: pointer;" class="fa fa-play-circle"></i></td>
                     <td title="download">
                         <form id="form_song_download" method="GET" action="{% url 'download_song' %}">
                             <input type="hidden" name="path" value="{{ song.path }}" />

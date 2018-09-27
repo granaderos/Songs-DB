@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.utils.encoding import smart_str
+from django.contrib.auth.hashers import make_password
+from django.contrib.auth.models import User
 
 from . models import Genre
 from . models import Artist
@@ -9,9 +11,36 @@ from . models import Song
 from . models import Playlist
 
 def index(request):
-
     genres = Genre.objects.all()
     return render(request, "songs/index.html", context={"genres": genres})
+
+def user_sign_up(request):
+        return render(request, "users/sign_up.html", {"message": ""})
+
+def create_account(request):
+    if request.method == "POST":
+        username = request.POST["username"]
+        password = request.POST["password"]
+        retyped_password = request.POST["retyped_password"]
+
+        user = User.objects.filter(username=username).count()
+        
+        if user > 0:
+            return render(request, "users/sign_up.html", {"error_message": "Username " + username + " was already taken."})
+        elif password != retyped_password:
+            return render(request, "users/sign_up.html", {"error_message": "Your password mismatched."})        
+        else:
+            if len(username) >= 5 and len(username) <= 20: # Proceed creating new account
+                if len(password) >= 8 and len(password) <= 30:
+                    new_user = User.objects.create(username=username, password=make_password(password), is_staff="f") 
+                    new_user.save()
+
+                    return render(request, "users/sign_up.html", {"success_message": "Your account has been successfully created. "})
+                else:
+                    return render(request, "users/sign_up.html", {"error_message": "Password should be at least and at most 8 to 30 characters."})
+            else:
+                return render(request, "users/sign_up.html", {"error_message": "Username should be at least and at most 5 to 20 characters long."})
+
 
 def list_songs_based_on_genre(request, genre_id):
     genre = Genre.objects.get(id=genre_id)

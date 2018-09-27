@@ -18,14 +18,17 @@ from django.urls import path
 from django.conf.urls import include
 from django.contrib.auth import views as auth_views
 # from songs.forms import CustomAthenticationForm
-
 from django.contrib.auth.forms import AuthenticationForm
+
+from songs import views
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", include("songs.urls")),
     path("login/", auth_views.login, {"template_name": "registration/login.html", "authentication_form": AuthenticationForm}, name="login"),
+    path("user/sign-up/", views.user_sign_up, name="user_sign_up"),
+    path("user/create-account", views.create_account, name="create_account"),
     path("accounts/", include("django.contrib.auth.urls")),
 ]
 

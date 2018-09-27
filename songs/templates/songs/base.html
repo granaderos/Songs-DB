@@ -12,7 +12,18 @@
         <link rel="stylesheet" type="text/css" href="{% static 'css/fontawesome-free-5.1.0-web/css/all.css' %}" />
         <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
         <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+        
+        <!-- <script src="{% static 'audio/audio.min.js' %}"></script> -->
+        <script src="{% static 'audio/bootstrap3_player.js' %}"></script>
+        <link rel="stylesheet" type="text/css" href="{% static 'audio/bootstrap3_player.css' %}" />
 
+
+        <script>
+            audiojs.events.ready(function() {
+                var as = audiojs.createAll();
+            });
+        </script>
+              
     </head>
     <body>
         <div class="container" style="margin-top: 20px;">
@@ -22,8 +33,10 @@
                     You are logged-in as: <strong>{{ user.username }}</strong>
                     |
                     <a href="{% url 'logout' %}?next={% url 'index' %}">Log-out</a>
-                    {% else %}
-                    <a href="{% url 'login' %}"><i class="fa fa-sign-in-alt fa-fw"></i> <span class="d-none d-sm-inline font-weight-bold">Log-in</span></a>
+                {% else %}
+                    <a href="{% url 'login' %}"><i class="fa fa-sign-in-alt fa-fw"></i> <span class="font-weight-bold">Log-in</span></a>
+                    |
+                    <a href="{% url 'user_sign_up' %}"><i class="fa fa-sign-in-alt fa-fw"></i> <span class="font-weight-bold">Create an Account</span></a>
                 {% endif %}
             
             </div>
@@ -32,5 +45,25 @@
         
 
         {% block body %}{% endblock %}
+        
+        <div id="div_player" class="jumbotron">
+            <!-- <audio id="audio_player" preload="auto" /> -->
+            <div class="row col-md-8 col-md-offset-2 col-xs-12">
+                <audio controls
+                    data-info-album-art="https://farm9.staticflickr.com/8642/16106988340_058071cdbe_z.jpg"
+                    data-info-album-title="8874"
+                    data-info-artist="Iain Houston and Felix Gibbons"
+                    data-info-title="BeBop Aliens"
+                    data-info-label="Independent"
+                    data-info-year="2005"
+                    data-info-att="Music: Iain Houston and Felix Gibbons."
+                    data-info-att-link="https://github.com/iainhouston">
+                    <source src="http://playerdemo.iainhouston.com/tests/BeBopAliens.ogg" type="audio/ogg" />
+                    <source src="http://playerdemo.iainhouston.com/tests/BeBopAliens.mp3" type="audio/mpeg" />
+                    <a href="http://playerdemo.iainhouston.com/tests/BeBopAliens.mp3">BeBopAliens</a>
+                    An html5-capable browser is required to play this audio. 
+                </audio>
+            </div>
+        </div>
     </body>
 </html>
