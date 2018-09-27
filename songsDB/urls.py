@@ -17,8 +17,10 @@ from django.contrib import admin
 from django.urls import path
 from django.conf.urls import include
 from django.contrib.auth import views as auth_views
-# from songs.forms import CustomAthenticationForm
 from django.contrib.auth.forms import AuthenticationForm
+
+from django.conf import settings
+from django.conf.urls.static import static
 
 from songs import views
 
@@ -30,7 +32,11 @@ urlpatterns = [
     path("user/sign-up/", views.user_sign_up, name="user_sign_up"),
     path("user/create-account", views.create_account, name="create_account"),
     path("accounts/", include("django.contrib.auth.urls")),
+
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+ 
 
 # Customising Django Admin Site
 

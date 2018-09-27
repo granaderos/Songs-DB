@@ -74,3 +74,10 @@ def download_song(request):
         response["Content-disposition"] = "attachment; filename=%s" % smart_str(path)
         
         return response
+
+def play_song(request, song_id):
+    path = request.POST["path"]
+    file_name = path[path.index("/")+1:]
+    path = "/media/"+ file_name
+      
+    return render(request, "songs/player.html", {"path": path})
