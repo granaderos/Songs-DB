@@ -1,0 +1,88 @@
+<div id="player_div" class="text-center footer navbar-fixed-bottom">
+    <p>
+        Currently Playing: <strong id="current_song"></strong>
+        <input type="hidden" value="0" id="current_song_id" />
+        <input type="hidden" value="0" id="previous_playing_song_id" />
+    </p>
+    <audio controls id="audio_currently_playing" onclick="paused_played()">
+        <source id="audio_source" src="" type="audio/mpeg">
+    </audio>
+</div>
+
+<script>
+    window.onload = function() {
+        document.getElementById("player_div").style.display = "none";
+    }
+
+    function paused_played() {
+        console.log("clicked!");
+        if(document.getElementById("current_song").innerHTML != "") {
+            var audio = document.getElementById("audio_currently_playing");
+            var current_song_id = document.getElementById("current_song_id").value;                 
+            var icon = document.getElementById("song_"+current_song_id); 
+            
+            if(audio.paused) {
+                
+
+                icon.classList.remove("fa-play-circle");
+                icon.classList.add("fa-pause-circle");
+            } else {
+                icon.classList.remove("fa-pause-circle")
+                icon.classList.add("fa-play-circle");
+            }
+        }
+
+    }
+
+    function play_song(id, path, title, album, genre, artist) {
+        if($("#player_div").is(":hidden"))
+            $("#player_div").show();
+
+
+        var current_song_id = document.getElementById("current_song_id").value; 
+        var previous_playing_song_id = document.getElementById("previous_playing_song_id").value;
+        var icon = document.getElementById("song_"+id);
+        var audio = document.getElementById("audio_currently_playing");
+
+        console.log("Current song: " + current_song_id)
+        console.log("previous_playing_song_id: " + previous_playing_song_id);
+        if(current_song_id != id) {
+            if(current_song_id != "0" && previous_playing_song_id != "0") {
+                if(icon.classList.contains("fa-play-circle")) {
+                    var previous_i = document.getElementById("song_"+previous_playing_song_id);
+                    previous_i.classList.remove("fa-pause-circle");
+                    previous_i.classList.add("fa-play-circle");
+                }
+            }
+
+            document.getElementById("current_song").innerHTML = title;
+
+            index = path.indexOf("/");
+            fileName = path.substring(index + 1);
+            console.log("fileName: " + fileName);
+
+            var source = document.getElementById("audio_source");
+            source.src = "/media/" + fileName;
+
+            audio.load();
+            audio.play();
+
+            icon.classList.remove("fa-play-circle");
+            icon.classList.add("fa-pause-circle")
+
+            document.getElementById("current_song_id").value = id;
+            document.getElementById("previous_playing_song_id").value = id;
+        } else {
+            if(icon.classList.contains("fa-pause-circle")) {
+                icon.classList.remove("fa-pause-circle");
+                icon.classList.add("fa-play-circle");
+                audio.pause();
+            } else {
+                icon.classList.remove("fa-play-circle");
+                icon.classList.add("fa-pause-circle");
+                audio.play();
+                document.getElementById("previous_playing_song_id").value = id; 
+            }
+        }
+    } 
+</script>

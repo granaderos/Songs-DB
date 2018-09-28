@@ -1,8 +1,11 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.http import JsonResponse
 from django.utils.encoding import smart_str
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
+from django.views.decorators.csrf import csrf_exempt
+# from django.contrib.sessions.models import Session
 
 from . models import Genre
 from . models import Artist
@@ -12,7 +15,12 @@ from . models import Playlist
 
 def index(request):
     genres = Genre.objects.all()
-    return render(request, "songs/index.html", context={"genres": genres})
+    data = {"genres": genres}
+    if request.user.is_authenticated:
+        playlists = Playlist.objects.filter(user=request.user)
+        data["playlists"] = playlists
+
+    return render(request, "songs/index.html", context=data)
 
 def user_sign_up(request):
         return render(request, "users/sign_up.html", {"message": ""})
@@ -81,3 +89,15 @@ def play_song(request, song_id):
     path = "/media/"+ file_name
       
     return render(request, "songs/player.html", {"path": path})
+
+def add_playlist(request):
+    if request.user.is_authenticated:
+        if request.method == "POST":
+            title = request.POST["title"]
+            user = request.user
+
+            playlist = Playlist.objects.create(name=title, user=user)
+            playlist.save()
+
+            data = {"message": "New playlist was successfully created.", "user": user.username}
+            return JsonResponse(data)

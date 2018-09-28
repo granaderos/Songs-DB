@@ -1,0 +1,17 @@
+{% extends "songs/base.html" %}
+
+{% block page_title %}
+    Search Song
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <p class="alert alert-info">
+            <strong>SONG SEARCH RESULT</strong><br/>
+            Filter: <strong>{{ search_filter }}</strong><br/>
+            Search Keyword: <strong>{{ search_keyword }}</strong>
+        </p>
+        <hr>
+        <a href="javascript:window.history.back()">&lt;&lt; Back</a>
+    </div>
+{% endblock %}
