@@ -159,3 +159,15 @@ def delete_playlist(request):
         Playlist.objects.filter(id=playlist_id).delete()
         data = {"message": "Playlist with ID" + str(playlist_id) + " was removed."}
         return JsonResponse(data)
+
+def rename_playlist(request):
+    if request.method == "POST":
+        playlist_id = request.POST["playlist_id"]
+        new_name = request.POST["new_name"]
+
+        playlist = Playlist.objects.get(id=playlist_id)
+        playlist.name = new_name
+        playlist.save()
+
+        data = {"message": "Playlist with ID" + str(playlist_id) + " was successfully renamed to " + new_name + "."}
+        return JsonResponse(data)

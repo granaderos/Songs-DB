@@ -42,12 +42,12 @@
                             <h3>Your Playlists&nbsp;<sup><i style="cursor: pointer;" title="Add a playlist" class="fa fa-plus-circle" data-toggle="modal" data-target="#modal_add_playlist"></i></sup></h3>
                         </div>
                         <div class="card-body">
-                            <table id="ul_playlists">
+                            <table id="table_playlists">
                                 {% for playlist in playlists %}
                                     <tr id="tr_playlist_{{ playlist.id }}">
                                         <td style="padding: 5px;"><i title="Rename playlist" onclick="rename_playlist('{{ playlist.id }}', '{{ playlist.name }}')" class="fa fa-edit"></i></td>
                                         <td style="padding: 5px;"><i title="Delete playlist" onclick="remove_playlist('{{ playlist.id }}', '{{ playlist.name }}')" class="fa fa-trash-alt"></i></td>
-                                        <td style="padding: 5px;"><a href="{% url 'playlist_songs' playlist.id %}">{{ playlist }}</a></td>
+                                        <td style="padding: 5px;"><a href="{% url 'playlist_songs' playlist.id %}" id="a_playlist_{{ playlist.id }}">{{ playlist }}</a></td>
                                     </tr>
                                 {% empty %}
                                     <tr><p>lass="alert alert-danger">You have not create a playlist yet.</p></tr>

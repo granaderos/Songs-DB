@@ -53,8 +53,12 @@ function getCookie(c_name) {
         data: {"title": title, "csrfmiddlewaretoken": getCookie("csrftoken")},
         success: function(data) {
             console.log("Success adding playlist: " + JSON.stringify(data));
-            data = JSON.parse(data);
-            $("#ul_playlists").append("<li><a href=\"{% url 'playlist_songs' "+data.playlist_id+" %}\">"+title+"</a></li>");
+            var parsed_data = JSON.parse(data);
+            console.log(parsed_data)
+            $("#table_playlists").append("<tr id='tr_playlist_"+parsed_data.id+">"+
+                                            "<td style=\"padding: 5px;\"><i title=\"Rename playlist\" onclick=\"rename_playlist("+parsed_data.id+", '"+title+"')\" class=\"fa fa-edit\"></i></td>" +
+                                            "<td style=\"padding: 5px;\"><i title=\"Delete playlist\" onclick=\"remove_playlist("+parsed_data.id+", '"+title+"')\" class=\"fa fa-trash-alt\"></i></td>"+
+                                            "<td style=\"padding: 5px;\"><a href=\"{% url 'playlist_songs' "+parsed_data.id+" %}\" id=\"a_playlist_"+parsed_data.id+">"+title+"</a></td></tr>";
             $('#modal_add_playlist').modal('toggle');
         },
         error: function(data) {
@@ -87,7 +91,23 @@ function getCookie(c_name) {
  }
 
  function rename_playlist(playlist_id, playlist_name) {
-
+    var new_name = prompt("You are about to rename " + playlist_name + ". \nEnter a new playlist name: ");
+    if(new_name.trim() != "") {
+        $.ajax({
+            url: "/playlist/rename/",
+            method: "POST",
+            data: {"playlist_id": playlist_id, "new_name": new_name, "csrfmiddlewaretoken": getCookie("csrftoken")},
+            success: function(data) {
+                console.log("Success in renaming a playlist: " + JSON.stringify(data));
+                // var row = document.getElementById("tr_playlist_"+playlist_id);
+                // row.parentNode.removeChild(row);
+                document.getElementById("a_playlist_"+playlist_id).innerHTML = new_name
+            },
+            error: function(data) {
+                console.log("Error in renaming a playlist: " + JSON.stringify(data));
+            }
+        });
+    }
  }
 
  function remove_playlist(playlist_id, playlist_name) {
