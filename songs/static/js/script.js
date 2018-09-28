@@ -85,3 +85,26 @@ function getCookie(c_name) {
         });
     }
  }
+
+ function rename_playlist(playlist_id, playlist_name) {
+
+ }
+
+ function remove_playlist(playlist_id, playlist_name) {
+    var answer = confirm("Delete " + playlist_name + "?");
+    if(answer == true) {
+        $.ajax({
+            url: "/playlist/delete/",
+            method: "POST",
+            data: {"playlist_id": playlist_id, "csrfmiddlewaretoken": getCookie("csrftoken")},
+            success: function(data) {
+                console.log("Success in deleting a playlist: " + JSON.stringify(data));
+                var row = document.getElementById("tr_playlist_"+playlist_id);
+                row.parentNode.removeChild(row);
+            },
+            error: function(data) {
+                console.log("Error in deleting a playlist: " + JSON.stringify(data));
+            }
+        });
+    }
+}

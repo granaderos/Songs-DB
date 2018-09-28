@@ -151,3 +151,11 @@ def remove_song_from_a_playlist(request):
 
         data = {"message": song.title + " was removed from playlist " + playlist.name, "song": song.title, "playlist": playlist.name}
         return JsonResponse(data)
+
+def delete_playlist(request):
+    if request.method == "POST":
+        playlist_id = request.POST["playlist_id"]
+
+        Playlist.objects.filter(id=playlist_id).delete()
+        data = {"message": "Playlist with ID" + str(playlist_id) + " was removed."}
+        return JsonResponse(data)
