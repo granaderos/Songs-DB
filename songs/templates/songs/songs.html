@@ -1,13 +1,11 @@
 <table class="table">
     <tr>
         <th></th>
-        <th colspan="2">Actions</th>
+        <th colspan="3">Actions</th>
         <th>Title</th>
         <th>Artist</th>
         <th>Album</th>
         <th>Genre</th>
-
-        
     </tr>
     <tbody id="tbody_songs">
         {% for song in songs %}
@@ -21,12 +19,47 @@
                         <input type="hidden" name="path" value="{{ song.path }}" />
                         <i onclick="document.getElementById('form_song_download').submit();" style="cursor: pointer;" class="fa fa-download"></i>                            
                     </form>
+                </td>
+                <td>
+                    <i onclick="set_song_id_to_add('{{ song.id }}')" data-toggle="modal" data-target="#modal_add_song_to_a_playlist" title="Add to playlist" style="cursor: pointer;" class="fa fa-plus-circle"></i>
+                </td>
                 <td>{{ song }}</td>
                 <td>{{ song.album.artist }}</td>
                 <td>{{ song.album }}</td>
+                <td>{{ song.genre }}</td>
             </tr>
         {% empty %}
-            <tr><td colspan="5" class="alert alert-warning">No available songs for this genre.</td></tr>
+            <tr><td colspan="7" class="alert alert-warning">No songs retrieved.</td></tr>
         {% endfor %}
     </tbody>
 </table>
+
+<div class="modal fade" id="modal_add_song_to_a_playlist" tabindex="-1" role="dialog" aria-labelledby="modal_add_song_to_a_playlist_label" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal_add_song_to_a_playlist_label">Add Song to a Playlist</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" id="form_add_song_to_a_playlist">
+                    {% csrf_token %}
+                    <label>Add to:</label>
+                    <select id="playlist_where_song_will_be_added" name="playlist_where_song_will_be_added" class="form-control">
+                        {% for playlist in playlists %}
+                            <option value="{{ playlist.id }}">{{ playlist }}</option>
+                        {% empty %}
+                            <option>You have no playlists available.</option>
+                        {% endfor %}
+                    </select>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btn_add_song_to_a_playlist" class="btn btn-primary">Add</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>

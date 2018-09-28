@@ -1,7 +1,7 @@
 {% extends "songs/base.html" %}
 
 {% block page_title %}
-    Search Song
+Results | {{ search_keyword }}
 {% endblock %}
 
 {% block body %}
@@ -11,6 +11,7 @@
             Filter: <strong>{{ search_filter }}</strong><br/>
             Search Keyword: <strong>{{ search_keyword }}</strong>
         </p>
+        {% include "songs/songs.html" %}
         <hr>
         <a href="javascript:window.history.back()">&lt;&lt; Back</a>
     </div>

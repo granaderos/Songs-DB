@@ -53,15 +53,17 @@ def create_account(request):
 def list_songs_based_on_genre(request, genre_id):
     genre = Genre.objects.get(id=genre_id)
     songs = Song.objects.filter(genre_id=genre_id)
-    return render(request, "songs/genre_songs.html", context={"songs": songs, "genre": genre})
+    data = {"songs": songs, "genre": genre}
+
+    if request.user.is_authenticated:
+        playlists = Playlist.objects.filter(user=request.user)
+        data["playlists"] = playlists
+
+    return render(request, "songs/genre_songs.html", data)
 
 def search_song(request):
     search_filter = request.GET["search_filter"]
     search_keyword = request.GET["search_keyword"]
-
-    #songs = Song.objects.filter(search_filter__icontains=search_keyword)
-
-    songs = None
 
     if search_filter == "title":
         songs = Song.objects.filter(title__icontains=search_keyword)
@@ -72,7 +74,13 @@ def search_song(request):
     else:
         songs = Song.objects.filter(album__artist__name__icontains=search_keyword)
 
-    return render(request, "songs/search_songs.html", context={"songs": songs, "search_filter": search_filter, "search_keyword": search_keyword})
+    data = {"songs": songs, "search_filter": search_filter, "search_keyword": search_keyword}
+
+    if request.user.is_authenticated:
+        playlists = Playlist.objects.filter(user=request.user)
+        data["playlists"] = playlists
+
+    return render(request, "songs/search_songs.html", data)
 
 def download_song(request):
     path = request.GET["path"]
@@ -99,5 +107,47 @@ def add_playlist(request):
             playlist = Playlist.objects.create(name=title, user=user)
             playlist.save()
 
-            data = {"message": "New playlist was successfully created.", "user": user.username}
+            playlist_id = Playlist.objects.latest("id").id
+
+            data = {"message": "New playlist was successfully created.", "playlist_id": playlist_id}
             return JsonResponse(data)
+
+def playlist_songs(request, playlist_id):
+    playlist = Playlist.objects.get(pk=playlist_id)
+    playlist_songs = playlist.song.values_list("pk", flat=True)
+
+    songs = Song.objects.filter(id__in=playlist_songs)
+    
+    data = {"songs": songs, "playlist": playlist}
+
+    if request.user.is_authenticated:
+        playlists = Playlist.objects.filter(user=request.user)
+        data["playlists"] = playlists
+    
+    return render(request, "songs/playlist_songs.html", data)
+
+def add_song_to_a_playlist(request):
+    if request.method == "POST":
+        song_id = request.POST["song_id"]
+        playlist_id = request.POST["playlist_id"]
+
+        song = Song.objects.get(id=song_id)
+        playlist = Playlist.objects.get(id=playlist_id)
+        # playlist_song = playlist.song.create(song=song)
+        song_playlist = song.playlist_set.add(playlist)
+
+        data = {"message": song.title + " was added to the playlist " + playlist.name, "song": song.title, "playlist": playlist.name}
+        return JsonResponse(data)
+
+
+def remove_song_from_a_playlist(request):
+    if request.method == "POST":
+        song_id = request.POST["song_id"]
+        playlist_id = request.POST["playlist_id"]
+
+        playlist = Playlist.objects.get(id=playlist_id)
+        song = Song.objects.get(id=song_id)
+        playlist.song.remove(song)
+
+        data = {"message": song.title + " was removed from playlist " + playlist.name, "song": song.title, "playlist": playlist.name}
+        return JsonResponse(data)
