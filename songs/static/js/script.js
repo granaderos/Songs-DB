@@ -46,7 +46,7 @@ function getCookie(c_name) {
  function add_playlist() {
     var title = $("#playlist_name").val();
     $.ajax({
-        url: "playlist/add/",
+        url: "/playlist/add/",
         method: "POST",
         data: {"title": title, "csrfmiddlewaretoken": getCookie("csrftoken")},
         success: function(data) {
