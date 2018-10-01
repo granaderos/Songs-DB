@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'songs.apps.SongsConfig',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
@@ -81,7 +82,7 @@ DATABASES = {
         'USER': 'postgres',
         'PASSWORD': '208012',
         'HOST': '192.168.60.138',
-        'PORT': '5432'
+        'PORT': '5432',
 
     }
 }
