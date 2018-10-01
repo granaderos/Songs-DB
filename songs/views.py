@@ -110,7 +110,12 @@ def add_playlist(request):
             playlist_id = Playlist.objects.latest("id").id
 
             data = {"message": "New playlist was successfully created.", "playlist_id": playlist_id}
-            return JsonResponse(data)
+        else:
+            data = {"message": "Method used was " + str(request.method)}
+    else:
+        data = {"message": "User is not authenticated."}
+        
+    return JsonResponse(data)
 
 def playlist_songs(request, playlist_id):
     playlist = Playlist.objects.get(pk=playlist_id)
@@ -150,4 +155,24 @@ def remove_song_from_a_playlist(request):
         playlist.song.remove(song)
 
         data = {"message": song.title + " was removed from playlist " + playlist.name, "song": song.title, "playlist": playlist.name}
+        return JsonResponse(data)
+
+def delete_playlist(request):
+    if request.method == "POST":
+        playlist_id = request.POST["playlist_id"]
+
+        Playlist.objects.filter(id=playlist_id).delete()
+        data = {"message": "Playlist with ID" + str(playlist_id) + " was removed."}
+        return JsonResponse(data)
+
+def rename_playlist(request):
+    if request.method == "POST":
+        playlist_id = request.POST["playlist_id"]
+        new_name = request.POST["new_name"]
+
+        playlist = Playlist.objects.get(id=playlist_id)
+        playlist.name = new_name
+        playlist.save()
+
+        data = {"message": "Playlist with ID" + str(playlist_id) + " was successfully renamed to " + new_name + "."}
         return JsonResponse(data)

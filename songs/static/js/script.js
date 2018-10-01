@@ -38,12 +38,10 @@ function getCookie(c_name) {
             c_start = c_start + c_name.length + 1;
             c_end = document.cookie.indexOf(";", c_start);
             if (c_end == -1) c_end = document.cookie.length;
-            return unescape(document.cookie.substring(c_start,c_end));
+            return unescape(document.cookie.substring(c_start, c_end));
         }
     }
-    return "";
  }
-
 
  function add_playlist() {
     var title = $("#playlist_name").val();
@@ -52,12 +50,16 @@ function getCookie(c_name) {
         method: "POST",
         data: {"title": title, "csrfmiddlewaretoken": getCookie("csrftoken")},
         success: function(data) {
-            console.log("Success adding playlist: " + JSON.stringify(data));
-            data = JSON.parse(data);
-            $("#ul_playlists").append("<li><a href=\"{% url 'playlist_songs' "+data.playlist_id+" %}\">"+title+"</a></li>");
+            console.log("parsed data = " + data);
+            $("#table_playlists").append("<tr id='tr_playlist_"+data.playlist_id+"'>"+
+                                            "<td style=\'padding: 5px;\'><i title=\'Rename playlist\' onclick=\'rename_playlist("+data.playlist_id+", "+title+")\' class=\'fa fa-edit\'></i></td>" +
+                                            "<td style=\'padding: 5px;\'><i title=\'Delete playlist\' onclick=\'remove_playlist("+data.playlist_id+", "+title+")\' class=\'fa fa-trash-alt\'></i></td>"+
+                                            "<td style=\'padding: 5px;\'><a href=\"{% url 'playlist_songs' "+data.playlist_id+" %}\" id=\'a_playlist_"+data.playlist_id+"\'>"+title+"</a></td>" +
+                                          "</tr>");
             $('#modal_add_playlist').modal('toggle');
         },
         error: function(data) {
+
             console.log("Error in adding playlist: " + JSON.stringify(data));
         }
     });
@@ -85,3 +87,42 @@ function getCookie(c_name) {
         });
     }
  }
+
+ function rename_playlist(playlist_id, playlist_name) {
+    var new_name = prompt("You are about to rename " + playlist_name + ". \nEnter a new playlist name: ");
+    if(new_name.trim() != "") {
+        $.ajax({
+            url: "/playlist/rename/",
+            method: "POST",
+            data: {"playlist_id": playlist_id, "new_name": new_name, "csrfmiddlewaretoken": getCookie("csrftoken")},
+            success: function(data) {
+                console.log("Success in renaming a playlist: " + JSON.stringify(data));
+                // var row = document.getElementById("tr_playlist_"+playlist_id);
+                // row.parentNode.removeChild(row);
+                document.getElementById("a_playlist_"+playlist_id).innerHTML = new_name
+            },
+            error: function(data) {
+                console.log("Error in renaming a playlist: " + JSON.stringify(data));
+            }
+        });
+    }
+ }
+
+ function remove_playlist(playlist_id, playlist_name) {
+    var answer = confirm("Delete " + playlist_name + "?");
+    if(answer == true) {
+        $.ajax({
+            url: "/playlist/delete/",
+            method: "POST",
+            data: {"playlist_id": playlist_id, "csrfmiddlewaretoken": getCookie("csrftoken")},
+            success: function(data) {
+                console.log("Success in deleting a playlist: " + JSON.stringify(data));
+                var row = document.getElementById("tr_playlist_"+playlist_id);
+                row.parentNode.removeChild(row);
+            },
+            error: function(data) {
+                console.log("Error in deleting a playlist: " + JSON.stringify(data));
+            }
+        });
+    }
+}
