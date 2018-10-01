@@ -110,7 +110,12 @@ def add_playlist(request):
             playlist_id = Playlist.objects.latest("id").id
 
             data = {"message": "New playlist was successfully created.", "playlist_id": playlist_id}
-            return JsonResponse(data)
+        else:
+            data = {"message": "Method used was " + str(request.method)}
+    else:
+        data = {"message": "User is not authenticated."}
+        
+    return JsonResponse(data)
 
 def playlist_songs(request, playlist_id):
     playlist = Playlist.objects.get(pk=playlist_id)
