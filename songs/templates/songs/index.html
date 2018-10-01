@@ -5,10 +5,10 @@
 {% endblock %}
 
 {% block body %}
-    <div class="container" style="margin-top: 20px">
+    <div class="container" style="margin-top: 20px; padding: 0px;">
 
-        <div class="row">
-            <div class="col-md-6 offset-md-3 text-center" >
+        <div class="row justify-content-md-center">
+            <div class="col-md-6 text-center" >
                 <form method="GET" id="form_search_song" action="{% url 'search_song' %}" >
                     {% csrf_token %}
                     <div class="input-group mb-3">
@@ -40,7 +40,6 @@
                     </div>
                 </a>
                 {% endfor %}
-            <!--</div>-->
 
         </div>
     </div>

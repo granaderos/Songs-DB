@@ -19,42 +19,51 @@
             {% endif %}
         {% endif %}
 
-    
-        <div class="card" style="margin-top: 80px;border: none;">
-            <div class="card-header ">
-                <div class="card-title" style="height: 5px;">
-                    <i class="fa fa-user-lock"></i><strong> Log-in</strong>
-                    {#<!-- <a class="float-right" style="font-size: 80%" href="{% url 'password_reset' %}">Forgot password?</a> -->#}
-                </div>
+        <!-- <div class="row justify-content-md-center">
+            <div class ="col-md-10 text-align-center">
                 
             </div>
-            <div class="card-block" id="loginform">
-                <form method="post" action="{% url 'login' %}" class="form-horizontal" role="form">
-                    {% csrf_token %}
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1"><i class="fa fa-user"></i></span>
+        </div> -->
+
+
+        <div class="row justify-content-md-center" style="margin-top: 50px;">
+            <div class ="col-md-10 text-align-center">
+                <div class="card" style=" border: none;">
+                    <div class="card-header" style="margin-bottom: 20px; background-color: #1A1D20;">
+                        <div class="card-title" style="margin-bottom:0px; color: white;">
+                            <i class="fa fa-user-lock"></i><strong> Log-in</strong>
                         </div>
-
-                        {{ form.username|add_class:'form' }}
-
+                        
                     </div>
+                    <div class="card-block" style="padding: 10px;">
+                        <form method="post" action="{% url 'login' %}" class="form-horizontal" role="form">
+                            {% csrf_token %}
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1"><i class="fa fa-user"></i></span>
+                                </div>
+                                {{ form.username|add_class:'form-control'|append_attr:"placeholder:Enter username" }}
+                            </div>
 
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1"><i class="fa fa-lock"></i></span>
-                        </div>
-                        {{ form.password|add_class:'form'}}
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1"><i class="fa fa-lock"></i></span>
+                                </div>
+                                {{ form.password|add_class:'form-control'|append_attr:"placeholder:Enter password" }}
+                            </div>
+
+                            <button class="btn btn-outline-primary btn-block" id = "btnlogin" type="submit"><span class="fa fa-login"></span>Log-in</button>
+                            <a class="btn btn-outline-danger btn-block" id="btncancel" href="{% url 'index' %}">Cancel</a>
+                            
+                            <input type="hidden" name="next" value="{{ next }}" />
+                            
+                        </form>
                     </div>
-
-                    <button class="btn btn-outline-primary btn-block" id="login" type="submit"><span class="fa fa-login"></span>Log-in</button>
-                    <a class="btn btn-outline-danger btn-block" id="cancel" href="{% url 'index' %}">Cancel</a>
-                    
-                    <input type="hidden" name="next" value="{{ next }}" />
-                    
-                </form>
+                </div>
             </div>
-        </div>
+        </div>    
+
+
     </div>
 
 
