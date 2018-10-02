@@ -5,6 +5,8 @@ from django.utils.encoding import smart_str
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
+
 # from django.contrib.sessions.models import Session
 
 from . models import Genre
@@ -38,16 +40,16 @@ def create_account(request):
         elif password != retyped_password:
             return render(request, "users/sign_up.html", {"error_message": "Your password mismatched."})        
         else:
-            if len(username) >= 5 and len(username) <= 20: # Proceed creating new account
-                if len(password) >= 8 and len(password) <= 30:
+            if len(username.strip()) >= 5: # Proceed creating new account
+                if len(password.strip()) >= 8:
                     new_user = User.objects.create(username=username, password=make_password(password), is_staff="f") 
                     new_user.save()
 
-                    return render(request, "users/sign_up.html", {"success_message": "Your account has been successfully created. "})
+                    return render(request, "users/sign_up.html", {"success_message": "Your account has been successfully created."})
                 else:
-                    return render(request, "users/sign_up.html", {"error_message": "Password should be at least and at most 8 to 30 characters."})
+                    return render(request, "users/sign_up.html", {"error_message": "Password should be at least 8 characters long."})
             else:
-                return render(request, "users/sign_up.html", {"error_message": "Username should be at least and at most 5 to 20 characters long."})
+                return render(request, "users/sign_up.html", {"error_message": "Username should be at least 5 characters long."})
 
 
 def list_songs_based_on_genre(request, genre_id):
@@ -98,6 +100,7 @@ def play_song(request, song_id):
       
     return render(request, "songs/player.html", {"path": path})
 
+@login_required
 def add_playlist(request):
     if request.user.is_authenticated:
         if request.method == "POST":
@@ -114,9 +117,10 @@ def add_playlist(request):
             data = {"message": "Method used was " + str(request.method)}
     else:
         data = {"message": "User is not authenticated."}
-        
+
     return JsonResponse(data)
 
+@login_required
 def playlist_songs(request, playlist_id):
     playlist = Playlist.objects.get(pk=playlist_id)
     playlist_songs = playlist.song.values_list("pk", flat=True)
@@ -131,6 +135,7 @@ def playlist_songs(request, playlist_id):
     
     return render(request, "songs/playlist_songs.html", data)
 
+@login_required
 def add_song_to_a_playlist(request):
     if request.method == "POST":
         song_id = request.POST["song_id"]
@@ -144,7 +149,7 @@ def add_song_to_a_playlist(request):
         data = {"message": song.title + " was added to the playlist " + playlist.name, "song": song.title, "playlist": playlist.name}
         return JsonResponse(data)
 
-
+@login_required
 def remove_song_from_a_playlist(request):
     if request.method == "POST":
         song_id = request.POST["song_id"]
@@ -157,6 +162,7 @@ def remove_song_from_a_playlist(request):
         data = {"message": song.title + " was removed from playlist " + playlist.name, "song": song.title, "playlist": playlist.name}
         return JsonResponse(data)
 
+@login_required
 def delete_playlist(request):
     if request.method == "POST":
         playlist_id = request.POST["playlist_id"]
@@ -165,6 +171,7 @@ def delete_playlist(request):
         data = {"message": "Playlist with ID" + str(playlist_id) + " was removed."}
         return JsonResponse(data)
 
+@login_required
 def rename_playlist(request):
     if request.method == "POST":
         playlist_id = request.POST["playlist_id"]

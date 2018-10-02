@@ -1,3 +1,4 @@
 songsDB/settings.py
 __pycache__
 *.pyc
+songsDB/__pychache__

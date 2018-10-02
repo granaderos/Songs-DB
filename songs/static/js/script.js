@@ -46,11 +46,14 @@ function getCookie(c_name) {
  function add_playlist() {
     var title = $("#playlist_name").val();
     $.ajax({
-        url: "playlist/add/",
+        url: "/playlist/add/",
         method: "POST",
         data: {"title": title, "csrfmiddlewaretoken": getCookie("csrftoken")},
         success: function(data) {
             console.log("parsed data = " + data);
+            var row = document.getElementById("tr_no_playlist_message");
+            row.parentNode.removeChild(row);
+            document.getElementById("p_no_playlist_message").style.display = "none";
             $("#table_playlists").append("<tr id='tr_playlist_"+data.playlist_id+"'>"+
                                             "<td style=\'padding: 5px;\'><i title=\'Rename playlist\' onclick=\'rename_playlist("+data.playlist_id+", "+title+")\' class=\'fa fa-edit\'></i></td>" +
                                             "<td style=\'padding: 5px;\'><i title=\'Delete playlist\' onclick=\'remove_playlist("+data.playlist_id+", "+title+")\' class=\'fa fa-trash-alt\'></i></td>"+
