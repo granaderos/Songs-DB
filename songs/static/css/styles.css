@@ -123,8 +123,11 @@ body{
     color:#28a745;
   }
 
- 
-
   .btn-primary, .btn-danger{ 
     margin: 5px 0px 5px 0px;
+  }
+
+  #prevbtn, #nextbtn{
+    cursor: pointer;
+    font-size: 70px;
   }
