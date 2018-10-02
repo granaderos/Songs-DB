@@ -96,6 +96,13 @@ function getCookie(c_name) {
                 console.log("Success in removing song from a playlist: " + JSON.stringify(data));
                 var row = document.getElementById("song_tr_"+row_number);
                 row.parentNode.removeChild(row);
+                row_number = parseInt(row_number);
+                var total_number_of_rows = parseInt(document.getElementById("tbody_songs").getElementsByTagName("tr").length);
+                
+                for(var i = row_number + 1; i <= total_number_of_rows+1; i++) {
+                    document.getElementById("song_tr_"+i).cells[0].innerHTML = (i-1) + "";
+                }
+
             },
             error: function(data) {
                 console.log("Error in removing song from a playlist: " + JSON.stringify(data));
