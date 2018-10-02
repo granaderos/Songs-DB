@@ -45,28 +45,40 @@ function getCookie(c_name) {
 
  function add_playlist() {
     var title = $("#playlist_name").val();
-    $.ajax({
-        url: "/playlist/add/",
-        method: "POST",
-        data: {"title": title, "csrfmiddlewaretoken": getCookie("csrftoken")},
-        success: function(data) {
-            console.log("parsed data = " + data);
-            // var row = document.getElementById("tr_no_playlist_message");
-            // row.parentNode.removeChild(row);
-            if(document.getElementById("table_playlists").rows.length <= 0)
-                document.getElementById("p_no_playlist_message").style.display = "none";
-            $("#table_playlists").append("<tr id='tr_playlist_"+data.playlist_id+"'>"+
-                                            "<td style=\'padding: 5px;\'><i title=\'Rename playlist\' onclick=\'rename_playlist("+data.playlist_id+", "+title+")\' class=\'fa fa-edit\'></i></td>" +
-                                            "<td style=\'padding: 5px;\'><i title=\'Delete playlist\' onclick=\'remove_playlist("+data.playlist_id+", "+title+")\' class=\'fa fa-trash-alt\'></i></td>"+
-                                            "<td style=\'padding: 5px;\'><a href=\"{% url 'playlist_songs' "+data.playlist_id+" %}\" id=\'a_playlist_"+data.playlist_id+"\'>"+title+"</a></td>" +
-                                          "</tr>");
-            $('#modal_add_playlist').modal('toggle');
-        },
-        error: function(data) {
-
-            console.log("Error in adding playlist: " + JSON.stringify(data));
-        }
-    });
+    if(title.trim().length != 0) {
+        $.ajax({
+            url: "/playlist/add/",
+            method: "POST",
+            data: {"title": title, "csrfmiddlewaretoken": getCookie("csrftoken")},
+            success: function(data) {
+                if(data.message == "exist") {
+                    alert("Playlist " + title + " already exists!")
+                } else {
+                    console.log("parsed data = " + data);
+                    // var row = document.getElementById("tr_no_playlist_message");
+                    // row.parentNode.removeChild(row);
+                    if(document.getElementById("table_playlists").rows.length == 0) {
+                        document.getElementById("p_no_playlist_message").style.display = "none";
+                        console.log("Removed")
+                    } else console.log("More than 1")
+                    $("#table_playlists").append("<tr id='tr_playlist_"+data.playlist_id+"'>"+
+                                                    "<td style=\'padding: 5px;\'><i title=\'Rename playlist\' onclick=\'rename_playlist("+data.playlist_id+", "+title+")\' class=\'fa fa-edit\'></i></td>" +
+                                                    "<td style=\'padding: 5px;\'><i title=\'Delete playlist\' onclick=\'remove_playlist("+data.playlist_id+", "+title+")\' class=\'fa fa-trash-alt\'></i></td>"+
+                                                    "<td style=\'padding: 5px;\'><a href=\"{% url 'playlist_songs' "+data.playlist_id+" %}\" id=\'a_playlist_"+data.playlist_id+"\'>"+title+"</a></td>" +
+                                                  "</tr>");
+                    $('#modal_add_playlist').modal('toggle');
+                }
+                
+            },
+            error: function(data) {
+    
+                console.log("Error in adding playlist: " + JSON.stringify(data));
+            }
+        });
+    } else {
+        alert("Playlist title should not be blank.")
+    }
+    
  }
 
  function set_song_id_to_add(song_id) {

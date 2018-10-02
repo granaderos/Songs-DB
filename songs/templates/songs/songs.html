@@ -1,3 +1,5 @@
+{% load escape_quotes %}
+
 <table class="table">
     <tr>
         <th></th>
@@ -16,7 +18,7 @@
             <tr id="song_tr_{{ forloop.counter }}">
                 <td>{{ forloop.counter }}</td>
                 <td title="play">
-                    <i id="song_{{ song.id }}" onclick="play_song('{{ song.id }}', '{{ song.path }}', '{{ song.title }}', '{{ song.album }}', '{{ song.genre }}', '{{ song.album.artist }}', '{{ forloop.counter }}')" style="cursor: pointer;" class="fa fa-play-circle"></i>
+                    <i id="song_{{ song.id }}" onclick="play_song('{{ song.id }}', '{{ song.path }}', '{{ song.title|escape_quotes }}', '{{ song.album }}', '{{ song.genre }}', '{{ song.album.artist }}', '{{ forloop.counter }}')" style="cursor: pointer;" class="fa fa-play-circle"></i>
                 </td>
                 <td title="download">
                     <form id="form_song_download" method="GET" action="{% url 'download_song' %}">

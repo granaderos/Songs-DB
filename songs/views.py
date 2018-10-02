@@ -6,6 +6,7 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
+from django.utils.html import escape
 
 # from django.contrib.sessions.models import Session
 
@@ -117,12 +118,17 @@ def add_playlist(request):
             title = request.POST["title"]
             user = request.user
 
-            playlist = Playlist.objects.create(name=title, user=user)
-            playlist.save()
+            try:
+                check_if_playlist_exist = Playlist.objects.get(user=user, name=title)
+                data = {"message": "exist", "playlist_id": check_if_playlist_exist.id}
 
-            playlist_id = Playlist.objects.latest("id").id
+            except Playlist.DoesNotExist:
+                playlist = Playlist.objects.create(name=title, user=user)
+                playlist.save()
 
-            data = {"message": "New playlist was successfully created.", "playlist_id": playlist_id}
+                playlist_id = Playlist.objects.latest("id").id
+
+                data = {"message": "New playlist was successfully created.", "playlist_id": playlist_id}
         else:
             data = {"message": "Method used was " + str(request.method)}
     else:

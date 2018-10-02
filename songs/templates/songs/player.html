@@ -45,13 +45,11 @@
     }
 
     function play_song(id, path, title, album, genre, artist, row_number) {
-        console.log("Works here 1");
-
+        console.log("Test");
         document.getElementById("player_div").style.display = "block"
-        
-        
-        
-        var current_song_id = document.getElementById("current_song_id").value; 
+        var current_song_id = document.getElementById("current_song_id").value;
+        console.log("Works here 2 " + current_song_id );
+
         var previous_playing_song_id = document.getElementById("previous_playing_song_id").value;
         var icon = document.getElementById("song_"+id);
         var audio = document.getElementById("audio_currently_playing");
