@@ -36,10 +36,11 @@
           
             <div class="row">
                 {% if user.is_authenticated %}
-                    <div class="col-md-2" style="padding:0px; margin-left: 40px;">
-                        <div class="card" style="margin-top: 24px">
+                    <div class="col-md-2" id="playlistContainer">
+                        <div class="card">
                             <div class="card-header">
-                                <h4>Your Playlists&nbsp;<sup><i style="cursor: pointer;" title="Add a playlist" class="fa fa-plus-circle" data-toggle="modal" data-target="#modal_add_playlist"></i></sup></h4>
+                                <h4>Your Playlists&nbsp;<i title="Add a playlist" class="fa fa-plus-circle" data-toggle="modal" data-target="#modal_add_playlist"></i></h4>
+                                
                             </div>
                             <div class="card-body" style="padding: 10px 5px 10px 5px">
                                 <table id="table_playlists">

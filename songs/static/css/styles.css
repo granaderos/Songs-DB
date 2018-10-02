@@ -65,8 +65,14 @@ body{
   
   }
 
-  .table, .backbtn{
+  .table, .backbtn, .container a, #sign h2, #sign label{
       color: white;
+  }
+
+  #sign a{
+      color:black;
+      font-weight: bold;
+      font-style: italic;
   }
 
   #btnlogin, #btncancel{
@@ -84,12 +90,40 @@ body{
     height: 300px;
   }
 
-  /* .form{
-    height: 40px;
-    margin: 20px 5px 8px 50x;
-  } */
-  
-  #sign{
-      color: white !important;
+  #playlistContainer{
+    padding:0px;
+    margin-left: 40px;
+    margin-top:24px;
+    border:none;
+  }
 
+  #playlistContainer .card{
+      background-color: #1A1D20;
+      color:white;
+  }
+
+  #playlistContainer .card-header, h4{
+      background-color:#1A1D20;
+      color: #28a745;
+      border-color: #28a745;
+      line-height: 30px;
+      margin-bottom: 0px;
+  }
+
+  #playlistContainer i{
+
+    cursor: pointer;
+  }
+
+  #table_playlists a{
+    color:#28a745;
+  }
+
+  .container h3, h2{
+    margin-top: 24px;
+  }
+
+  .btn-primary, .btn-danger{
+    width: 267px;
+    margin: 5px 0px 5px 0px;
   }
