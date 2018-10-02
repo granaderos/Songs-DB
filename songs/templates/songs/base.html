@@ -21,7 +21,6 @@
                 <a class="navbar-brand" id="logo" href="#">SongsDB</a>
                 {% if user.is_authenticated %}
                     <p class="log">You are logged-in as: <strong>{{ user.username }}</strong></p>
-                    |
                     <a href="{% url 'logout' %}?next={% url 'index' %}" class="btn btn-outline-success my-2 my-sm-0">Log-out</a>
                 {% else %}
                     <div class="login" style="float: right; display: inline-flex;">
@@ -34,59 +33,59 @@
 
  
           
-            <div class="row">
-                {% if user.is_authenticated %}
-                    <div class="col-md-2" id="playlistContainer">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4>Your Playlists&nbsp;<i title="Add a playlist" class="fa fa-plus-circle" data-toggle="modal" data-target="#modal_add_playlist"></i></h4>
-                                
-                            </div>
-                            <div class="card-body" style="padding: 10px 5px 10px 5px">
-                                <table id="table_playlists">
-                                    {% for playlist in playlists %}
-                                        <tr id="tr_playlist_{{ playlist.id }}">
-                                            <td style="padding: 5px;"><i title="Rename playlist" onclick="rename_playlist('{{ playlist.id }}', '{{ playlist.name }}')" class="fa fa-edit"></i></td>
-                                            <td style="padding: 5px;"><i title="Delete playlist" onclick="remove_playlist('{{ playlist.id }}', '{{ playlist.name }}')" class="fa fa-trash-alt"></i></td>
-                                            <td style="padding: 5px;"><a href="{% url 'playlist_songs' playlist.id %}" id="a_playlist_{{ playlist.id }}">{{ playlist }}</a></td>
-                                        </tr>
-                                    {% empty %}
-                                        <tr><p>lass="alert alert-danger">You have not create a playlist yet.</p></tr>
-                                    {% endfor %}
-                                </table>
-                            </div>
+        <div class="row">
+            {% if user.is_authenticated %}
+                <div class="col-md-2" id="playlistContainer">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Your Playlists&nbsp;<i title="Add a playlist" class="fa fa-plus-circle" data-toggle="modal" data-target="#modal_add_playlist"></i></h4>
+                            
+                        </div>
+                        <div class="card-body" style="padding: 10px 5px 10px 5px">
+                            <table id="table_playlists">
+                                {% for playlist in playlists %}
+                                    <tr id="tr_playlist_{{ playlist.id }}">
+                                        <td style="padding: 5px;"><i title="Rename playlist" onclick="rename_playlist('{{ playlist.id }}', '{{ playlist.name }}')" class="fa fa-edit"></i></td>
+                                        <td style="padding: 5px;"><i title="Delete playlist" onclick="remove_playlist('{{ playlist.id }}', '{{ playlist.name }}')" class="fa fa-trash-alt"></i></td>
+                                        <td style="padding: 5px;"><a href="{% url 'playlist_songs' playlist.id %}" id="a_playlist_{{ playlist.id }}">{{ playlist }}</a></td>
+                                    </tr>
+                                {% empty %}
+                                    <tr><p class="alert alert-danger">You have not create a playlist yet.</p></tr>
+                                {% endfor %}
+                            </table>
                         </div>
                     </div>
-
-                    <div class="modal fade" id="modal_add_playlist" tabindex="-1" role="dialog" aria-labelledby="modal_add_playlist_label" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="modal_add_playlist_label">New Playlist</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <form method="POST" id="form_add_playlist">
-                                        {% csrf_token %}
-                                        <label>Title:</label>
-                                        <input type="text" placeholder="playlist title" class="form-control" name="playlist_name" id="playlist_name" />
-                                    </form>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" id="btn_add_playlist" class="btn btn-primary">Create Playlist</button>
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                {% endif %}
-                <div class="col">
-                    {% block body %}{% endblock %}
                 </div>
+
+                <div class="modal fade" id="modal_add_playlist" tabindex="-1" role="dialog" aria-labelledby="modal_add_playlist_label" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="modal_add_playlist_label">New Playlist</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form method="POST" id="form_add_playlist">
+                                    {% csrf_token %}
+                                    <label>Title:</label>
+                                    <input type="text" placeholder="playlist title" class="form-control" name="playlist_name" id="playlist_name" />
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" id="btn_add_playlist" class="btn btn-primary">Create Playlist</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            <div class="col">
+                {% block body %}{% endblock %}
             </div>
-            {%  include "songs/player.html" %}        
+        </div>
+        {%  include "songs/player.html" %}        
         
     
     </body>
