@@ -72,7 +72,7 @@ function getCookie(c_name) {
     song_id_to_add = song_id;
  }
 
- function remove_song_from_a_play_list(playlist_id, song_id, title) {
+ function remove_song_from_a_play_list(playlist_id, song_id, title, row_number) {
     var answer = confirm("Remove " + title + " from this playlist?");
     if(answer == true) {
         $.ajax({
@@ -81,7 +81,7 @@ function getCookie(c_name) {
             data: {"playlist_id": playlist_id, "song_id": song_id, "csrfmiddlewaretoken": getCookie("csrftoken")},
             success: function(data) {
                 console.log("Success in removing song from a playlist: " + JSON.stringify(data));
-                var row = document.getElementById("tr_song_"+song_id);
+                var row = document.getElementById("song_tr_"+row_number);
                 row.parentNode.removeChild(row);
             },
             error: function(data) {
