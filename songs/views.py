@@ -118,14 +118,17 @@ def add_playlist(request):
             title = request.POST["title"]
             user = request.user
 
-            # check_playlist = Playlist.objects.get(user=user, title=title)
+            try:
+                check_if_playlist_exist = Playlist.objects.get(user=user, name=title)
+                data = {"message": "exist", "playlist_id": check_if_playlist_exist.id}
 
-            playlist = Playlist.objects.create(name=title, user=user)
-            playlist.save()
+            except Playlist.DoesNotExist:
+                playlist = Playlist.objects.create(name=title, user=user)
+                playlist.save()
 
-            playlist_id = Playlist.objects.latest("id").id
+                playlist_id = Playlist.objects.latest("id").id
 
-            data = {"message": "New playlist was successfully created.", "playlist_id": playlist_id}
+                data = {"message": "New playlist was successfully created.", "playlist_id": playlist_id}
         else:
             data = {"message": "Method used was " + str(request.method)}
     else:
