@@ -6,6 +6,7 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
+from django.utils.html import escape
 
 # from django.contrib.sessions.models import Session
 
@@ -116,6 +117,8 @@ def add_playlist(request):
         if request.method == "POST":
             title = request.POST["title"]
             user = request.user
+
+            # check_playlist = Playlist.objects.get(user=user, title=title)
 
             playlist = Playlist.objects.create(name=title, user=user)
             playlist.save()

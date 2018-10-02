@@ -48,7 +48,7 @@
                                         <td style="padding: 5px;"><a href="{% url 'playlist_songs' playlist.id %}" id="a_playlist_{{ playlist.id }}">{{ playlist }}</a></td>
                                     </tr>
                                 {% empty %}
-                                    <tr><p class="alert alert-danger">You have not create a playlist yet.</p></tr>
+                                    <p id="p_no_playlist_message" class="alert alert-danger">You have not create a playlist yet.</p>
                                 {% endfor %}
                             </table>
                         </div>
