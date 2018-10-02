@@ -51,6 +51,16 @@ def create_account(request):
             else:
                 return render(request, "users/sign_up.html", {"error_message": "Username should be at least 5 characters long."})
 
+def user_profile(request, username):
+    user = User.objects.get(username=username)
+
+    data = {}
+
+    playlists = Playlist.objects.filter(user=request.user)
+    data["playlists"] = playlists
+
+    return render(request, "users/profile.html", data)
+
 
 def list_songs_based_on_genre(request, genre_id):
     genre = Genre.objects.get(id=genre_id)

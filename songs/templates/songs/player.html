@@ -20,6 +20,8 @@
 <script>
     window.onload = function() {
         // document.getElementById("player_div").style.display = "none";
+        document.querySelector("#audio_currently_playing").addEventListener("ended", auto_next_song, false);
+
     }
 
     function paused_played() {
@@ -131,6 +133,35 @@
         var total_number_of_rows = parseInt(document.getElementById("tbody_songs").getElementsByTagName("tr").length);
         var current_playing_row = parseInt(document.getElementById("current_playing_row").value);
         console.log("Next was clicked!\n==========")
+        console.log("Current playing row = " + current_playing_row);
+        console.log("Total number of rows = " + total_number_of_rows);
+        if(current_playing_row < total_number_of_rows) {
+            var next_song_path = document.getElementById("song_path_"+(current_playing_row+1)).value;
+          
+            var title = document.getElementById("song_title_"+(current_playing_row+1)).innerHTML;
+            document.getElementById("current_song").innerHTML = title;
+
+            var audio = document.getElementById("audio_currently_playing");
+            var source = document.getElementById("audio_source");
+
+            var index = next_song_path.indexOf("/");
+            var fileName = next_song_path.substring(index + 1);
+            
+            source.src = "/media/" + fileName;
+
+            audio.load();
+            audio.play();
+
+            change_playing_icon(current_playing_row, +1);
+            
+            document.getElementById("current_playing_row").value = current_playing_row + 1
+        }
+    }
+
+    function auto_next_song() {
+        console.log("Song has finished!")
+        var total_number_of_rows = parseInt(document.getElementById("tbody_songs").getElementsByTagName("tr").length);
+        var current_playing_row = parseInt(document.getElementById("current_playing_row").value);
         console.log("Current playing row = " + current_playing_row);
         console.log("Total number of rows = " + total_number_of_rows);
         if(current_playing_row < total_number_of_rows) {
