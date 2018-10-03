@@ -6,7 +6,7 @@
     </p>
     <div>
         <i title="Previous" onclick="play_previous()" style="cursor: pointer; font-size: 50px;" class="fa fa-caret-left"></i>
-        <audio controls id="audio_currently_playing" onclick="paused_played()">
+        <audio controls preload="auto" id="audio_currently_playing" onclick="paused_played()">
             <source id="audio_source" src="" type="audio/mpeg">
         </audio>
         <i title="Next" onclick="play_next()" style="cursor: pointer; font-size: 50px;" class="fa fa-caret-right"></i>

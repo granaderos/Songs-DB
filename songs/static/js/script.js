@@ -61,7 +61,7 @@ function getCookie(c_name) {
                         document.getElementById("p_no_playlist_message").style.display = "none";
                         console.log("Removed")
                     } else console.log("More than 1")
-                    $("#table_playlists").append("<tr id='tr_playlist_"+data.playlist_id+"'>"+
+                    $("#table_playlists").prepend("<tr id='tr_playlist_"+data.playlist_id+"'>"+
                                                     "<td style=\'padding: 5px;\'><i title=\'Rename playlist\' onclick=\'rename_playlist("+data.playlist_id+", "+title+")\' class=\'fa fa-edit\'></i></td>" +
                                                     "<td style=\'padding: 5px;\'><i title=\'Delete playlist\' onclick=\'remove_playlist("+data.playlist_id+", "+title+")\' class=\'fa fa-trash-alt\'></i></td>"+
                                                     "<td style=\'padding: 5px;\'><a href=\"{% url 'playlist_songs' "+data.playlist_id+" %}\" id=\'a_playlist_"+data.playlist_id+"\'>"+title+"</a></td>" +
