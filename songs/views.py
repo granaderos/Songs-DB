@@ -20,7 +20,7 @@ def index(request):
     genres = Genre.objects.all()
     data = {"genres": genres}
     if request.user.is_authenticated:
-        playlists = Playlist.objects.filter(user=request.user)
+        playlists = Playlist.objects.filter(user=request.user).order_by('-id')
         data["playlists"] = playlists
 
     return render(request, "songs/index.html", context=data)
@@ -52,15 +52,15 @@ def create_account(request):
             else:
                 return render(request, "users/sign_up.html", {"error_message": "Username should be at least 5 characters long."})
 
-def user_profile(request, username):
-    user = User.objects.get(username=username)
+# def user_profile(request, username):
+#     user = User.objects.get(username=username)
 
-    data = {}
+#     data = {}
 
-    playlists = Playlist.objects.filter(user=request.user)
-    data["playlists"] = playlists
+#     playlists = Playlist.objects.filter(user=request.user)
+#     data["playlists"] = playlists
 
-    return render(request, "users/profile.html", data)
+#     return render(request, "users/profile.html", data)
 
 
 def list_songs_based_on_genre(request, genre_id):
@@ -69,7 +69,7 @@ def list_songs_based_on_genre(request, genre_id):
     data = {"songs": songs, "genre": genre}
 
     if request.user.is_authenticated:
-        playlists = Playlist.objects.filter(user=request.user)
+        playlists = Playlist.objects.filter(user=request.user).order_by('-id')
         data["playlists"] = playlists
 
     return render(request, "songs/genre_songs.html", data)
@@ -90,7 +90,7 @@ def search_song(request):
     data = {"songs": songs, "search_filter": search_filter, "search_keyword": search_keyword}
 
     if request.user.is_authenticated:
-        playlists = Playlist.objects.filter(user=request.user)
+        playlists = Playlist.objects.filter(user=request.user).order_by('-id')
         data["playlists"] = playlists
 
     return render(request, "songs/search_songs.html", data)
@@ -146,7 +146,7 @@ def playlist_songs(request, playlist_id):
     data = {"songs": songs, "playlist": playlist}
 
     if request.user.is_authenticated:
-        playlists = Playlist.objects.filter(user=request.user)
+        playlists = Playlist.objects.filter(user=request.user).order_by('-id')
         data["playlists"] = playlists
     
     return render(request, "songs/playlist_songs.html", data)
