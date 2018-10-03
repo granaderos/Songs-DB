@@ -10,6 +10,7 @@
     line-height: 30px;
     font-style: oblique;
 }
+
 .log{
     color: white;
     margin-bottom: 0px;
@@ -57,77 +58,86 @@ body{
     color: black;
     font-weight: 600;
 }
+
 #genrestyle div{
     border-radius: 15px;
     height: 300px;
-    background-image: linear-gradient( #d6fff0, #42f480);
-  
-  }
+    background-image: linear-gradient( #d6fff0, #42f480);  
+}
 
-  .table, .backbtn, .container a, #sign h2, #sign label, #btn_search i{
+.table, .backbtn, .container a, #sign h2, #sign label, #btn_search i{
       color: white;
-  }
+}
 
-  #sign {
+#sign {
     margin-top: 24px;
-  }
+}
 
-  #sign_container{
-      padding: 20px;
-      border-radius: 8px;
-  }
-  #login_container {
+#sign_container{
+    padding: 20px;
     border-radius: 8px;
-  }
-  #sign_container h2{
-      color:#28a745;
-      font-weight: bolder;
-  }
+}
 
+#login_container {
+    border-radius: 8px;
+}
 
-  #btnlogin, #btncancel, .create_user_btn input{
-      color: white;
-      background-color: #28a745;
-      border-color: #28a745;
-      height: 50px;
-      line-height: 38px;
-      font-weight: bold;
-  }
+#sign_container h2{
+    color:#28a745;
+    font-weight: bolder;
+}
 
+#btnlogin, #btncancel, .create_user_btn input{
+    color: white;
+    background-color: #28a745;
+    border-color: #28a745;
+    height: 50px;
+    line-height: 38px;
+    font-weight: bold;
+}
 
-  #playlistContainer{
+#playlistContainer{
     padding:0px;
     margin-left: 40px;
     margin-top:24px;
     border:none;
-  }
+}
 
-  #playlistContainer .card{
-      background-color: #1A1D20;
-      color:white;
-  }
+#playlistContainer .card{
+    background-color: #1A1D20;
+    color:white;
+}
 
-  #playlistContainer .card-header, h4{
-      background-color:#1A1D20;
-      color: #28a745;
-      border-color: #28a745;
-      line-height: 30px;
-      margin-bottom: 0px;
-  }
+#playlistContainer .card-header, h4{
+    background-color:#1A1D20;
+    color: #28a745;
+    border-color: #28a745;
+    line-height: 30px;
+    margin-bottom: 0px;
+}
 
-  #playlistContainer i{
+#playlistContainer i{
     cursor: pointer;
-  }
+}
 
-  #table_playlists a{
+#table_playlists a{
     color:#28a745;
-  }
+}
 
-  .btn-primary, .btn-danger{ 
+.btn-primary, .btn-danger{ 
     margin: 5px 0px 5px 0px;
-  }
+}
 
-  #prevbtn, #nextbtn{
+#prevbtn, #nextbtn{
     cursor: pointer;
     font-size: 70px;
-  }
+}
+
+#player_div{
+    color: white;
+    display: none;
+}
+
+#genre_container, #main_container, #playlistContainer, #sign_container, #login_container{
+    margin-top: 50px;
+}

@@ -1,4 +1,4 @@
-<div style="color: white; display: none;" id="player_div" class="text-center footer navbar-fixed-bottom">
+<div id="player_div" class="text-center footer navbar-fixed-bottom">
     <p>
         Currently Playing: <strong id="current_song"></strong>
         <input type="hidden" value="0" id="current_song_id" />
@@ -13,15 +13,11 @@
     </div>
 </div>
 
-
 <input type="hidden" id="current_playing_row">
-
 
 <script>
     window.onload = function() {
-        // document.getElementById("player_div").style.display = "none";
         document.querySelector("#audio_currently_playing").addEventListener("ended", auto_next_song, false);
-
     }
 
     function paused_played() {
@@ -32,8 +28,6 @@
             var icon = document.getElementById("song_"+current_song_id); 
             
             if(audio.paused) {
-                
-
                 icon.classList.remove("fa-play-circle");
                 icon.classList.add("fa-pause-circle");
             } else {
