@@ -5,7 +5,7 @@
 
     <div class="container" id="sign">
         <div class="row justify-content-md-center">
-            <div class="col-md-6">
+            <div class="col-md-6" id="sign_container">
                 <h2>Create an Account</h2>
                 {% if error_message %}
                     <p class='alert alert-danger'>
@@ -27,9 +27,11 @@
                     <label>retype password:</label>
                     <input type="password" name="retyped_password" id="retyped_password" class="form-control"/>
                     <br>
-                    <input type="submit" value="create account" class="btn btn-primary"/>
-                    <input value="cancel" class="btn btn-danger" onclick="javascript:window.history.back()" style="width:none;" />
-                </form>       
+                    <div class="create_user_btn">
+                        <input type="submit" value="Create Account" class="btn btn-primary btn-block"/>
+                        <input type="submit" value="Cancel" class="btn btn-danger btn-block" onclick="javascript:window.history.back()" />
+                    </div>
+                    </form>       
 
             </div>
         </div>                  

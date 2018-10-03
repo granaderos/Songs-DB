@@ -1,4 +1,4 @@
-#header{
+#header, #btn_search, #sign_container, #login_container{
     background-color: #1A1D20 !important;
 }
 
@@ -13,6 +13,7 @@
 .log{
     color: white;
     margin-bottom: 0px;
+    margin-right: 15px;
 }
 
 #header button{
@@ -26,7 +27,6 @@
 
 body{
     background-color:#343a40;
-
     position: relative ;
 }
 
@@ -35,7 +35,7 @@ body{
     border: none;
     color: white;
 }
-#search select{
+#search select {
     background-color: #1A1D20;
     border: none;
     color: white;
@@ -64,30 +64,36 @@ body{
   
   }
 
-  .table, .backbtn, .container a, #sign h2, #sign label{
+  .table, .backbtn, .container a, #sign h2, #sign label, #btn_search i{
       color: white;
   }
 
-  #sign a{
-      color:black;
-      font-weight: bold;
-      font-style: italic;
+  #sign {
+    margin-top: 24px;
   }
 
-  #btnlogin, #btncancel{
+  #sign_container{
+      padding: 20px;
+      border-radius: 8px;
+  }
+  #login_container {
+    border-radius: 8px;
+  }
+  #sign_container h2{
+      color:#28a745;
+      font-weight: bolder;
+  }
+
+
+  #btnlogin, #btncancel, .create_user_btn input{
       color: white;
       background-color: #28a745;
       border-color: #28a745;
       height: 50px;
       line-height: 38px;
-      
+      font-weight: bold;
   }
 
-  #loginform {
-    background-color: #1A1D20; 
-    padding:50px 10px 10px 10px;
-    height: 300px;
-  }
 
   #playlistContainer{
     padding:0px;
@@ -117,11 +123,11 @@ body{
     color:#28a745;
   }
 
-  .container h3, h2{
-    margin-top: 24px;
+  .btn-primary, .btn-danger{ 
+    margin: 5px 0px 5px 0px;
   }
 
-  .btn-primary, .btn-danger{
-    width: 267px;
-    margin: 5px 0px 5px 0px;
+  #prevbtn, #nextbtn{
+    cursor: pointer;
+    font-size: 70px;
   }

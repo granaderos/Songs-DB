@@ -20,10 +20,12 @@
         <nav class="navbar navbar-dark bg-dark navbar-fixed-top sticky-top" id="header">
                 <a class="navbar-brand" id="logo" href="{% url 'index' %}">SongsDB</a>
                 {% if user.is_authenticated %}
-                    <span class="log">You are logged-in as: <strong>{{ user.username }}</strong></span>
-                    <a href="{% url 'logout' %}?next={% url 'index' %}" class="btn btn-outline-success my-2 my-sm-0">Log-out</a>
+                    <div>
+                        <span class="log">You are logged-in as: <strong>{{ user.username }}</strong></span>
+                        <a href="{% url 'logout' %}?next={% url 'index' %}" class="btn btn-outline-success my-2 my-sm-0">Log-out</a>
+                    </div>
                 {% else %}
-                    <div class="login" style="float: right; display: inline-flex;">
+                    <div class="login">
                         <a href="{% url 'login' %}" class="btn btn-outline-success my-2 my-sm-0">Log-in</a>
                         <a href="{% url 'user_sign_up' %}" class="btn btn-outline-success my-2 my-sm-0" style="margin-left: 7px;">SignUp</a>
                     </div>
