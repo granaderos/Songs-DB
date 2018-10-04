@@ -17,36 +17,40 @@
 
     </head>
     <body >
+
         <nav class="navbar navbar-dark bg-dark navbar-fixed-top sticky-top" id="header">
-                <a class="navbar-brand" id="logo" href="{% url 'index' %}">SongsDB</a>
-                {% if user.is_authenticated %}
-                    <div>
-                        <span class="log">You are logged-in as: <strong>{{ user.username }}</strong></span>
-                        <a href="{% url 'logout' %}?next={% url 'index' %}" class="btn btn-outline-success my-2 my-sm-0">Log-out</a>
-                    </div>
-                {% else %}
-                    <div class="login">
-                        <a href="{% url 'login' %}" class="btn btn-outline-success my-2 my-sm-0">Log-in</a>
-                        <a href="{% url 'user_sign_up' %}" class="btn btn-outline-success my-2 my-sm-0" style="margin-left: 7px;">SignUp</a>
-                    </div>
-                {% endif %}
+            <div>
+                <a class="navbar-brand" id="logo" href="{% url 'index' %}">Songs<i class="fas fa-music"></i><br><p>Database</p></a>
+            </div>
+            {% if user.is_authenticated %}
+                <div class="log">
+                    <span>You are logged-in as: <strong>{{ user.username }}</strong></span>
+                    <a href="{% url 'logout' %}?next={% url 'index' %}" class="btn btn-outline-success my-2 my-sm-0">Log-out</a>
+                </div>
+            {% else %}
+                <div class="login">
+                    <a href="{% url 'login' %}" class="btn btn-outline-success my-2 my-sm-0">Log-in</a>
+                    <a href="{% url 'user_sign_up' %}" class="btn btn-outline-success my-2 my-sm-0" style="margin-left: 7px;">SignUp</a>
+                </div>
+            {% endif %}
         </nav>
-        <br>
-        <div class="row">
+       
+
+        <div class="row" >
             {% if user.is_authenticated %}
                 <div class="col-md-2" id="playlistContainer">
                     <div class="card">
-                        <div class="card-header">
+                        <div class="card-header text-center">
                             <h4>Your Playlists&nbsp;<i title="Add a playlist" class="fa fa-plus-circle" data-toggle="modal" data-target="#modal_add_playlist"></i></h4>
                             
                         </div>
-                        <div class="card-body" style="padding: 10px 5px 10px 5px">
+                        <div class="card-body">
                             <table id="table_playlists">
                                 {% for playlist in playlists %}
                                     <tr id="tr_playlist_{{ playlist.id }}">
-                                        <td style="padding: 5px;"><i title="Rename playlist" onclick="rename_playlist('{{ playlist.id }}', '{{ playlist.name }}')" class="fa fa-edit"></i></td>
-                                        <td style="padding: 5px;"><i title="Delete playlist" onclick="remove_playlist('{{ playlist.id }}', '{{ playlist.name }}')" class="fa fa-trash-alt"></i></td>
-                                        <td style="padding: 5px;"><a href="{% url 'playlist_songs' playlist.id %}" id="a_playlist_{{ playlist.id }}">{{ playlist }}</a></td>
+                                        <td><i title="Rename playlist" onclick="rename_playlist('{{ playlist.id }}', '{{ playlist.name }}')" class="fa fa-edit"></i></td>
+                                        <td><i title="Delete playlist" onclick="remove_playlist('{{ playlist.id }}', '{{ playlist.name }}')" class="fa fa-trash-alt"></i></td>
+                                        <td><a href="{% url 'playlist_songs' playlist.id %}" id="a_playlist_{{ playlist.id }}">{{ playlist }}</a></td>
                                     </tr>
                                 {% empty %}
                                     <p id="p_no_playlist_message" class="alert alert-danger">You have not create a playlist yet.</p>

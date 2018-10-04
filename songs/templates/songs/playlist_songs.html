@@ -6,7 +6,7 @@
 {% load escape_quotes %}
 {% block body %}
 
-    <div class="container">
+    <div class="container" id="tbody_songs">
         <h2 class="alert alert-info">Playlist: <strong>{{ playlist }}</strong></h2>
 
         <table class="table">
@@ -22,7 +22,7 @@
                 <th>Album</th>
                 <th>Genre</th>
             </tr>
-            <tbody id="tbody_songs">
+            <tbody>
                 {% for song in songs %}
                     <tr id="song_tr_{{ forloop.counter }}">
                         <td>{{ forloop.counter }}</td>

@@ -5,7 +5,7 @@
         <input type="hidden" value="0" id="previous_playing_song_id" />
     </p>
     <div>
-        <i title="Previous" onclick="play_previous()" style="cursor: pointer; font-size: 50px;" class="fa fa-caret-left"></i>
+        <i title="Previous" id="prevbtn" onclick="play_previous()" class="fa fa-caret-left"></i>
         <audio controls preload="auto" id="audio_currently_playing" onclick="paused_played()">
             <source id="audio_source" src="" type="audio/mpeg">
         </audio>
