@@ -77,81 +77,49 @@
                 </nav>
             </div> 
         </div> -->
-
-        <nav class="navbar navbar-dark bg-dark navbar-fixed-top sticky-top" id="header">
-            <div>
-                <a class="navbar-brand" id="logo" href="{% url 'index' %}">Songs<i class="fas fa-music"></i><br><p>Database</p></a>
-            </div>
-            
-
-            {% if user.is_authenticated %}
-                <div class="log">
-                    <span>You are logged-in as: <strong>{{ user.username }}</strong></span>
-                    <a href="{% url 'logout' %}?next={% url 'index' %}" class="btn btn-outline-success my-2 my-sm-0">Log-out</a>
-                </div>
-            {% else %}
-                <div class="login">
-                    <a href="{% url 'login' %}" class="btn btn-outline-success my-2 my-sm-0">Log-in</a>
-                    <a href="{% url 'user_sign_up' %}" class="btn btn-outline-success my-2 my-sm-0">SignUp</a>
-                </div>
-            {% endif %}
-        </nav>
-       
-
-        <div class="row" >
-            {% if user.is_authenticated %}
-                <div class="col-md-2" id="playlistContainer">
-                    <div class="card">
-                        <div class="card-header text-center">
-                            <h4>Your Playlists&nbsp;<i title="Add a playlist" class="fa fa-plus-circle" data-toggle="modal" data-target="#modal_add_playlist"></i></h4>
-                            
-                        </div>
-                        <div class="card-body">
-                            <table id="table_playlists">
-                                {% for playlist in playlists %}
-                                    <tr id="tr_playlist_{{ playlist.id }}">
-                                        <td><i title="Rename playlist" onclick="rename_playlist('{{ playlist.id }}', '{{ playlist.name }}')" class="fa fa-edit"></i></td>
-                                        <td><i title="Delete playlist" onclick="remove_playlist('{{ playlist.id }}', '{{ playlist.name }}')" class="fa fa-trash-alt"></i></td>
-                                        <td><a href="{% url 'playlist_songs' playlist.id %}" id="a_playlist_{{ playlist.id }}">{{ playlist }}</a></td>
-                                    </tr>
-                                {% empty %}
-                                    <p id="p_no_playlist_message" class="alert alert-danger">You have not create a playlist yet.</p>
-                                {% endfor %}
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="modal fade" id="modal_add_playlist" tabindex="-1" role="dialog" aria-labelledby="modal_add_playlist_label" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="modal_add_playlist_label">New Playlist</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
+        <div class="container-fluid">
+            <div class="row" id="navdiv">
+                <div class="col-12">
+                        <nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-fixed-top sticky-top" id="header">
+                                <a class="navbar-brand" id="logo" href="{% url 'index' %}">Songs<i class="fas fa-music"></i><br><p>Database</p></a>
+                                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                                    <span class="navbar-toggler-icon"></span>
                                 </button>
-                            </div>
-                            <div class="modal-body">
-                                <form method="POST" id="form_add_playlist">
-                                    {% csrf_token %}
-                                    <label>Title:</label>
-                                    <input type="text" placeholder="playlist title" class="form-control" name="playlist_name" id="playlist_name" />
-                                </form>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" id="btn_add_playlist" class="btn btn-primary">Create Playlist</button>
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            {% endif %}
-            <div class="col">
-                {% block body %}{% endblock %}
-            </div>
+                                <div class="collapse navbar-collapse" id="navbarNav">
+                                    <ul class="navbar-nav">
+                                        <li class="nav-item active">
+                                            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#">Profile</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#">Songs</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link disabled" href="#">My Playlists</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    {% if user.is_authenticated %}
+                                        <div class="log">
+                                            <span>You are logged-in as: <strong>{{ user.username }}</strong></span>
+                                            <a href="{% url 'logout' %}?next={% url 'index' %}" class="btn btn-outline-success my-2 my-sm-0">Log-out</a>
+                                        </div>
+                                    {% else %}
+                                        <div class="login">
+                                            <a href="{% url 'login' %}" class="btn btn-outline-success my-2 my-sm-0">Log-in</a>
+                                            <a href="{% url 'user_sign_up' %}" class="btn btn-outline-success my-2 my-sm-0">SignUp</a>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </nav>
+                </div>  
+            </div> 
         </div>
+        {% block body %}{% endblock %}
+
         {%  include "songs/player.html" %}        
-        
-    
     </body>
 </html>

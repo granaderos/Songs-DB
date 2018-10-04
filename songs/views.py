@@ -52,16 +52,48 @@ def create_account(request):
             else:
                 return render(request, "users/sign_up.html", {"error_message": "Username should be at least 5 characters long."})
 
-# def user_profile(request, username):
-#     user = User.objects.get(username=username)
+@login_required
+def user_display_profile(request, username):
+    playlists = Playlist.objects.filter(user=request.user).order_by("-id")
+    data = {"playlists": playlists}
 
-#     data = {}
 
-#     playlists = Playlist.objects.filter(user=request.user)
-#     data["playlists"] = playlists
+    return render(request, "users/profile.html", data)
+    
 
-#     return render(request, "users/profile.html", data)
+@login_required
+def change_username(request):
+    if request.method == "POST":
+        new_username = request.POST["new_username"]
+        
+        user = User.objects.get(username=request.user)
+        user.username = new_username
+        user.save()
+        data = {"message": "Your username has successfully changed to " + new_username}
+        return JsonResponse(data)
+    else:
+        data = {"message": "You're not allowed to do this."}
+        return JsonResponse(data)
 
+@login_required
+def change_password(request):
+    if request.method == "POST":
+        user = User.objects.get(username=request.user)
+
+        actual_current_password = user.password
+        current_password = make_password(request.POST["current_password"])
+
+        if current_password == actual_current_password:
+            user.password = make_password(request.POST["new_password"])
+            user.save()
+        else:
+            data = {"message": "current password incorrect", "current_password": user.password, "entered_current_password": make_password(request.POST["current_password"]), "new_password": request.POST["new_password"]}
+            return JsonResponse(data)
+
+
+    else:
+        data = {"message": "You're not allowed to do this."}
+        return JsonResponse(data)
 
 def list_songs_based_on_genre(request, genre_id):
     genre = Genre.objects.get(id=genre_id)

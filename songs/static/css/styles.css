@@ -1,4 +1,4 @@
-#header, #btn_search, #sign_container, #login_container{
+#header, #btn_search, #sign_container, #login_container, #navdiv{
     background-color: #00363a !important;
 }
 
@@ -58,12 +58,11 @@ body{
 #form_search_song{
     margin-top: 24px;
 }
-#genrestyle{
+#genre_style{
     padding: 10px;
-    margin-bottom: 10px 50px;
-    height: 320px;
-    width: 251px;
-    background-color:none;
+    margin: 30px 10px;
+    height: 100px; 
+    background-color:#428e92;
 }
 
 #genrestyle h2{
@@ -74,13 +73,13 @@ body{
     font-weight: 600;
 }
 
-#genrestyle div{
+/* #genrestyle div{
     border-radius: 15px;
     height: 300px;
     background-color: #428e92;  
     border: 2px solid white;
     box-shadow: 5px 10px #00363a
-}
+} */
 
 .table, .backbtn, .container a, #sign h2, #sign label, #btn_search i, #login_container .card-title{
       color: white;
@@ -115,7 +114,6 @@ body{
 
 #playlistContainer{
     padding:0px;
-    margin-left: 20px;
     margin-top:24px;
     border:none;
     
