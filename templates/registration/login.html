@@ -18,16 +18,16 @@
             {% endif %}
         {% endif %}
 
-        <div class="row justify-content-md-center" style="margin-top: 50px;">
-            <div class ="col-md-10 text-align-center">
+        <div class="row justify-content-md-center login_div" >
+            <div class ="col-md-8 text-align-center">
                 <div class="card" id="login_container">
                     <div class="card-header">
-                        <div class="card-title" style="margin-bottom:0px; color: white;">
+                        <div class="card-title" >
                             <i class="fa fa-user-lock"></i><strong> Log-in</strong>
                         </div>
                         
                     </div>
-                    <div class="card-block" style="padding: 20px;">
+                    <div class="card-block">
                         <form method="post" action="{% url 'login' %}" class="form-horizontal" role="form">
                             {% csrf_token %}
                             <div class="input-group mb-3">
