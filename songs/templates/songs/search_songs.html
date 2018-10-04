@@ -6,13 +6,26 @@ Results | {{ search_keyword }}
 
 {% block body %}
     <div class="container" >
-        <p class="alert alert-info">
-            <strong>SONG SEARCH RESULT</strong><br/>
-            Filter: <strong>{{ search_filter }}</strong><br/>
-            Search Keyword: <strong>{{ search_keyword }}</strong>
-        </p>
-        {% include "songs/songs.html" %}
-        <hr>
-        <a href="javascript:window.history.back()">&lt;&lt; Back</a>
+
+        <div class="row">
+            <div class="col">
+                {% include "songs/display_playlist.html" %}
+
+            </div>
+
+            <div class="col">
+                <p class="alert alert-info">
+                    <strong>SONG SEARCH RESULT</strong><br/>
+                    Filter: <strong>{{ search_filter }}</strong><br/>
+                    Search Keyword: <strong>{{ search_keyword }}</strong>
+                </p>
+                {% include "songs/songs.html" %}
+                <hr>
+                <a href="javascript:window.history.back()">&lt;&lt; Back</a>
+            </div>
+        </div>
+
+
+        
     </div>
 {% endblock %}
