@@ -7,6 +7,26 @@ $(document).ready(function() {
         return false;
     });
 
+    $("#form_change_username").submit(function(e) {
+        e.preventDefault();
+        change_username();
+    });
+
+
+    $("#form_modal_change_password").submit(function(e) {
+        e.preventDefault();        
+        change_password();
+    });
+
+    $("#btn_change_password").click(function() {
+        change_password();
+    });
+
+
+    document.getElementById("new_username").addEventListener('blur', function() {
+        change_username();
+    });
+
     $("#btn_add_playlist").click(function(e) {
        add_playlist(); 
     });
@@ -147,5 +167,74 @@ function getCookie(c_name) {
                 console.log("Error in deleting a playlist: " + JSON.stringify(data));
             }
         });
+    }
+}
+
+function show_change_username_form() {
+
+    document.getElementById("form_change_username").style.visibility = "visible";
+    document.getElementById("current_username").innerHTML = "";
+    document.getElementById("new_username").value = document.getElementById("header_username").innerHTML;
+    document.getElementById("td_username_change_icon").style.display = "none";
+
+    document.getElementById("new_username").focus();
+}
+
+function change_username() {
+    var new_username = document.getElementById("new_username").value;
+    if(new_username.trim().length > 0) {
+        $.ajax({
+            url: '/profile/change_username/',
+            method: "POST",
+            data: {"new_username": new_username, "csrfmiddlewaretoken": getCookie("csrftoken")},
+            success: function(data) {
+                console.log("Success changing username = " + data);
+                document.getElementById("current_username").innerHTML = new_username;
+                document.getElementById("header_username").innerHTML = new_username;
+                document.getElementById("form_change_username").style.visibility = "hidden";
+                document.getElementById("td_username_change_icon").style.display = "block";
+            },
+            error: function(data) {
+                console.log("Error in changing username. " + JSON.stringify(data));
+            }
+        });
+    } else {
+        alert("Username should not be blank.")
+    }
+}
+
+function change_password() {
+    var current_password = document.getElementById("current_password").value;
+    var new_password = document.getElementById("new_password").value;
+    var retyped_new_password = document.getElementById("retyped_new_password").value;
+    if(new_password.trim().length >= 8) {
+        if(current_password.trim().length > 0) {
+            if(new_password == retyped_new_password) {
+                
+                $.ajax({
+                    method: "POST",
+                    url: "/profile/change_password/",
+                    data: {"current_password": current_password, "new_password": new_password, "csrfmiddlewaretoken": getCookie("csrftoken")},
+                    success: function(data) {
+                        if(data.message == "current password incorrect") {
+                            alert("The current password you entered does not match to your actual current password.")
+                                           
+                        } else {
+                            $('#modal_change_password').modal('toggle');
+                        }
+                        console.log("Message: " + data.message);
+                        console.log("Actual current password: " + data.current_password);
+                        console.log("Entered current password: " + data.entered_current_password);
+                        console.log("New password: " + data.new_password);        
+                    },
+                    error: function(data) {
+                        console.log("Error in changing password: " + JSON.stringify(data));
+                    }
+                });
+
+            } else alert("Your new password does not match.");
+        } else alert("Please enter your current password.");
+    } else {
+        alert("Password should be at least 8 characters long.");
     }
 }
