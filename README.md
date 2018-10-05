@@ -19,6 +19,8 @@ Check https://pip.pypa.io/en/stable/installing/
 
 To install Django, just run the below comman on your terminal
 
+* Postgres
+
 ```
 sudo pip install Django==2.0.6
 ```
