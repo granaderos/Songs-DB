@@ -19,6 +19,7 @@ Check https://pip.pypa.io/en/stable/installing/
 
 To install Django, just run the below comman on your terminal
 
+
 * Postgres
 
 ```
