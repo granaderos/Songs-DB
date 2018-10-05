@@ -129,8 +129,6 @@
             document.getElementById("current_album").innerHTML = document.getElementById("song_album_"+(current_playing_row-1)).innerHTML;
             document.getElementById("current_artist").innerHTML = document.getElementById("song_artist_"+(current_playing_row-1)).innerHTML;
 
-
-
             var audio = document.getElementById("audio_currently_playing");
             var source = document.getElementById("audio_source");
 
@@ -146,7 +144,6 @@
 
             document.getElementById("current_playing_row").value = current_playing_row - 1;
         }
-
     }
 
     function play_next() {
@@ -222,7 +219,6 @@
 
         document.getElementById("song_tr_"+(current_playing_row)).cells[1].getElementsByTagName("i")[0].classList.remove("fa-pause-circle");
         document.getElementById("song_tr_"+(current_playing_row)).cells[1].getElementsByTagName("i")[0].classList.add("fa-play-circle");
-
     }
 
 </script>

@@ -12,55 +12,55 @@
             <div class="col-8">
                 <br>
                 <div style="color: white;">
-                        <h3>Hello <strong id="header_username">{{ user }}</strong>!</h3>
+                    <h3>Hello <strong id="header_username">{{ user }}</strong>!</h3>
                 
-                        <table class="table">
-                            <tr>
-                                <td>username:</td>
-                                <td id="td_username">
-                                    <strong id="current_username">{{ user }}</strong>
-                                    <form style="visibility: hidden;" id="form_change_username" method="POST">
-                                        {% csrf_token %}
-                                        <input id="new_username" name="new_username" class="form-control" />
-                                    </form>
-                                </td>
-                                <td id="td_username_change_icon"><i onclick="show_change_username_form()" style="cursor: pointer;" class="fa fa-edit"></i></td>
-                            </tr>
-                            <!-- <tr>
-                                <td colspan="3"><a href="{% url 'password_reset' %}" class="btn btn-info">Change Password</a></td>
-                            </tr> -->
-                        </table>
-                    </div>
+                    <table class="table">
+                        <tr>
+                            <td>username:</td>
+                            <td id="td_username">
+                                <strong id="current_username">{{ user }}</strong>
+                                <form style="visibility: hidden;" id="form_change_username" method="POST">
+                                    {% csrf_token %}
+                                    <input id="new_username" name="new_username" class="form-control" />
+                                </form>
+                            </td>
+                            <td id="td_username_change_icon"><i onclick="show_change_username_form()" style="cursor: pointer;" class="fa fa-edit"></i></td>
+                        </tr>
+                        <!-- <tr>
+                            <td colspan="3"><a href="{% url 'password_reset' %}" class="btn btn-info">Change Password</a></td>
+                        </tr> -->
+                    </table>
+                </div>
                 
-                    <div class="modal fade" id="modal_change_password" tabindex="-1" role="dialog" aria-labelledby="modal_modal_change_password_label" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="modal_modal_change_password_label">Change Password</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <form method="POST" id="form_modal_change_password">
-                                        {% csrf_token %}
-                                        <label>Input Current Password:</label>
-                                        <input type="password" placeholder="current password" class="form-control" name="current_password" id="current_password" />
-                                        <br>
-                                        <label>New Password:</label>
-                                        <input type="password" placeholder="new password" class="form-control" name="new_password" id="new_password" />
-                                        <br>
-                                        <label>Retype New Password:</label>
-                                        <input type="password" placeholder="retype new password" class="form-control" name="retyped_new_password" id="retyped_new_password" />
-                                    </form>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" id="btn_change_password" class="btn btn-primary">Submit</button>
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                </div>
+                <div class="modal fade" id="modal_change_password" tabindex="-1" role="dialog" aria-labelledby="modal_modal_change_password_label" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="modal_modal_change_password_label">Change Password</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form method="POST" id="form_modal_change_password">
+                                    {% csrf_token %}
+                                    <label>Input Current Password:</label>
+                                    <input type="password" placeholder="current password" class="form-control" name="current_password" id="current_password" />
+                                    <br>
+                                    <label>New Password:</label>
+                                    <input type="password" placeholder="new password" class="form-control" name="new_password" id="new_password" />
+                                    <br>
+                                    <label>Retype New Password:</label>
+                                    <input type="password" placeholder="retype new password" class="form-control" name="retyped_new_password" id="retyped_new_password" />
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" id="btn_change_password" class="btn btn-primary">Submit</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                             </div>
                         </div>
                     </div>
+                </div>
             </div>
         </div>
     </div>
@@ -71,5 +71,4 @@
         });
     </script>
 
-    
 {% endblock %}

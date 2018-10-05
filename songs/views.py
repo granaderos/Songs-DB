@@ -8,8 +8,6 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from django.utils.html import escape
 
-# from django.contrib.sessions.models import Session
-
 from . models import Genre
 from . models import Artist
 from . models import Album
@@ -22,7 +20,6 @@ def index(request):
     if request.user.is_authenticated:
         playlists = Playlist.objects.filter(user=request.user).order_by('-id')
         data["playlists"] = playlists
-
     return render(request, "songs/index.html", context=data)
 
 def user_sign_up(request):
@@ -50,18 +47,14 @@ def create_account(request):
                 else:
                     return render(request, "users/sign_up.html", {"error_message": "Password should be at least 8 characters long."})
             else:
-                return render(request, "users/sign_up.html", {"error_message": "Username should be at least 5 characters long."})
-        
+                return render(request, "users/sign_up.html", {"error_message": "Username should be at least 5 characters long."})  
 
 @login_required
 def user_display_profile(request, username):
     playlists = Playlist.objects.filter(user=request.user).order_by("-id")
     data = {"playlists": playlists}
-
-
     return render(request, "users/profile.html", data)
     
-
 @login_required
 def change_username(request):
     if request.method == "POST":
@@ -90,8 +83,6 @@ def change_password(request):
         else:
             data = {"message": "current password incorrect", "current_password": user.password, "entered_current_password": make_password(request.POST["current_password"]), "new_password": request.POST["new_password"]}
             return JsonResponse(data)
-
-
     else:
         data = {"message": "You're not allowed to do this."}
         return JsonResponse(data)
@@ -104,7 +95,6 @@ def list_songs_based_on_genre(request, genre_id):
     if request.user.is_authenticated:
         playlists = Playlist.objects.filter(user=request.user).order_by('-id')
         data["playlists"] = playlists
-
     return render(request, "songs/genre_songs.html", data)
 
 def search_song(request):
@@ -125,7 +115,6 @@ def search_song(request):
     if request.user.is_authenticated:
         playlists = Playlist.objects.filter(user=request.user).order_by('-id')
         data["playlists"] = playlists
-
     return render(request, "songs/search_songs.html", data)
 
 def download_song(request):
@@ -134,14 +123,12 @@ def download_song(request):
         response = HttpResponse(mp3, content_type="audio/mpeg") 
         # without the below line, the browser will play it.
         response["Content-disposition"] = "attachment; filename=%s" % smart_str(path)
-        
         return response
 
 def play_song(request, song_id):
     path = request.POST["path"]
     file_name = path[path.index("/")+1:]
-    path = "/media/"+ file_name
-      
+    path = "/media/"+ file_name 
     return render(request, "songs/player.html", {"path": path})
 
 @login_required
@@ -166,7 +153,6 @@ def add_playlist(request):
             data = {"message": "Method used was " + str(request.method)}
     else:
         data = {"message": "User is not authenticated."}
-
     return JsonResponse(data)
 
 @login_required
@@ -181,7 +167,6 @@ def playlist_songs(request, playlist_id):
     if request.user.is_authenticated:
         playlists = Playlist.objects.filter(user=request.user).order_by('-id')
         data["playlists"] = playlists
-    
     return render(request, "songs/playlist_songs.html", data)
 
 @login_required

@@ -3,13 +3,13 @@
 {% block page_title %}
     {{ playlist }} | Songs
 {% endblock %}
+
 {% load escape_quotes %}
+
 {% block body %}
 
     <div class="container-fluid">
-
         {% include "songs/search.html" %}
-
         <div class="row justify-content-md-center">
             {% if user.is_authenticated %}
                 <div class="col-md-3">
@@ -62,10 +62,8 @@
                         {% endfor %}
                     </tbody>
                 </table>
-        
                 <hr>
                 <a href="{% url 'index' %}"> << Go Home</a>
-            
             </div>
         </div>
     </div>
