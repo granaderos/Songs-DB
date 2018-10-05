@@ -8,12 +8,15 @@ A website where people can search, create playlist, and play songs.
 To get the website up and running, you need to have the following first:
 
 * Python
+
 If you don't have yet, check on https://www.python.org/downloads/
 
 * pip
+
 Check https://pip.pypa.io/en/stable/installing/
 
 * Django 2.0.6
+
 To install Django, just run the below comman on your terminal
 
 ```
