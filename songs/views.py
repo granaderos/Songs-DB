@@ -51,6 +51,7 @@ def create_account(request):
                     return render(request, "users/sign_up.html", {"error_message": "Password should be at least 8 characters long."})
             else:
                 return render(request, "users/sign_up.html", {"error_message": "Username should be at least 5 characters long."})
+        
 
 @login_required
 def user_display_profile(request, username):
@@ -151,7 +152,7 @@ def add_playlist(request):
             user = request.user
 
             try:
-                check_if_playlist_exist = Playlist.objects.get(user=user, name=title)
+                check_if_playlist_exist = Playlist.objects.get(user=user, name__iexact=title)
                 data = {"message": "exist", "playlist_id": check_if_playlist_exist.id}
 
             except Playlist.DoesNotExist:

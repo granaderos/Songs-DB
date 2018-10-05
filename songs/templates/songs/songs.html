@@ -18,7 +18,7 @@
             <tr id="song_tr_{{ forloop.counter }}">
                 <td>{{ forloop.counter }}</td>
                 <td title="play">
-                    <i id="song_{{ song.id }}" onclick="play_song('{{ song.id }}', '{{ song.path }}', '{{ song.title|escape_quotes }}', '{{ song.album }}', '{{ song.genre }}', '{{ song.album.artist }}', '{{ forloop.counter }}')" style="cursor: pointer;" class="fa fa-play-circle"></i>
+                    <i id="song_{{ song.id }}" onclick="play_song('{{ song.id }}', '{{ song.path }}', '{{ song.title|escape_quotes }}', '{{ song.album|escape_quotes }}', '{{ song.genre|escape_quotes }}', '{{ song.album.artist|escape_quotes }}', '{{ forloop.counter }}')" style="cursor: pointer;" class="fa fa-play-circle"></i>
                 </td>
                 <td title="download">
                     <form id="form_song_download" method="GET" action="{% url 'download_song' %}">
@@ -32,9 +32,9 @@
                     </td>
                 {% endif %}
                 <td><span id="song_title_{{ forloop.counter }}">{{ song }}</span><input type="hidden" value="{{ song.path }}" id="song_path_{{ forloop.counter }}"></td>
-                <td>{{ song.album.artist }}</td>
-                <td>{{ song.album }}</td>
-                <td>{{ song.genre }}</td>
+                <td id="song_artist_{{ forloop.counter }}">{{ song.album.artist }}</td>
+                <td id="song_album_{{ forloop.counter }}">{{ song.album }}</td>
+                <td id="song_genre_{{ forloop.counter }}">{{ song.genre }}</td>
             </tr>
         {% empty %}
             <tr><td colspan="8" class="alert alert-warning">No songs retrieved.</td></tr>

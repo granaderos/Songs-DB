@@ -22,11 +22,6 @@ $(document).ready(function() {
         change_password();
     });
 
-
-    document.getElementById("new_username").addEventListener('blur', function() {
-        change_username();
-    });
-
     $("#btn_add_playlist").click(function(e) {
        add_playlist(); 
     });
