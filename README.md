@@ -5,7 +5,7 @@ A website where people can search, create playlist, and play songs.
 
 ### Prerequisites
 
-The get the website up and running, you need to have the following first:
+To get the website up and running, you need to have the following first:
 
 * Python
 If you don't have yet, check on https://www.python.org/downloads/
