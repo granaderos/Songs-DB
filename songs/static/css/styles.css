@@ -73,13 +73,20 @@ body{
     font-weight: 600;
 }
 
-/* #genrestyle div{
+#genrestyle div{
     border-radius: 15px;
     height: 300px;
     background-color: #428e92;  
     border: 2px solid white;
     box-shadow: 5px 10px #00363a
-} */
+}
+
+#genrestyle{
+    padding: 10px;
+    margin-bottom: 10px 50px;
+    height: 320px;
+    background-color:none;
+}
 
 .table, .backbtn, .container a, #sign h2, #sign label, #btn_search i, #login_container .card-title{
       color: white;
@@ -161,7 +168,7 @@ body{
     display: none;
 }
 
-#genre_container, #sign_container, #login_container, #player_div, #tbody_songs, .login_div {
+#sign_container, #login_container, #player_div, #tbody_songs, .login_div {
     margin-top: 50px;
 }
 

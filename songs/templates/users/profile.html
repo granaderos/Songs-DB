@@ -1,13 +1,16 @@
 {% extends "songs/base.html" %}
 
 {% block body %}
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                {% include "../songs/display_playlist.html" %}
-            </div>
+    <div class="container-fluid">
+        <div class="row justify-content-md-center">
+            {% if user.is_authenticated %}
+                <div class="col-md-3">
+                    {% include "songs/display_playlist.html" %}
+                </div>
+            {% endif %}
 
-            <div class="col">
+            <div class="col-8">
+                <br>
                 <div style="color: white;">
                         <h3>Hello <strong id="header_username">{{ user }}</strong>!</h3>
                 
@@ -23,10 +26,9 @@
                                 </td>
                                 <td id="td_username_change_icon"><i onclick="show_change_username_form()" style="cursor: pointer;" class="fa fa-edit"></i></td>
                             </tr>
-                            <tr>
+                            <!-- <tr>
                                 <td colspan="3"><a href="{% url 'password_reset' %}" class="btn btn-info">Change Password</a></td>
-                                <!-- <td colspan="3"><a href="{% url 'password_reset' %}" data-toggle="modal" data-target="#modal_change_password" class="btn btn-info">Change Password</a></td> -->
-                            </tr>
+                            </tr> -->
                         </table>
                     </div>
                 

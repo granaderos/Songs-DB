@@ -6,44 +6,27 @@
 
 {% block body %}
     <div class="container-fluid" id="main_container" >
+        {% include "songs/search.html" %}       
+
         <div class="row justify-content-md-center">
-            <div class="col-4">
-                <div class="text-center" >
-                    <form method="GET" id="form_search_song" action="{% url 'search_song' %}" >
-                        {% csrf_token %}
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend" id="search">
-                                <span class="input-group-text">
-                                    <select class="form-control" id="search_filter" name="search_filter">
-                                        <option value="title">Title</option>
-                                        <option value="genre">Genre</option>
-                                        <option value="album">Album</option>
-                                        <option value="artist">Artist</option>
-                                    </select>
-                                </span>
-                            </div>               
-                            <input class="form-control" placeholder="search keyword" name="search_keyword" id="search_keyword" type="text">
-                            <div class="input-group-btn input-group-append">
-                                <button class="btn btn-default" id="btn_search" type="submit"><i class="fa fa-search"></i></button>
-                            </div>
+            {% if user.is_authenticated %}
+                <div class="col-md-3">
+                    {% include "songs/display_playlist.html" %}
+                </div>
+            {% endif %}
+
+            <div class="col-8">
+                <br>
+                <div class="row justify-content-md-center">
+                    {% for genre in genres %}
+                        <div class="col-md-3 text-center" id="genrestyle" >
+                            <a href="{% url 'genre' genre.id %}">
+                                    <div><h2>{{ genre }}</h2></div>
+                            </a>
                         </div>
-                    </form>
+                    {% endfor %}
                 </div>
             </div>
-        </div>       
-        <div class="row">
-            <div class="col-2">
-                {% include "songs/display_playlist.html" %}
-            </div>
-            <div class="col-8">
-                {% for genre in genres %}
-                <a href="{% url 'genre' genre.id %}">
-                    
-                    <div id="genre_style"><h2>{{ genre }}</h2></div>
-                    
-                </a>
-                {% endfor %}
-           </div>
         </div> 
     </div>
 
