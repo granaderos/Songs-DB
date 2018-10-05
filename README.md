@@ -24,7 +24,7 @@ sudo pip install Django==2.0.6
 
 On your terminal, follow the below commands to get the project up and running.
 
-1. Clone the on your machine by running
+1. Clone the project on your machine by running
 ```
 git clone https://github.com/granaderos/Songs-DB.git
 ```
