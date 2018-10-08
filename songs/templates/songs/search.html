@@ -4,7 +4,7 @@
             <form method="GET" id="form_search_song" action="{% url 'search_song' %}" >
                 {% csrf_token %}
                 <div class="input-group mb-3">
-                    <div class="input-group-prepend" id="search">
+                    <!-- <div class="input-group-prepend" id="search">
                         <span class="input-group-text">
                             <select class="form-control" id="search_filter" name="search_filter">
                                 <option value="title">Title</option>
@@ -13,7 +13,7 @@
                                 <option value="artist">Artist</option>
                             </select>
                         </span>
-                    </div>               
+                    </div>                -->
                     <input class="form-control" placeholder="search keyword" name="search_keyword" id="search_keyword" type="text">
                     <div class="input-group-btn input-group-append">
                         <button class="btn btn-default" id="btn_search" type="submit"><i class="fa fa-search"></i></button>
