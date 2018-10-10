@@ -56,7 +56,7 @@ function getCookie(c_name) {
             return unescape(document.cookie.substring(c_start, c_end));
         }
     }
- }
+}
 
  function add_playlist() {
     var title = $("#playlist_name").val();

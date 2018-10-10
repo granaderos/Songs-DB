@@ -1,0 +1,32 @@
+{% extends "data_man/base.html" %}
+
+{% block page_title %}
+    Dashboard
+{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        <div>{{ user }}</div>
+        <hr>
+        <div>
+            <div id="total_num_of_songs">
+                <h3>Songs</h3>
+                {{ total_num_of_songs }}
+            </div>
+            <div id="total_num_of_artists">
+                <h3>Artists</h3>
+                {{ total_num_of_artists }}
+            </div>            
+            <div id="total_num_of_albums">
+                <h3>Albums</h3>
+                {{ total_num_of_albums }}
+            </div>
+            <div id="total_num_of_genres">
+                <h3>Genre</h3>
+                {{ total_num_of_genres }}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends "data_man/base.html" %}
+
+{% load escape_quotes %}
+
+{% block body %}
+    <div class="container container-fluid">
+
+    
+        <div id="div_add_song">
+            <h2>Add Song</h2>
+            <form class="form" id="form_add_song" method="POST">
+                {% csrf_token %}
+                <label>Title:</label>
+                <input required type="text" name="title" id="title" class="form-control" />
+                <label>Album:</label>
+                <select required name="album" id="album" class="form-control">
+                    {% for album in albums %}
+                        <option value="{{ album.id }}">{{ album }} - {{ album.artist }}</option>
+                    {% endfor %}
+                </select>
+                <label>Genre:</label>
+                <select required multiple name="genres" id="genres" class="form-control">
+                    {% for genre in genres %}
+                        <option value="{{ genre.id }}">{{ genre }}</option>
+                    {% endfor %}
+                </select>
+                <label>Path:</label>
+                <input type="file" name="path" id="path" required class="form-control"  accept="audio/*"/>
+                <br>
+                <button class="btn btn-primary">Submit</button>
+            </form>
+            <audio id="audio_to_upload" src=""></audio><div class="hidden"></div>
+        </div>
+        <br>
+        <table class="table">
+            <tr>
+                <td></td>
+                <th>Title</th>
+                <th>Artist</th>
+                <th>Album</th>
+                <th>Genre</th>
+                <th>Duration</th>
+                <th>Size</th>
+                <th>File Format</th>
+            </tr>
+            {% for song in songs %}
+                <tr id="song_tr_{{ forloop.counter }}">
+                    <td>{{ forloop.counter }}</td>
+                    {% if user.is_authenticated %}
+                        <td>
+                            <i onclick="set_song_id_to_add('{{ song.id }}')" data-toggle="modal" data-target="#modal_add_song_to_a_playlist" title="Add to playlist" style="cursor: pointer;" class="fa fa-plus-circle"></i>
+                        </td>
+                    {% endif %}
+                    <td><span id="song_title_{{ forloop.counter }}">{{ song }}</span><input type="hidden" value="{{ song.path }}" id="song_path_{{ forloop.counter }}"></td>
+                    <td id="song_artist_{{ forloop.counter }}">{{ song.album.artist }}</td>
+                    <td id="song_album_{{ forloop.counter }}">{{ song.album }}</td>
+                    <td id="song_genre_{{ forloop.counter }}">
+                        {% for genre in song.genre.all %}  
+                            {{ genre }};
+                        {% endfor %}
+                        
+                    </td>
+                    <td>{{ song.duration }} mins</td>
+                    <td>{{ song.size }} MB </td>
+                    <td>{{ song.audio_format }}</td>
+                </tr>
+            {% empty %}
+                <tr><td colspan="8" class="alert alert-warning">No songs retrieved.</td></tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}

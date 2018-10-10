@@ -12,6 +12,7 @@ class Artist(models.Model):
 class Album(models.Model):
     title = models.CharField(max_length=64)
     artist = models.ForeignKey(Artist, default="", on_delete=models.CASCADE)
+    cover = models.FileField(upload_to="images/", default="")
 
     def __str__(self):
         return self.title
@@ -19,6 +20,7 @@ class Album(models.Model):
 
 class Genre(models.Model):
     genre = models.CharField(max_length=64, unique=True)
+    
 
     def __str__(self):
         return self.genre
@@ -27,8 +29,11 @@ class Genre(models.Model):
 class Song(models.Model):
     title = models.CharField(max_length=64)
     album = models.ForeignKey(Album, on_delete=models.CASCADE)
-    genre = models.ForeignKey(Genre, on_delete=models.CASCADE)
-    path = models.FileField(upload_to="mp3_files/", default="")
+    genre = models.ManyToManyField(Genre)
+    size = models.FloatField(max_length=64, default=0.0)
+    duration = models.FloatField(max_length=64, default=0.0)
+    audio_format  = models.CharField(max_length=64, default="audio/mp3")
+    path = models.FileField(upload_to="files/audios/", default="")
 
     def __str__(self):
         return self.title
