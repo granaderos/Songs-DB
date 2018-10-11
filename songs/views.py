@@ -404,3 +404,35 @@ def add_artist(request):
         data = {"message": "incorrect method"}
 
     return JsonResponse(data)
+
+def data_man_genres(request):
+    genres = Genre.objects.all().order_by("genre")
+
+    genres_data = []
+
+    for genre in genres:
+        songs = genre.song_set.all().order_by("title")
+        genres_data.append({"genre": genre, "songs": songs})
+        
+
+    data = {"genres_data": genres_data}
+    return render(request, "data_man/genres.html", data)
+
+def add_genre(request):
+    if request.method == "POST":
+        genre = request.POST["genre"]
+        genre_exists = Genre.objects.filter(genre=genre).count()
+
+        if(genre_exists > 0):
+            data = {"message": "genre exists"}
+
+        else:
+            genre = Genre.objects.create(genre=genre)
+            genre.save()
+            data = {"message": "success"}
+
+        
+    else:
+        data = {"message": "incorrect method"}
+
+    return JsonResponse(data)

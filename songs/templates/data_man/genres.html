@@ -1,38 +1,37 @@
 {% extends "data_man/base.html" %}
 
 {% block page_title %}
-    Artists
+    Genres
 {% endblock %}
 
 {% block body %}
     <div class="container">
-
-        <div id="div_add_artists">
-            <h2>Add Artist</h2>
-            <form method="POST" id="form_add_artist">
+        <div id="div_add_genres">
+            <h2>Add Genre</h2>
+            <form method="POST" id="form_add_genres">
                 {% csrf_token %}
-                <label>Name:</label>
-                <input class="form-control" required id="artist_name" name="artist_name" />
+                <label>Genre:</label>
+                <input class="form-control" required id="genre" name="genre" />
                 <br>
-                <button class="btn btn-primary">Add Artist</button>
+                <button class="btn btn-primary">Add Genre</button>
             </form>
         </div>
         <br>
-        <h2>Artists</h2>
+        <h2>Genres</h2>
         <table class="table table-striped table-hover">
             <tr>
                 <th></th>
-                <th>Artists</th>
-                <th>Albums</th>
+                <th>Genre</th>
+                <th>Songs</th>
             </tr>
-            {% for data in artists_data %}
+            {% for data in genres_data %}
                 <tr>
                     <td>{{ forloop.counter }}</td>
-                    <td>{{ data.artist }}</td>
+                    <td>{{ data.genre }}</td>
                     <td>
                         <ol>
-                            {% for album in data.albums %}
-                                <li>{{ album }}</li>
+                            {% for song in data.songs %}
+                                <li>{{ song }}</li>
                             {% endfor %}
                         </ol>
                     </td>
@@ -40,4 +39,5 @@
             {% endfor %}
         </table>
     </div>
+
 {% endblock %}

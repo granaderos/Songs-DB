@@ -24,6 +24,7 @@ urlpatterns = [
     path("data_man/add_album_with_songs/", views.add_album_with_songs, name="add_album_with_songs"),
     path("data_man/artists", views.data_man_artists, name="data_man_artists"),
     path("data_man/add_artist/", views.add_artist, name="add_artist"),
-    
+    path("data_man/genres", views.data_man_genres, name="data_man_genres"),
+    path("data_man/add_genre/", views.add_genre, name="add_genre"),
     
 ]

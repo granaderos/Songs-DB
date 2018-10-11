@@ -119,6 +119,36 @@ $(document).ready(function() {
         }
     });
 
+    $("#form_add_genres").submit(function(e) {
+        e.preventDefault();
+        var genre = $("#genre").val();
+
+        if(genre.trim().length > 0) {
+            $.ajax({
+                url: "add_genre/",
+                type: "POST",
+                data: {"genre": genre, "csrfmiddlewaretoken": getCookie("csrftoken")},
+                success: function (data) {
+                    if(data.message == "incorrect method") {
+                        alert("You are not allowed to do this.");
+                    } else if(data.message == "genre exists") {
+                        alert("The genre you are tying to add already exists.")
+                    } else {
+                        console.log("success in adding genre = " + JSON.stringify(data))
+                        alert("New genre has been successfully added!")
+                        location.reload();
+                    }
+                    
+                },
+                error: function(data) {
+                    console.log("error in adding artist: " + JSON.stringify(data))
+                }
+            });
+        } else {
+            alert("Please fill-out valid genre.")
+        }
+    });
+
 })
 
 function add_song() {
