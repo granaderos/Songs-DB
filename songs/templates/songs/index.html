@@ -5,29 +5,115 @@
 {% endblock %}
 
 {% block body %}
-    <div class="container-fluid" id="main_container" >
-        {% include "songs/search.html" %}       
+   
+    {% include "songs/search.html" %}   
 
-        <div class="row justify-content-md-center">
-            {% if user.is_authenticated %}
-                <div class="col-md-3">
-                    {% include "songs/display_playlist.html" %}
-                </div>
-            {% endif %}
+    <div class="navigation sticky-top">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-xs-12">
+                    <ul>
+                        <li class="active"><a href="">Browse</a></li>
+                        <li><a href="">My Library</a></li>
+                        <li><a href="">My Playlists</a></li>
+                    </ul>
+                </div>    
+            </div>
+        </div>
+    </div>    
+    <!-- <div class="content">
+        <div class="container-fluid">
+            <div class="row justify-content-md-center">
+                {% if user.is_authenticated %}
+                    <div class="col-md-2">
+                        {% include "songs/display_playlist.html" %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div> -->
 
-            <div class="col-8">
-                <br>
-                <div class="row justify-content-md-center">
-                    {% for genre in genres %}
-                        <div class="col-md-3 text-center" id="genrestyle" >
-                            <a href="{% url 'genre' genre.id %}">
-                                    <div><h2>{{ genre }}</h2></div>
-                            </a>
+    <div class="content">
+		<div class="container-fluid">
+			<div class="type">
+				<h2 class="text-center">Browse Music</h2>
+				<div class="row">
+                    <div class="col-xs-8 col-md-8 col-centered">
+                        <div id="carousel" class="carousel slide" data-ride="carousel" data-type="multi" data-interval="2500">
+                            <div class="carousel-inner">
+                                {% for genre in genres %}
+                                    <div class="item active">
+                                        <div class="carousel-col">
+                                            <div class="card">
+                                                <div class="card-image">
+                                                    <img src="../../static/images/sa-ngalan-ng-pagibig.jpeg" width="100%">
+                                                </div>
+                                                <div class="card-body text-center">
+                                                    <h4 class="card-title">
+                                                        <a href="{% url 'genre' genre.id %}">
+                                                            {{ genre }}
+                                                        </a>
+                                                    </h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}  
+                            </div>  
                         </div>
-                    {% endfor %}
+                    </div>  
+                </div>        
+            </div>
+        </div>
+
+        <!-- <div class="category">
+        </div> -->
+
+        <div class="player fixed-bottom">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-2">
+                        <div class="card my_playlist">
+                            <div class="card-header text-center">
+                                <h5>Playlists</h5>
+                            </div>
+                            <div class="playlist-content">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-3 offset-2">
+                        <div class="controls text-center">
+                            <div>
+                                <button><i class="fas fa-backward fa-1x"></i></button>
+                            </div>
+                            <div>
+                                <button><i class="fas fa-play"></i></button>
+                            </div>
+                            <div>
+                                <button><i class="fas fa-forward fa-1x"></i></button>
+                            </div>
+                            <div>
+                                <button class="open-playlist"><i class="fas fa-list-ul"></i></button>
+                            </div>
+                        </div>
+                        <div class="details">
+                            <h5>Thinking out loud</h5>
+                            <h6>Ed Sheeran</h6>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div> 
-    </div>
+        </div>
+        <script type="text/javascript">
+            $(".controls .open-playlist").click(function(){
+                $(".player .my_playlist").toggle();
+            });
+        </script>
 
+    </div>    
+    
 {% endblock %}

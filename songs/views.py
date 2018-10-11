@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from django.utils.html import escape
+from django.db.models import Q
 
 from . models import Genre
 from . models import Artist
@@ -98,19 +99,21 @@ def list_songs_based_on_genre(request, genre_id):
     return render(request, "songs/genre_songs.html", data)
 
 def search_song(request):
-    search_filter = request.GET["search_filter"]
+    # search_filter = request.GET["search_filter"]
     search_keyword = request.GET["search_keyword"]
 
-    if search_filter == "title":
-        songs = Song.objects.filter(title__icontains=search_keyword)
-    elif search_filter == "genre":
-        songs = Song.objects.filter(genre__genre__icontains=search_keyword)
-    elif search_filter == "album":
-        songs = Song.objects.filter(album__title__icontains=search_keyword)
-    else:
-        songs = Song.objects.filter(album__artist__name__icontains=search_keyword)
+    # if search_filter == "title":
+    #     songs = Song.objects.filter(title__icontains=search_keyword)
+    # elif search_filter == "genre":
+    #     songs = Song.objects.filter(genre__genre__icontains=search_keyword)
+    # elif search_filter == "album":
+    #     songs = Song.objects.filter(album__title__icontains=search_keyword)
+    # else:
+    #     songs = Song.objects.filter(album__artist__name__icontains=search_keyword)
 
-    data = {"songs": songs, "search_filter": search_filter, "search_keyword": search_keyword}
+    songs = Song.objects.filter(Q(title__icontains=search_keyword) | Q(genre__genre__icontains=search_keyword) | Q(album__title__icontains=search_keyword) | Q(album__artist__name__icontains=search_keyword))
+
+    data = {"songs": songs, "search_keyword": search_keyword}
 
     if request.user.is_authenticated:
         playlists = Playlist.objects.filter(user=request.user).order_by('-id')
