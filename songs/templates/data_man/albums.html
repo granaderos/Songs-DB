@@ -22,13 +22,14 @@
                 <label>Album Cover:</label>
                 <input type="file" class="form-control" id="album_cover" name="album_cover" required accept="image/*" />
 
+                <div id="div_songs_input_container"></div>
+
             </form>
             <br>
             <div id="div_album_primary_buttons_container">
-                <button id="btn_add_album" class="btn btn-primary">Add Album</button>
                 <button id="btn_add_songs" class="btn btn-warning">Add Songs to this Album</button>
+                <button id="btn_add_album" class="btn btn-primary">No, Just Add the Album</button>
             </div>
-            <div id="div_songs_input_container"></div>
         </div>
         <br>
         <h2>Albums</h2>
@@ -43,7 +44,7 @@
             {% for data in album_data %}
                 <tr>
                     <td>{{ forloop.counter }}</td>
-                    <td><img src="/media/{{ data.album.cover }}" /></td>
+                    <td><img height="50px" width="50px" src="/media/{{ data.album.cover }}" /></td>
                     <td>{{ data.album.title }}</td>
                     <td>{{ data.album.artist }}</td>
                     <td>
