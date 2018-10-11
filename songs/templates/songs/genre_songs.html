@@ -6,18 +6,21 @@
 
 {% block body %}
 
-<div class="container-fluid"> 
-    {% include "songs/search.html" %}
+{%  include "songs/search.html" %}
 
-    <div class="row justify-content-md-center">
+{%  include "songs/navigation.html" %}
+
+<div class="container"> 
+
+    <div class="row">
         
         {% if user.is_authenticated %}
-            <div class="col-md-3">
+            <!-- <div class="col-md-3">
                 {% include "songs/display_playlist.html" %}
-            </div>
+            </div> -->
         {% endif %}
 
-        <div class="col-8">
+        <div class="col-12 col-centered">
             <br>
             <div id="genre_container">
                 <h3 class="alert alert-info">Genre: <strong>{{ genre }}</strong></h3>
@@ -28,5 +31,7 @@
         </div>
     </div>
 </div>
+
+{% include "songs/player2.html" %}
     
 {% endblock %}

@@ -4,30 +4,62 @@
     Songs DB
 {% endblock %}
 
-{% block body %}
-    <div class="container-fluid" id="main_container" >
-        {% include "songs/search.html" %}       
+{% block body %} 
+    
+    {%  include "songs/search.html" %}
 
-        <div class="row justify-content-md-center">
-            {% if user.is_authenticated %}
-                <div class="col-md-3">
-                    {% include "songs/display_playlist.html" %}
-                </div>
-            {% endif %}
+    {%  include "songs/navigation.html" %}
 
-            <div class="col-8">
-                <br>
-                <div class="row justify-content-md-center">
-                    {% for genre in genres %}
-                        <div class="col-md-3 text-center" id="genrestyle" >
-                            <a href="{% url 'genre' genre.id %}">
-                                    <div><h2>{{ genre }}</h2></div>
-                            </a>
-                        </div>
-                    {% endfor %}
-                </div>
+    <!-- <div class="content">
+        <div class="container-fluid">
+            <div class="row justify-content-md-center">
+                {% if user.is_authenticated %}
+                    <div class="col-md-2">
+                        {% include "songs/display_playlist.html" %}
+                    </div>
+                {% endif %}
             </div>
-        </div> 
-    </div>
+        </div>
+    </div> -->
 
+    <div class="content">
+		<div class="container-fluid">
+			<div class="type">
+				<h2 class="text-center">Browse Music</h2>
+				<div class="row">
+                    <div class="col-xs-8 col-md-8 col-centered">
+                        <div id="carousel" class="carousel slide" data-ride="carousel" data-type="multi" data-interval="2500">
+                            <div class="carousel-inner">
+                                {% for genre in genres %}
+                                    <div class="item active">
+                                        <div class="carousel-col">
+                                            <div class="card">
+                                                <div class="card-image">
+                                                    <img src="../../static/images/sa-ngalan-ng-pagibig.jpeg" width="100%">
+                                                </div>
+                                                <div class="card-body text-center">
+                                                    <h4 class="card-title">
+                                                        <a href="{% url 'genre' genre.id %}">
+                                                            {{ genre }}
+                                                        </a>
+                                                    </h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}  
+                            </div>  
+                        </div>
+                    </div>  
+                </div>        
+            </div>
+        </div>
+
+        <!-- <div class="category">
+        </div> -->
+
+        {% include "songs/player2.html" %}
+
+    </div>    
+    
 {% endblock %}
