@@ -21,10 +21,10 @@ from . models import Song
 from . models import Playlist
 
 def index(request):
-    genres = Genre.objects.all()
+    genres = Genre.objects.all().order_by("genre")
     data = {"genres": genres}
     if request.user.is_authenticated:
-        playlists = Playlist.objects.filter(user=request.user).order_by('-id')
+        playlists = Playlist.objects.filter(user=request.user).order_by('name')
         data["playlists"] = playlists
     return render(request, "songs/index.html", context=data)
 

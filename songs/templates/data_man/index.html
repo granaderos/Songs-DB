@@ -1,0 +1,48 @@
+{% extends "data_man/base.html" %}
+
+{% block page_title %}
+    Dashboard
+{% endblock %}
+
+{% block body %}
+
+
+<form method="POST" action="admin.html">
+
+        <div class="logx">
+        <div class="form-group form-buffer" style="margin:68px 20px 20px 20px;" style="background-color:black">
+        <h4 style="color:#fff;font-weight:bold;;background-color:rgba(255,255,255,0);text-align:center;margin-top: 25px">
+            <i class="fa fa-user-circle" style="font-size:150px;"></i>
+        </h4>
+        <h3 style="color:#fff">Welcome to SongsDB</h3>
+        <br/>
+        <div class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+            <input id="email" type="text" class="form-control" name="Username" placeholder="Username" required>
+        </div>
+        <br />
+        <div class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+            <input id="password" type="password" class="form-control" name="Password" placeholder="Password" required>
+        </div>
+        <br/>
+        <a href="admin.html"><button type="submit" name="submit" style="padding:10px" class="btn btn-primary btn-block">Log In</button></a>
+        <br/>
+        <a class="label" style="text-decoration:none" href="#">Forgot Password?</a>
+        </div>
+</form>
+
+<!--footer-->
+<!-- Footer -->
+<footer class="page-footer font-small blue pt-4">
+
+    <!-- Copyright -->
+    <div class="text-center py-3">© 2018 Copyright:
+      <a href="#"> Songsdb.com</a>
+    </div>
+    <!-- Copyright -->
+
+  </footer>
+  <!-- Footer -->
+
+  {% endblock %}
