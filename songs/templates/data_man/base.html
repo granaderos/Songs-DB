@@ -1,19 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
+    
+    <title>Songsdb Admin | Dashboard</title>
+    
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>{% block page_title %}{% endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     {% load static %}
     
-     <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
     <link href="{% static 'css/dashboard.css' %}" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'css/fontawesome-free-5.1.0-web/css/all.css' %}" />
     <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
     <script src="{% static  'js/data_man_script.js' %}"></script>
+    <script src="{% url 'https://code.jquery.com/jquery-3.3.1.slim.min.js' %}" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="js/jquery-slim.min.js"><\/script>')</script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
 </head>
 <body>
     <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
@@ -27,58 +34,84 @@
           </li>
         </ul>
       </nav>
-  
-      <div class="container-fluid">
-        <div class="row">
-          <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-            <div class="sidebar-sticky">
-              <ul class="nav flex-column">
-                <li class="nav-item">
-                  <a class="nav-link active" href="{% url 'data_man_dashboard' %}">
-                    <span data-feather="home"></span>
-                    Dashboard <span class="sr-only">(current)</span>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="{% url 'data_man_songs' %}">
-                    <span data-feather="music"></span>
-                    Songs
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">
-                    <span data-feather="user"></span>
-                    Artists
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="{% url 'data_man_albums' %}">
-                    <span data-feather="disc"></span>
-                    Albums
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">
-                    <span data-feather="bar-chart-2"></span>
-                    Genres
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">
-                    <span data-feather="image"></span>
-                    Images
-                  </a>
-                </li>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="settings"></span>
-                  Settings
-                </a>
-              </li>
-              </ul>
-              </div>
-          </nav>
+
+          <div class="container-fluid">
+            <div class="row">
+              <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+                <div class="sidebar-sticky">
+                  <ul class="nav flex-column">
+                    <li class="nav-item">
+                      <a class="nav-link active" href="#">
+                        <span data-feather="home"></span>
+                        Dashboard <span class="sr-only">(current)</span>
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#">
+                        <span data-feather="music"></span>
+                        Songs
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#">
+                        <span data-feather="user"></span>
+                        Artists
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#">
+                        <span data-feather="disc"></span>
+                        Albums
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#">
+                        <span data-feather="bar-chart-2"></span>
+                        Genres
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#">
+                        <span data-feather="image"></span>
+                        Images
+                      </a>
+                    </li>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#">
+                      <span data-feather="settings"></span>
+                      Settings
+                    </a>
+                  </li>
+                  </ul>
+                </div>
+              </nav>
+      
+              <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                  <h1 class="h2">Dashboard</h1>
+                  <div class="btn-toolbar mb-2 mb-md-0">
+                    <div class="mr-2">
+                      <button class="btn btn-warning"><i class="far fa-edit"></i>Add</button>
+                      <button class="btn btn-danger"><i class="fas fa-trash-alt"></i>Delete</button>
+                    </div>
+                  </div>
+                </div>
+      
+          <!-- Bootstrap core JavaScript
+          ================================================== -->
+          <!-- Placed at the end of the document so the pages load faster -->
+          <script src="{% url 'https://code.jquery.com/jquery-3.3.1.slim.min.js' %}" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+          <script>window.jQuery || document.write('<script src="{% static 'js/jquery-slim.min.js' %}"><\/script>')</script>
+          <script src="{% static 'js/popper.min.js' %}"></script>
+          <script src="{% static 'js/bootstrap.min.js' %}"></script>
+      
+          <!-- Icons -->
+          <script src="{% url 'https://unpkg.com/feather-icons/dist/feather.min.js' %}"></script>
+          <script>
+            feather.replace()
+          </script>
+      
     {% block body %}
     {% endblock %}
 </body>
