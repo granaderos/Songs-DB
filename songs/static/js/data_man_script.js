@@ -87,7 +87,37 @@ $(document).ready(function() {
         } else {
             alert("You missed album title.");
         }
-    })
+    });
+
+    $("#form_add_artist").submit(function(e) {
+        e.preventDefault();
+        var name = $("#artist_name").val();
+
+        if(name.trim().length > 0) {
+            $.ajax({
+                url: "add_artist/",
+                type: "POST",
+                data: {"name": name, "csrfmiddlewaretoken": getCookie("csrftoken")},
+                success: function (data) {
+                    if(data.message == "incorrect method") {
+                        alert("You are not allowed to do this.");
+                    } else if(data.message == "artist exists") {
+                        alert("The artist you are tying to add already exists.")
+                    } else {
+                        console.log("success in adding artist = " + JSON.stringify(data))
+                        alert("New artist has been successfully added!")
+                        location.reload();
+                    }
+                    
+                },
+                error: function(data) {
+                    console.log("error in adding artist: " + JSON.stringify(data))
+                }
+            });
+        } else {
+            alert("Please fill-out valid name.")
+        }
+    });
 
 })
 

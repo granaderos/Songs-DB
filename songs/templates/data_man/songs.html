@@ -32,7 +32,7 @@
             <audio id="audio_to_upload" src=""></audio><div class="hidden"></div>
         </div>
         <br>
-        <table class="table">
+        <table class="table table-striped table-hover">
             <tr>
                 <td></td>
                 <th>Title</th>
@@ -46,11 +46,6 @@
             {% for song in songs %}
                 <tr id="song_tr_{{ forloop.counter }}">
                     <td>{{ forloop.counter }}</td>
-                    {% if user.is_authenticated %}
-                        <td>
-                            <i onclick="set_song_id_to_add('{{ song.id }}')" data-toggle="modal" data-target="#modal_add_song_to_a_playlist" title="Add to playlist" style="cursor: pointer;" class="fa fa-plus-circle"></i>
-                        </td>
-                    {% endif %}
                     <td><span id="song_title_{{ forloop.counter }}">{{ song }}</span><input type="hidden" value="{{ song.path }}" id="song_path_{{ forloop.counter }}"></td>
                     <td id="song_artist_{{ forloop.counter }}">{{ song.album.artist }}</td>
                     <td id="song_album_{{ forloop.counter }}">{{ song.album }}</td>
@@ -58,7 +53,6 @@
                         {% for genre in song.genre.all %}  
                             {{ genre }};
                         {% endfor %}
-                        
                     </td>
                     <td>{{ song.duration }} mins</td>
                     <td>{{ song.size }} MB </td>

@@ -374,5 +374,33 @@ def add_album_with_songs(request):
 
     return JsonResponse(data)
 
+def data_man_artists(request):
+    artists = Artist.objects.all().order_by("name")
 
+    artists_data = []
 
+    for artist in artists:
+        albums = Album.objects.filter(artist=artist).order_by("title")
+        artists_data.append({"artist": artist, "albums": albums})
+
+    data = {"artists_data": artists_data}
+    return render(request, "data_man/artists.html", data)
+
+def add_artist(request):
+    if request.method == "POST":
+        name = request.POST["name"]
+        artist_exist = Artist.objects.filter(name=name).count()
+
+        if(artist_exist > 0):
+            data = {"message": "artist exists"}
+
+        else:
+            artist = Artist.objects.create(name=name)
+            artist.save()
+            data = {"message": "success"}
+
+        
+    else:
+        data = {"message": "incorrect method"}
+
+    return JsonResponse(data)
