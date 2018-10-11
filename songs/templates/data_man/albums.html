@@ -1,0 +1,72 @@
+{% extends "data_man/base.html" %}
+
+{% block page_title %}
+    Albums
+{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        <div id="div_add_album">
+            <h2>Add Album</h2>
+            <form class="form" method="POST" id="form_add_album">
+                {% csrf_token %}
+                <label>Album Title:</label>
+                <input required type="text" class="form-control" name="album_title" id="album_title" />
+                <label>Artist:</label>
+                <select required class="form-control" name="album_artist" id="album_artist">
+                    {% for artist in artists %}
+                        <option value="{{ artist.id }}">{{ artist }}</option>
+                    {% endfor %}
+                </select>
+                <label>Album Cover:</label>
+                <input type="file" class="form-control" id="album_cover" name="album_cover" required accept="image/*" />
+
+                <div id="div_songs_input_container"></div>
+
+            </form>
+            <br>
+            <div id="div_album_primary_buttons_container">
+                <button id="btn_add_songs" class="btn btn-warning">Add Songs to this Album</button>
+                <button id="btn_add_album" class="btn btn-primary">No, Just Add the Album</button>
+            </div>
+        </div>
+        <br>
+        <h2>Albums</h2>
+        <table class="table">
+            <tr>
+                <th></th>
+                <th>Cover</th>
+                <th>Title</th>
+                <th>Artist</th>
+                <th>Songs</th>
+            </tr>
+            {% for data in album_data %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td><img height="50px" width="50px" src="/media/{{ data.album.cover }}" /></td>
+                    <td>{{ data.album.title }}</td>
+                    <td>{{ data.album.artist }}</td>
+                    <td>
+                        <ol>
+                            {% for song in data.songs %}
+                                <li>{{ song }}</li>
+                            {% endfor %}
+                        </ol>
+                    </td>
+                    
+                </tr>
+            {% endfor %}
+        </table>
+
+    </div>
+
+    <div style="visibility: hidden" id="div_genre_options_container">
+        {% for genre in genres %}
+            <option value='{{ genre.id }}'>
+                {{ genre }}
+            </option>
+        {% endfor %}
+    </div>
+
+{% endblock %}

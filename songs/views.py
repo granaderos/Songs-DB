@@ -8,6 +8,12 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from django.utils.html import escape
 from django.db.models import Q
+from django.core.files.storage import FileSystemStorage
+from django.conf import settings
+import audioread
+import subprocess
+import re
+
 
 from . models import Genre
 from . models import Artist
@@ -90,7 +96,7 @@ def change_password(request):
 
 def list_songs_based_on_genre(request, genre_id):
     genre = Genre.objects.get(id=genre_id)
-    songs = Song.objects.filter(genre_id=genre_id)
+    songs = Song.objects.filter(genre__id=genre_id)
     data = {"songs": songs, "genre": genre}
 
     if request.user.is_authenticated:
@@ -220,3 +226,156 @@ def rename_playlist(request):
 
         data = {"message": "Playlist with ID" + str(playlist_id) + " was successfully renamed to " + new_name + "."}
         return JsonResponse(data)
+
+
+# Admin Views
+
+def data_man_dashboard(request):
+    total_num_of_songs = Song.objects.count()
+    total_num_of_genres = Genre.objects.count()
+    total_num_of_artists = Artist.objects.count()
+    total_num_of_albums = Album.objects.count()
+
+    data = {"total_num_of_songs": total_num_of_songs, "total_num_of_genres": total_num_of_genres, "total_num_of_artists": total_num_of_artists, "total_num_of_albums": total_num_of_albums} 
+    return render(request, "data_man/dashboard.html", data)
+
+
+
+def data_man_songs(request):
+    songs = Song.objects.all().order_by("title")
+    genres = Genre.objects.all()
+    albums = Album.objects.all()
+
+    data = {"songs": songs, "genres": genres, "albums": albums}
+    return render(request, "data_man/songs.html", data)
+
+def get_audio_duration(filename):
+    # valid for any audio file accepted by ffprobe
+    args = ("ffprobe", "-show_entries", "format=duration", "-i", settings.MEDIA_ROOT+"/"+filename)
+    popen = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    output, err = popen.communicate()
+    match = re.search(r"[-+]?\d*\.\d+|\d+", output)
+    return float(match.group())
+
+def handle_uploaded_file(path, name):
+    audio_file =  open(settings.MEDIA_ROOT+"/audios/"+name, 'wb+')
+    for chunk in path.chunks():
+        audio_file.write(chunk)
+    audio_file.close()
+
+
+def add_song(request):
+    if request.method == "POST":
+        size = float(request.POST["size"])
+        size = round(size/1048576, 2)
+        if size > 10:
+            data = {"message": "File is too big."}
+        else:
+            title = request.POST["title"]
+            album_id = request.POST["album"]
+            genre_ids = request.POST["genres"].split(",")
+            audio_format = request.POST["type"]  
+
+            audio_file = request.FILES["audio"]
+           
+            handle_uploaded_file(audio_file, audio_file.name)
+
+            album = Album.objects.get(id=album_id)
+            with audioread.audio_open(settings.MEDIA_ROOT+"/audios/"+audio_file.name) as f:
+                duration = f.duration
+            duration = round(duration/60, 2)
+
+            song = Song.objects.create(title=title, album=album, path=audio_file.name, audio_format=audio_format, duration=duration, size=size)
+            song.save()
+
+            new_song_id = Song.objects.latest("id").id
+            new_song = Song.objects.get(id=new_song_id)
+
+            for genre_id in genre_ids:
+                genre = Genre.objects.get(id=genre_id)
+                genre.song_set.add(new_song)
+
+        data = {"message": "GOT DATA", "genres": genre_ids, "name": audio_file.name, "duration": duration}
+    else:
+        data = {"message": "Method should be post."}
+
+    return JsonResponse(data)
+
+def data_man_albums(request):
+    artists = Artist.objects.all().order_by("name")
+    genres = Genre.objects.all().order_by("genre")
+
+    albums = Album.objects.all().order_by("title")
+
+    album_data = []
+
+    for album in albums:
+        songs = Song.objects.filter(album=album)
+        album_data.append({"album": album, "songs": songs})
+
+    data = {"artists": artists, "genres": genres, "album_data": album_data}
+
+
+    return render(request, "data_man/albums.html", data)
+
+def add_album(request):
+    if request.method == "POST":
+        title = request.POST["title"]
+        artist_id = request.POST["artist"]
+        cover = request.FILES["cover"]
+
+        artist = Artist.objects.get(id=artist_id) 
+
+        new_album = Album.objects.create(title=title, artist=artist, cover=cover)
+
+        data = {"message": "successfully added album"}
+    else:
+        data = {"message": "Method is not post"}
+
+    return JsonResponse(data)
+
+def add_album_with_songs(request):
+    if request.method == "POST":
+        album_title = request.POST["album_title"]
+        artist_id = request.POST["artist"]
+        artist = Artist.objects.get(id=artist_id)
+
+        album = Album.objects.create(title=album_title, artist=artist)
+        album.save()
+
+        new_album_id = Album.objects.latest("id").id
+        new_album = Album.objects.get(id=new_album_id)
+
+        number_of_songs_to_add = request.POST["number_of_songs_to_add"]
+
+        for i in range(1, int(number_of_songs_to_add)+1):
+            song_title = request.POST["song_title_"+str(i)]
+            size = request.POST["size_"+str(i)]
+            audio_format = request.POST["audio_format_"+str(i)]
+            audio_file = request.FILES["audio_file_"+str(i)]
+
+            handle_uploaded_file(audio_file, audio_file.name)
+
+            with audioread.audio_open(settings.MEDIA_ROOT+"/audios/"+audio_file.name) as f:
+                duration = f.duration
+            duration = round(duration/60, 2)
+
+            song = Song.objects.create(title=song_title, album=new_album, path=audio_file.name, audio_format=audio_format, duration=duration, size=size)
+            song.save()
+
+            new_song_id = Song.objects.latest("id").id
+            new_song = Song.objects.get(id=new_song_id)
+
+            genre_ids = request.POST["genres_"+str(i)].split(",")
+
+            for genre_id in genre_ids:
+                genre = Genre.objects.get(id=genre_id)
+                genre.song_set.add(new_song)
+        data = {"message": "success", "genres": genre_ids, "name": audio_file.name, "duration": duration}
+    else:
+        data = {"message": "incorrect method"}
+
+    return JsonResponse(data)
+
+
+

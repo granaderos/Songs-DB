@@ -127,7 +127,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 LOGIN_REDIRECT_URL = "/"
-MEDIA_ROOT = os.path.join(BASE_DIR, "mp3_files")
+MEDIA_ROOT = os.path.join(BASE_DIR, "files")
 MEDIA_URL = "/media/"
 
 #EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
