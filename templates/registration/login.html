@@ -54,7 +54,7 @@
                             <h5>or Log-in with</h5>
                             <p>
                                 <a href="{% url 'social:begin' 'google-oauth2' %}"><i class="fab fa-google"></i> Google</a>
-                                <a href=""><i class="fab fa-facebook"></i> Facebook</a>
+                                <a href="{% url 'social:begin' 'facebook' %}"><i class="fab fa-facebook"></i> Facebook</a>
                                 <a href=""><i class="fab fa-github"></i> Github</a>
                             </p>
                         </div>

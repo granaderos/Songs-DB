@@ -145,7 +145,7 @@ AUTHENTICATION_BACKENDS = [
     'social_core.backends.google.GoogleOpenId',
     'social_core.backends.google.GoogleOAuth2',
     # 'social_core.backends.github.GithubOAuth2',
-    # 'social_core.backends.facebook.FacebookOAuth2',
+    'social_core.backends.facebook.FacebookOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 ]
 
@@ -154,11 +154,17 @@ SOCIAL_AUTH_URL_NAMESPACE = 'social'
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '784275359770-6pfl78t0en76i8o031865glaof8snskq.apps.googleusercontent.com'
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '3ndTSluraAOswJlIes03Kbvn'
+
+SOCIAL_AUTH_FACEBOOK_KEY = '1109095342589276'
+SOCIAL_AUTH_FACEBOOK_SECRET = '5f1ff4221165d4ce21245588290d8734'
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
+
+SOCIAL_AUTH_RAISE_EXCEPTIONS = False
+
+
 # SOCIAL_AUTH_GITHUB_KEY = '12d3e7873ebcd67f3b96'
 # SOCIAL_AUTH_GITHUB_SECRET = 'b136780194807d48d9a88ef205ac59e67197d93c'
-# SOCIAL_AUTH_FACEBOOK_KEY = '2092630337623817'
-# SOCIAL_AUTH_FACEBOOK_SECRET = '4002d3320b7180adfd0f3dbe49c15145'
-# SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
