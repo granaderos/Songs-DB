@@ -110,16 +110,6 @@ def list_songs_based_on_genre(request, genre_id):
 def search_song(request):
     # search_filter = request.GET["search_filter"]
     search_keyword = request.GET["search_keyword"]
-
-    # if search_filter == "title":
-    #     songs = Song.objects.filter(title__icontains=search_keyword)
-    # elif search_filter == "genre":
-    #     songs = Song.objects.filter(genre__genre__icontains=search_keyword)
-    # elif search_filter == "album":
-    #     songs = Song.objects.filter(album__title__icontains=search_keyword)
-    # else:
-    #     songs = Song.objects.filter(album__artist__name__icontains=search_keyword)
-
     songs = Song.objects.filter(Q(title__icontains=search_keyword) | Q(genre__genre__icontains=search_keyword) | Q(album__title__icontains=search_keyword) | Q(album__artist__name__icontains=search_keyword)).order_by("title")
 
     data = {"songs": songs, "search_keyword": search_keyword}
@@ -473,4 +463,32 @@ def add_genre(request):
     else:
         data = {"message": "incorrect method"}
 
+    return JsonResponse(data)
+
+def data_man_search_song(request):
+    search_keyword = request.GET["keyword"]
+
+    songs = Song.objects.filter(Q(title__icontains=search_keyword) | Q(genre__genre__icontains=search_keyword) | Q(album__title__icontains=search_keyword) | Q(album__artist__name__icontains=search_keyword)).order_by("title")
+    
+    content = ""
+
+    i = 1
+    for song in songs:
+        content += "<tr id='song_tr_" + str(i) + "'>"
+        content += "<td>" + str(i) + "</td>"
+        content += "<td><span id='song_title_"+ str(i) +"'>" + str(song) + "</span><input type='hidden' value='" + str(song.path) + "' id='song_path_" + str(i) + "'></td>"
+        content += "<td id='song_artist_" + str(i) + "'>" + str(song.album.artist) + "</td>"
+        content += "<td id='song_album_" + str(i) + "'>" + str(song.album) + "</td>"
+        content += "<td id='song_genre_" + str(i) + "'>"
+        for genre in song.genre.all():
+            content += str(genre) + "; "
+        content += "</td>"
+        content += "<td>" + str(song.duration) + " mins</td>"
+        content += "<td>" + str(song.size) + " MB </td>"
+        content += "<td>" + str(song.audio_format) + "</td>"
+        content += "</tr>"
+
+        i += 1
+
+    data = {"content": content}
     return JsonResponse(data)

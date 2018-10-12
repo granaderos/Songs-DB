@@ -32,6 +32,12 @@
             <audio id="audio_to_upload" src=""></audio><div class="hidden"></div>
         </div>
         <br>
+        <h2>Songs</h2>
+        <form method="GET" onsubmit="return false;" id="form_data_man_search_song">
+            {% csrf_token %}
+            <input type="text" class="form-control" placeholder="search song / artist / album / genre" id="search_song_key_word" onkeyup="data_man_search_song()" />
+        </form>
+        <br>
         <table class="table table-striped table-hover">
             <tr>
                 <td></td>
@@ -43,24 +49,27 @@
                 <th>Size</th>
                 <th>File Format</th>
             </tr>
-            {% for song in songs %}
-                <tr id="song_tr_{{ forloop.counter }}">
-                    <td>{{ forloop.counter }}</td>
-                    <td><span id="song_title_{{ forloop.counter }}">{{ song }}</span><input type="hidden" value="{{ song.path }}" id="song_path_{{ forloop.counter }}"></td>
-                    <td id="song_artist_{{ forloop.counter }}">{{ song.album.artist }}</td>
-                    <td id="song_album_{{ forloop.counter }}">{{ song.album }}</td>
-                    <td id="song_genre_{{ forloop.counter }}">
-                        {% for genre in song.genre.all %}  
-                            {{ genre }};
-                        {% endfor %}
-                    </td>
-                    <td>{{ song.duration }} mins</td>
-                    <td>{{ song.size }} MB </td>
-                    <td>{{ song.audio_format }}</td>
-                </tr>
-            {% empty %}
-                <tr><td colspan="8" class="alert alert-warning">No songs retrieved.</td></tr>
-            {% endfor %}
+            <tbody id="tbody_data_man_songs">
+                {% for song in songs %}
+                    <tr id="song_tr_{{ forloop.counter }}">
+                        <td>{{ forloop.counter }}</td>
+                        <td><span id="song_title_{{ forloop.counter }}">{{ song }}</span><input type="hidden" value="{{ song.path }}" id="song_path_{{ forloop.counter }}"></td>
+                        <td id="song_artist_{{ forloop.counter }}">{{ song.album.artist }}</td>
+                        <td id="song_album_{{ forloop.counter }}">{{ song.album }}</td>
+                        <td id="song_genre_{{ forloop.counter }}">
+                            {% for genre in song.genre.all %}  
+                                {{ genre }};
+                            {% endfor %}
+                        </td>
+                        <td>{{ song.duration }} mins</td>
+                        <td>{{ song.size }} MB </td>
+                        <td>{{ song.audio_format }}</td>
+                    </tr>
+                {% empty %}
+                    <p class="alert alert-warning">No songs retrieved.</p>
+                {% endfor %}
+            </tbody>
+            
         </table>
     </div>
 {% endblock %}

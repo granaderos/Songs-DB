@@ -1,11 +1,20 @@
 formData = new FormData();
 var number_of_songs_to_add = 0;
 $(document).ready(function() {
-
     $("#form_data_man_login").submit(function(e) {
         e.preventDefault();
         data_man_login();
     });
+
+    // $("#search_song_key_word").keyup(function() {
+    //     alert("keyup")
+    //     data_man_search_song();
+    // });
+
+        $("#form_data_man_search_song").submit(function(e) {
+            e.preventDefault();
+            data_man_search_song();
+        });
 
     $('#path').change(function(){
         console.log("changed.") 
@@ -166,6 +175,30 @@ $(document).ready(function() {
     });
 
 });
+
+function data_man_search_song() {
+    var search_song_key_word = $("#search_song_key_word").val();
+    if(search_song_key_word.trim().length > 0) {
+        $.ajax({
+            url: "search_song/",
+            type: "GET",
+            data: {"keyword": search_song_key_word, "csrfmiddlewaretoken": getCookie("csrftoken")},
+            success: function (data) {
+                console.log("data search song=  " + JSON.stringify(data))
+                if(data.content != "") {
+                    $("#tbody_data_man_songs").html(data.content);
+                } else {
+                    alert("No songs retrieved with that keyword.")
+                }
+            },
+            error: function(data) {
+                console.log("error in searching song: " + JSON.stringify(data))
+            }
+        });
+    } else {
+        location.reload();
+    }
+}
 
 function data_man_login() {
     var username = $("#username").val();
