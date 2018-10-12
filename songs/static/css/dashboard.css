@@ -99,7 +99,31 @@ body {
     box-shadow: 0 0 0 3px rgba(255, 255, 255, .25);
   }
   
-  .padding {
-    padding: 20px;
-    margin: 10px;
+  body{
+    background: #eee;
+  }
+  span{
+      font-size:15px;
+  }
+  a{
+    text-decoration:none; 
+    color: #0062cc;
+    border-bottom:2px solid #0062cc;
+  }
+  .box{
+      padding:60px 0px;
+  }
+
+  .box-part{
+      background:#FFF;
+      border-radius:0;
+      padding:60px 10px;
+      margin:30px 0px;
+  }
+  .text{
+      margin:20px 0px;
+  }
+
+  .fa{
+      color:#4183D7;
   }

@@ -5,39 +5,81 @@
 {% endblock %}
 
 {% block body %}
-<div class="container">
-    <div>{{ user }}</div>
-    <div class="row">
-			<div class="card padding bg-primary text-white">
-				<div class="card-heading" id="total_num_of_songs">
-                    <h3 class="card-title">Songs</h3>
-                    <div class="card-body">
-                    {{ total_num_of_songs }}
-                    </div>
-				</div>
-		</div>
-			<div class="card padding bg-success text-white">
-				<div class="card-heading" id="total_num_of_artists">
-                    <h3 class="card-title">Artists</h3>
-                    <div class="card-body">
-					{{ total_num_of_artists }}</div>
-				</div>
-	</div>
-			<div class="card padding bg-warning text-white">
-				<div class="card-heading" id="total_num_of_albums">
-					<h3 class="card-title">Albums</h3>
-                    <div class="card-body">
-                    {{ total_num_of_albums }}</div>
-				</div>
-		</div>
-			<div class="card padding bg-danger text-white">
-				<div class="card-heading" id="total_num_of_genres">
-					<h3 class="card-title">Genres</h3>
-                    <div class="card-body">
-                    {{ total_num_of_genres}}</div>
-				</div>
-		</div>
-	</div>
+<div class="box">
+    <div class="container">
+     	<div class="row">
+			 
+			    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+               
+					<div class="box-part text-center" id="total_num_of_songs">
+                        
+                        <i class="fas fa-music fa-3x" aria-hidden="true"></i>
+                        
+						<div class="title">
+							<h4>Songs</h4>
+						</div>
+                        
+						<div class="text">
+							<span>{{ total_num_of_songs }}</span>
+						</div>
+                        
+                        
+					 </div>
+				</div>	 
+				
+				 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+               
+					<div class="box-part text-center" id="total_num_of_artists">
+					    
+					    <i class="fas fa-user-circle fa-3x" aria-hidden="true"></i>
+                    
+						<div class="title">
+							<h4>Artists</h4>
+						</div>
+                        
+						<div class="text">
+							<span>{{ total_num_of_artists }}</span>
+						</div>
+                        
+					 </div>
+				</div>	 
+				
+				 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+               
+					<div class="box-part text-center" id="total_num_of_albums">
+                        
+                        <i class="fas fa-compact-disc fa-3x" aria-hidden="true"></i>
+                        
+						<div class="title">
+							<h4>Albums</h4>
+						</div>
+                        
+						<div class="text">
+							<span>{{ total_num_of_albums }}</span>
+						</div>
+                        
+					 </div>
+				</div>	 
+				
+				<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+               
+					<div class="box-part text-center" id="total_num_of_genres">
+                        
+                        <i class="fas fa-chart-bar fa-3x" aria-hidden="true"></i>
+                        
+						<div class="title">
+							<h4>Genres</h4>
+						</div>
+                        
+						<div class="text">
+							<span>{{ total_num_of_genres }}</span>
+						</div>
+                        
+                        
+					 </div>
+				</div>	 
+			</div>		
+    </div>
 </div>
 
 {% endblock %}
