@@ -8,6 +8,8 @@ Results | {{ search_keyword }}
     
     <div class="container-fluid">
         {% include "songs/search.html" %}
+        {%  include "songs/navigation.html" %}
+
         <div class="row justify-content-md-center">
             {% if user.is_authenticated %}
                 <div class="col-md-3">
@@ -24,7 +26,7 @@ Results | {{ search_keyword }}
                 </p>
                 {% include "songs/songs.html" %}
                 <hr>
-                <a href="javascript:window.history.back()">&lt;&lt; Back</a>
+                <!-- <a href="javascript:window.history.back()">&lt;&lt; Back</a> -->
             </div>
         </div>
     </div>

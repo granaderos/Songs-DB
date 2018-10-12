@@ -1,10 +1,10 @@
 formData = new FormData();
 var number_of_songs_to_add = 0;
 $(document).ready(function() {
-    $("#form_add_song").submit(function(e) {
+
+    $("#form_data_man_login").submit(function(e) {
         e.preventDefault();
-        add_song();
-        
+        data_man_login();
     });
 
     $('#path').change(function(){
@@ -87,9 +87,107 @@ $(document).ready(function() {
         } else {
             alert("You missed album title.");
         }
-    })
+    });
 
-})
+    $("#form_add_artist").submit(function(e) {
+        e.preventDefault();
+        var name = $("#artist_name").val();
+
+        if(name.trim().length > 0) {
+            $.ajax({
+                url: "add_artist/",
+                type: "POST",
+                data: {"name": name, "csrfmiddlewaretoken": getCookie("csrftoken")},
+                success: function (data) {
+                    if(data.message == "incorrect method") {
+                        alert("You are not allowed to do this.");
+                    } else if(data.message == "artist exists") {
+                        alert("The artist you are tying to add already exists.")
+                    } else {
+                        console.log("success in adding artist = " + JSON.stringify(data))
+                        alert("New artist has been successfully added!")
+                        location.reload();
+                    }
+                    
+                },
+                error: function(data) {
+                    console.log("error in adding artist: " + JSON.stringify(data))
+                }
+            });
+        } else {
+            alert("Please fill-out valid name.")
+        }
+    });
+
+    $("#form_add_genres").submit(function(e) {
+        e.preventDefault();
+        var genre = $("#genre").val();
+        var genre_image = $("#genre_image");
+
+        if(genre.trim().length > 0) {
+            if(genre_image.prop('files').length > 0) {
+                file = genre_image.prop('files')[0];
+                console.log("genre image = " + file);
+                formData.append("genre_image", file);
+                formData.append("csrfmiddlewaretoken", getCookie("csrftoken"));
+
+                formData.append("genre", genre);
+                $.ajax({
+                    url: "add_genre/",
+                    type: "POST",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (data) {
+                        if(data.message == "incorrect method") {
+                            alert("You are not allowed to do this.");
+                        } else if(data.message == "genre exists") {
+                            alert("The genre you are tying to add already exists.")
+                        } else {
+                            console.log("success in adding genre = " + JSON.stringify(data))
+                            alert("New genre has been successfully added!")
+                            location.reload();
+                        }
+                        
+                    },
+                    error: function(data) {
+                        console.log("error in adding artist: " + JSON.stringify(data))
+                    }
+                });
+
+            } else {
+                alert("Please attach a valid image for this genre.")
+            }
+
+            
+        } else {
+            alert("Please fill-out valid genre.")
+        }
+    });
+
+});
+
+function data_man_login() {
+    var username = $("#username").val();
+    var password = $("#password").val();
+
+    $.ajax({
+        url: "/data_man_login/",
+        type: "POST",
+        data: {"username": username, "password": password, "csrfmiddlewaretoken": getCookie("csrftoken")},
+        success: function (data) {
+            console.log("login " + JSON.stringify(data))
+            if(data.message != "success") {
+                alert(data.message);
+            } else {
+                window.location = "dashboard"
+            }
+        },
+        error: function(data) {
+            console.log("error logging in : " + JSON.stringify(data))
+        }
+    });
+}
 
 function add_song() {
     

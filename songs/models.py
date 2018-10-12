@@ -20,7 +20,7 @@ class Album(models.Model):
 
 class Genre(models.Model):
     genre = models.CharField(max_length=64, unique=True)
-    
+    image = models.FileField(upload_to="images/", default="")
 
     def __str__(self):
         return self.genre

@@ -1,0 +1,43 @@
+{% extends "data_man/base.html" %}
+
+{% block page_title %}
+    Artists
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+
+        <div id="div_add_artists">
+            <h2>Add Artist</h2>
+            <form method="POST" id="form_add_artist">
+                {% csrf_token %}
+                <label>Name:</label>
+                <input class="form-control" required id="artist_name" name="artist_name" />
+                <br>
+                <button class="btn btn-primary">Add Artist</button>
+            </form>
+        </div>
+        <br>
+        <h2>Artists</h2>
+        <table class="table table-striped table-hover">
+            <tr>
+                <th></th>
+                <th>Artists</th>
+                <th>Albums</th>
+            </tr>
+            {% for data in artists_data %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ data.artist }}</td>
+                    <td>
+                        <ol>
+                            {% for album in data.albums %}
+                                <li>{{ album }}</li>
+                            {% endfor %}
+                        </ol>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}

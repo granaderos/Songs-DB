@@ -1,11 +1,14 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.http import JsonResponse
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 from django.utils.encoding import smart_str
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login, logout
 from django.utils.html import escape
 from django.db.models import Q
 from django.core.files.storage import FileSystemStorage
@@ -14,7 +17,6 @@ import audioread
 import subprocess
 import re
 
-
 from . models import Genre
 from . models import Artist
 from . models import Album
@@ -22,10 +24,10 @@ from . models import Song
 from . models import Playlist
 
 def index(request):
-    genres = Genre.objects.all()
+    genres = Genre.objects.all().order_by("genre")
     data = {"genres": genres}
     if request.user.is_authenticated:
-        playlists = Playlist.objects.filter(user=request.user).order_by('-id')
+        playlists = Playlist.objects.filter(user=request.user).order_by('name')
         data["playlists"] = playlists
     return render(request, "songs/index.html", context=data)
 
@@ -96,11 +98,12 @@ def change_password(request):
 
 def list_songs_based_on_genre(request, genre_id):
     genre = Genre.objects.get(id=genre_id)
-    songs = Song.objects.filter(genre__id=genre_id)
+    songs = genre.song_set.all().order_by("title")
+    # songs = Song.objects.filter(genre__id=genre_id)
     data = {"songs": songs, "genre": genre}
 
     if request.user.is_authenticated:
-        playlists = Playlist.objects.filter(user=request.user).order_by('-id')
+        playlists = Playlist.objects.filter(user=request.user).order_by("name")
         data["playlists"] = playlists
     return render(request, "songs/genre_songs.html", data)
 
@@ -117,17 +120,18 @@ def search_song(request):
     # else:
     #     songs = Song.objects.filter(album__artist__name__icontains=search_keyword)
 
-    songs = Song.objects.filter(Q(title__icontains=search_keyword) | Q(genre__genre__icontains=search_keyword) | Q(album__title__icontains=search_keyword) | Q(album__artist__name__icontains=search_keyword))
+    songs = Song.objects.filter(Q(title__icontains=search_keyword) | Q(genre__genre__icontains=search_keyword) | Q(album__title__icontains=search_keyword) | Q(album__artist__name__icontains=search_keyword)).order_by("title")
 
     data = {"songs": songs, "search_keyword": search_keyword}
 
     if request.user.is_authenticated:
-        playlists = Playlist.objects.filter(user=request.user).order_by('-id')
+        playlists = Playlist.objects.filter(user=request.user).order_by("name")
         data["playlists"] = playlists
     return render(request, "songs/search_songs.html", data)
 
 def download_song(request):
     path = request.GET["path"]
+    path = settings.MEDIA_ROOT+"/audios/"+path
     with open(path, 'rb') as mp3:
         response = HttpResponse(mp3, content_type="audio/mpeg") 
         # without the below line, the browser will play it.
@@ -169,12 +173,12 @@ def playlist_songs(request, playlist_id):
     playlist = Playlist.objects.get(pk=playlist_id)
     playlist_songs = playlist.song.values_list("pk", flat=True)
 
-    songs = Song.objects.filter(id__in=playlist_songs)
+    songs = Song.objects.filter(id__in=playlist_songs).order_by("title")
     
     data = {"songs": songs, "playlist": playlist}
 
     if request.user.is_authenticated:
-        playlists = Playlist.objects.filter(user=request.user).order_by('-id')
+        playlists = Playlist.objects.filter(user=request.user).order_by("name")
         data["playlists"] = playlists
     return render(request, "songs/playlist_songs.html", data)
 
@@ -229,6 +233,37 @@ def rename_playlist(request):
 
 
 # Admin Views
+
+def data_man_landing(request):
+    logout(request)
+    return render(request, "data_man/login.html")
+
+def data_man_login(request):
+    # logout(request)
+    if request.method == "POST":
+        username = request.POST["username"]
+        password = request.POST["password"]
+
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            if user.is_staff:
+                if user.is_active:
+                    data = {"message": "success"}
+                    login(request, user)
+                    # return data_man_dashboard(request)
+            else:
+                data = {"message": "You do not have the privilege to get in."}
+        else:
+            data = {"message": "Your username and password combination does not exist."}
+    else:
+        data = {"message": "You are not allowed to do this."}
+    
+    return JsonResponse(data)
+
+def data_man_logout(request):
+    logout(request)
+    return HttpResponseRedirect(reverse('data_man_landing'))
+    
 
 def data_man_dashboard(request):
     total_num_of_songs = Song.objects.count()
@@ -377,5 +412,65 @@ def add_album_with_songs(request):
 
     return JsonResponse(data)
 
+def data_man_artists(request):
+    artists = Artist.objects.all().order_by("name")
 
+    artists_data = []
 
+    for artist in artists:
+        albums = Album.objects.filter(artist=artist).order_by("title")
+        artists_data.append({"artist": artist, "albums": albums})
+
+    data = {"artists_data": artists_data}
+    return render(request, "data_man/artists.html", data)
+
+def add_artist(request):
+    if request.method == "POST":
+        name = request.POST["name"]
+        artist_exist = Artist.objects.filter(name=name).count()
+
+        if(artist_exist > 0):
+            data = {"message": "artist exists"}
+
+        else:
+            artist = Artist.objects.create(name=name)
+            artist.save()
+            data = {"message": "success"}
+
+        
+    else:
+        data = {"message": "incorrect method"}
+
+    return JsonResponse(data)
+
+def data_man_genres(request):
+    genres = Genre.objects.all().order_by("genre")
+
+    genres_data = []
+
+    for genre in genres:
+        songs = genre.song_set.all().order_by("title")
+        genres_data.append({"genre": genre, "songs": songs})
+        
+
+    data = {"genres_data": genres_data}
+    return render(request, "data_man/genres.html", data)
+
+def add_genre(request):
+    if request.method == "POST":
+        genre = request.POST["genre"]
+        genre_exists = Genre.objects.filter(genre=genre).count()
+
+        if(genre_exists > 0):
+            data = {"message": "genre exists"}
+        else:
+            genre_image = request.FILES["genre_image"]
+            genre = Genre.objects.create(genre=genre, image=genre_image)
+            genre.save()
+            data = {"message": "success"}
+
+        
+    else:
+        data = {"message": "incorrect method"}
+
+    return JsonResponse(data)

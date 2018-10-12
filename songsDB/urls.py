@@ -32,9 +32,14 @@ urlpatterns = [
     path("user/sign-up/", views.user_sign_up, name="user_sign_up"),
     path("user/create-account", views.create_account, name="create_account"),
     path("accounts/", include("django.contrib.auth.urls")),
+    # path("accounts/", include("allauth.urls")),
     path("profile/<username>", views.user_display_profile, name="user_display_profile"),
     path("profile/change_username/", views.change_username, name="change_username"),
     path("profile/change_password/", views.change_password, name="change_password"),
+
+    #for social auth
+    path('accounts/', include('social_django.urls', namespace='social')),
+
 
 ]
 

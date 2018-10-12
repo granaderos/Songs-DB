@@ -277,7 +277,8 @@ body{
         /* line 122, ../sass/main.scss */
         .content .card .card-body img {
           margin: 0 auto;
-          width: 50%; }
+          width: 50%;
+          height: auto; }
           .content .card .card-body a {
               color:#00363a; }
               .content .card .card-body:hover a,.content .card .card-body:hover{

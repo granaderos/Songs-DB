@@ -49,6 +49,17 @@
                             
                             <input type="hidden" name="next" value="{{ next }}" />
                         </form>
+                        <div id="div_oauth" style="color: white;">
+                            <br>
+                            <h5>or Log-in with</h5>
+                            <p>
+                                <a href="{% url 'social:begin' 'google-oauth2' %}"><i class="fab fa-google"></i> Google</a>
+                                <a href="{% url 'social:begin' 'facebook' %}"><i class="fab fa-facebook"></i> Facebook</a>
+                                <a href="{% url 'social:begin' 'twitter' %}"><i class="fab fa-twitter"></i> Twitter</a>
+                            </p>
+                        </div>
+
+
                     </div>
                 </div>
             </div>

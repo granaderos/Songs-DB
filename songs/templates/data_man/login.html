@@ -1,0 +1,21 @@
+{% extends "data_man/base.html" %}
+
+{% block page_title %}
+    Admin Login
+{% endblock %}
+
+{% block body %}
+
+    <h2>Admin Login</h2>
+    <form id="form_data_man_login" onsubmit="data_man_login()" method="POST">
+        {% csrf_token %}
+        <label>Username:</label>
+        <input required type="text" name="username" id="username" />
+        <label>Password:</label>
+        <input required type="password" id="password" name="password" />
+        <br>
+        
+    </form>
+    <input type="submit" onclick="data_man_login()" class="btn btn-primary" />
+
+{% endblock %}
