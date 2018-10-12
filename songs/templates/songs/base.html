@@ -27,8 +27,8 @@
                             </div>
                             {% if user.is_authenticated %}
                                 <div class="account">
-                                    <span>You are logged-in as: <strong id="strong_username"><a style="background: transparent !important;" href="{% url 'user_display_profile' user.username %}">{{ user.username }}</a></strong></span>
-                                    <a href="{% url 'logout' %}?next={% url 'index' %}" class="btn btn-outline-success my-2 my-sm-0">Log-out</a>
+                                    <span>You are logged-in as: <strong id="strong_username"><a class="user-name" href="{% url 'user_display_profile' user.username %}">{{ user.username }}</a></strong></span>
+                                    <a href="{% url 'logout' %}?next={% url 'index' %}" class="btn btn-outline-success my-2 my-sm-0 btnlogout">Log-out</a>
                                 </div>
 
                             {% else %}
@@ -45,27 +45,6 @@
 
         {% block body %}{% endblock %}
 
-        {%  include "songs/player.html" %}    
-
-        
     </body>
     
-    <!-- <footer class="page-footer pt-4">
-        <div class="footer fixed-bottom">
-            <div class="container-fluid">
-                <div class="row justify-content-center">
-                    <div class="col-6 text-center">
-                        <div class="footer-content>">
-                            <a> <i class="fab fa-facebook-f  mr-md-5 mr-3 fa-2x"> </i> </a>
-                            <a><i class="fab fa-twitter white-text mr-md-5 mr-3 fa-2x"> </i></a>
-                            <a><i class="fab fa-google-plus white-text mr-md-5 mr-3 fa-2x"> </i></a>
-                            <a><i class="fab fa-linkedin white-text mr-md-5 mr-3 fa-2x"> </i></a>
-                            <a><i class="fab fa-instagram white-text mr-md-5 mr-3 fa-2x"> </i></a>
-                            <a><i class="fab fa-pinterest white-text fa-2x"> </i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>        
-    </footer> -->
 </html>
