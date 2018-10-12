@@ -69,6 +69,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    # 'social.apps.django_app.middleware.SocialAuthExceptionMiddleware',
+
 ]
 
 ROOT_URLCONF = 'songsDB.urls'
@@ -146,6 +149,7 @@ AUTHENTICATION_BACKENDS = [
     'social_core.backends.google.GoogleOAuth2',
     # 'social_core.backends.github.GithubOAuth2',
     'social_core.backends.facebook.FacebookOAuth2',
+    'social_core.backends.twitter.TwitterOAuth',
     'django.contrib.auth.backends.ModelBackend',
 ]
 
@@ -159,6 +163,10 @@ SOCIAL_AUTH_FACEBOOK_KEY = '1109095342589276'
 SOCIAL_AUTH_FACEBOOK_SECRET = '5f1ff4221165d4ce21245588290d8734'
 SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
 
+SOCIAL_AUTH_TWITTER_KEY = "74EUXGOIWwZZWx4L68RgRUYYO"
+SOCIAL_AUTH_TWITTER_SECRET = "E6H3UBtVWOkr4Co3SpGybwhuQA1qzc91QJvsojI6jUZISPEDWZ"
+
+SOCIAL_AUTH_LOGIN_ERROR_URL = '/'
 SOCIAL_AUTH_RAISE_EXCEPTIONS = False
 
 
@@ -195,7 +203,3 @@ EMAIL_HOST_USER = 'marejeanperpinosa@gmail.com'
 EMAIL_HOST_PASSWORD = 'Ffnmarjiecasosamarjiecasosag'
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'marejeanperpinosa@gmail.com'
-
-# ACCOUNT_USERNAME_REQUIRED = False
-# ACCOUNT_EMAIL_VERIFICATION = "none"
-# SOCIAL_ACCOUNT_QUERY_EMAIL = True
