@@ -3,34 +3,6 @@
 {% load escape_quotes %}
 
 {% block body %}
-    <div class="container container-fluid">
-
-    
-        <div id="div_add_song">
-            <h2>Add Song</h2>
-            <form class="form" id="form_add_song" method="POST">
-                {% csrf_token %}
-                <label>Title:</label>
-                <input required type="text" name="title" id="title" class="form-control" />
-                <label>Album:</label>
-                <select required name="album" id="album" class="form-control">
-                    {% for album in albums %}
-                        <option value="{{ album.id }}">{{ album }} - {{ album.artist }}</option>
-                    {% endfor %}
-                </select>
-                <label>Genre:</label>
-                <select required multiple name="genres" id="genres" class="form-control">
-                    {% for genre in genres %}
-                        <option value="{{ genre.id }}">{{ genre }}</option>
-                    {% endfor %}
-                </select>
-                <label>Path:</label>
-                <input type="file" name="path" id="path" required class="form-control"  accept="audio/*"/>
-                <br>
-                <button class="btn btn-primary">Submit</button>
-            </form>
-            <audio id="audio_to_upload" src=""></audio><div class="hidden"></div>
-        </div>
         <br>
         <h2>Songs</h2>
         <form method="GET" onsubmit="return false;" id="form_data_man_search_song">
@@ -72,4 +44,55 @@
             
         </table>
     </div>
+
+    <!-- The Modal -->
+ <div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Modal Heading</h4>
+          <button type="button" class="close" data-dismiss="modal">×</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+            <div id="div_ass_song">
+                <h2>Add Song</h2>
+                <form class="form" id="form_add_song" method="POST">
+                    {% csrf_token %}
+                    <div class="form-group">
+                      <label for="title">Title:</label>
+                      <input type="text" name="title" id="title" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Album:</label>
+                        <select required name="album" id="album" class="form-control">
+                            {% for album in albums %}
+                                <option value="{{ album.id }}">{{ album }} - {{ album.artist }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Genre:</label>
+                        <select required multiple name="genres" id="genres" class="form-control">
+                            {% for genre in genres %}
+                                <option value="{{ genre.id }}">{{ genre }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Path:</label>
+                        <input type="file" name="path" id="path" required class="form-control"  accept="audio/*"/>
+                        <br>
+                        <button class="btn btn-primary">Submit</button>
+                    </div>
+                  </form>
+                  <audio id="audio_to_upload" src=""></audio><div class="hidden"></div>
+            </div>
+        </div>        
+      </div>
+    </div>
+  </div>
 {% endblock %}

@@ -123,6 +123,31 @@ body {
       margin:20px 0px;
   }
 
-  .fa{
-      color:#4183D7;
-  }
+.fa{
+    color:#e6b31e;
+}
+.fars{
+    color:#343a40;
+}
+#logo{
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: 25px;
+  font-weight: bold;
+  line-height: 25px;
+  margin-left: 10px;
+  margin-top: 10px;
+  margin-right: 50px;
+}
+
+#logo p{
+  color:#e6b31e;
+}
+.header .account #strong_username a.user-name{
+  background-color: none;
+  color:#e6b31e;
+}
+.btnlogout{
+  background-color: #e6b31e  !important;
+  border-color: #e6b31e  !important;
+  color: #343a40 !important;
+}
