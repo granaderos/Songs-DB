@@ -27,8 +27,8 @@
                             </div>
                             {% if user.is_authenticated %}
                                 <div class="account">
-                                    <span>You are logged-in as: <strong id="strong_username"><a style="background: transparent !important;" href="{% url 'user_display_profile' user.username %}">{{ user.username }}</a></strong></span>
-                                    <a href="{% url 'logout' %}?next={% url 'index' %}" class="btn btn-outline-success my-2 my-sm-0">Log-out</a>
+                                    <span>You are logged-in as: <strong id="strong_username"><a class="user-name" href="{% url 'user_display_profile' user.username %}">{{ user.username }}</a></strong></span>
+                                    <a href="{% url 'logout' %}?next={% url 'index' %}" class="btn btn-outline-success my-2 my-sm-0 btnlogout">Log-out</a>
                                 </div>
 
                             {% else %}
