@@ -69,6 +69,7 @@
                     <div class="form-group">
                         <label>Album:</label>
                         <select required name="album" id="album" class="form-control">
+                            <option value="0">-------</option>
                             {% for album in albums %}
                                 <option value="{{ album.id }}">{{ album }} - {{ album.artist }}</option>
                             {% endfor %}

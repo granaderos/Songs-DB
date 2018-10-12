@@ -15,6 +15,7 @@
                 <input required type="text" class="form-control" name="album_title" id="album_title" />
                 <label>Artist:</label>
                 <select required class="form-control" name="album_artist" id="album_artist">
+                    <option value="0">-------</option>
                     {% for artist in artists %}
                         <option value="{{ artist.id }}">{{ artist }}</option>
                     {% endfor %}
