@@ -12,6 +12,8 @@
                 {% csrf_token %}
                 <label>Genre:</label>
                 <input class="form-control" required id="genre" name="genre" />
+                <label>Genre Image:</label>
+                <input class="form-control" type="file" accept="image/*" required id="genre_image" name="genre_image" />
                 <br>
                 <button class="btn btn-primary">Add Genre</button>
             </form>
@@ -21,12 +23,14 @@
         <table class="table table-striped table-hover">
             <tr>
                 <th></th>
+                <th>Genre Cover</th>
                 <th>Genre</th>
                 <th>Songs</th>
             </tr>
             {% for data in genres_data %}
                 <tr>
                     <td>{{ forloop.counter }}</td>
+                    <td><img height="50px" width="50px" src="/media/{{ data.genre.image }}" /></td>                    
                     <td>{{ data.genre }}</td>
                     <td>
                         <ol>

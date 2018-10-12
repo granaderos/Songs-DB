@@ -25,7 +25,11 @@ SECRET_KEY = 't3_((@_m-wm8=5l2)0g(2ez_!&#!3q*_7c_ame&kp7k5+&90u%'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["127.0.0.1", "192.168.60.138"]
+ALLOWED_HOSTS = [
+    "127.0.0.1", 
+    "192.168.60.138",
+    "songsdb.com"
+    ]
 
 
 # Application definition
@@ -37,10 +41,25 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'django.contrib.sites',
     'songs.apps.SongsConfig',
     'widget_tweaks',
+
+    # AllAuth requirements
+    'django.contrib.sites',
+    # 'allauth',
+    # 'allauth.account',
+    # 'allauth.socialaccount',
+    # to login via Google
+    # 'allauth.socialaccount.providers.google',
+
+    # social_django
+    'social_django',
+    'sslserver',
+
+
 ]
+
+SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -65,6 +84,13 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
+                #require by allauth
+                # 'django.core.context_processors.request',
+
+                # for social django
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect'
             ],
         },
     },
@@ -107,6 +133,32 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# For AllAuth
+# AUTHENTICATION_BACKENDS = (
+#     "django.contrib.auth.backends.ModelBackend",
+#     "allauth.account.auth_backends.AuthenticationBackend",
+# )
+
+# OAuth2 Settings
+AUTHENTICATION_BACKENDS = [
+    'social_core.backends.open_id.OpenIdAuth',
+    'social_core.backends.google.GoogleOpenId',
+    'social_core.backends.google.GoogleOAuth2',
+    # 'social_core.backends.github.GithubOAuth2',
+    # 'social_core.backends.facebook.FacebookOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+SOCIAL_AUTH_URL_NAMESPACE = 'social'
+
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '784275359770-6pfl78t0en76i8o031865glaof8snskq.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '3ndTSluraAOswJlIes03Kbvn'
+# SOCIAL_AUTH_GITHUB_KEY = '12d3e7873ebcd67f3b96'
+# SOCIAL_AUTH_GITHUB_SECRET = 'b136780194807d48d9a88ef205ac59e67197d93c'
+# SOCIAL_AUTH_FACEBOOK_KEY = '2092630337623817'
+# SOCIAL_AUTH_FACEBOOK_SECRET = '4002d3320b7180adfd0f3dbe49c15145'
+# SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
@@ -137,3 +189,7 @@ EMAIL_HOST_USER = 'marejeanperpinosa@gmail.com'
 EMAIL_HOST_PASSWORD = 'Ffnmarjiecasosamarjiecasosag'
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'marejeanperpinosa@gmail.com'
+
+# ACCOUNT_USERNAME_REQUIRED = False
+# ACCOUNT_EMAIL_VERIFICATION = "none"
+# SOCIAL_ACCOUNT_QUERY_EMAIL = True

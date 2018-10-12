@@ -2,12 +2,16 @@
 
 {% block body %}
     <div class="container-fluid">
+        {% include "songs/search.html" %}
+        {%  include "songs/navigation.html" %}
+        
         <div class="row justify-content-md-center">
-            {% if user.is_authenticated %}
+            
+            <!-- {% if user.is_authenticated %}
                 <div class="col-md-3">
                     {% include "songs/display_playlist.html" %}
                 </div>
-            {% endif %}
+            {% endif %} -->
 
             <div class="col-8">
                 <br>

@@ -16,7 +16,10 @@ urlpatterns = [
     path("playlist/rename/", views.rename_playlist, name="rename_playlist"),
     
     # admin urls
-    path('data_man', views.data_man_dashboard, name='data_man_dashboard'),
+    path('data_man/login', views.data_man_landing, name='data_man_landing'),
+    path('data_man_login/', views.data_man_login, name='data_man_login'),
+    path('data_man_logout/', views.data_man_logout, name='data_man_logout'),
+    path('data_man/dashboard', views.data_man_dashboard, name='data_man_dashboard'),
     path('data_man/songs', views.data_man_songs, name='data_man_songs'),
     path("data_man/add_song/", views.add_song, name="add_song"),
     path("data_man/albums", views.data_man_albums, name="data_man_albums"),
