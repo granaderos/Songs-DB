@@ -28,7 +28,8 @@ DEBUG = True
 ALLOWED_HOSTS = [
     "127.0.0.1", 
     "192.168.60.138",
-    "songsdb.com"
+    "songsdb.com",
+    "192.168.60.133"
     ]
 
 

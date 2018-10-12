@@ -1,7 +1,7 @@
 {% extends "data_man/base.html" %}
 
 {% block page_title %}
-    Dashboard
+    Admin Login
 {% endblock %}
 
 {% block body %}
@@ -17,16 +17,18 @@
         <h3 style="color:#fff">Welcome to SongsDB</h3>
         <br/>
         <div class="input-group">
+            <label>Username:</label>
             <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-            <input id="email" type="text" class="form-control" name="username" id="username" placeholder="Username" required>
+            <input type="text" class="form-control" name="username" id="username" placeholder="Username" required>
         </div>
         <br />
         <div class="input-group">
+            <label>Password:</label>
             <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-            <input id="password" type="password" class="form-control" name="password" id="password" placeholder="Password" required>
+            <input type="password" class="form-control" name="password" id="password" placeholder="Password" required>
         </div>
         <br/>
-        <input type="button" onclick="data_man_login()" name="Log in" style="padding:10px" class="btn btn-primary btn-block" />
+        <input type="submit" onclick="data_man_login()" name="Log in" style="padding:10px" class="btn btn-primary btn-block" />
         <br/>
         <a class="label" style="text-decoration:none" href="#">Forgot Password?</a>
         </div>

@@ -17,18 +17,34 @@
     <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
     <script src="{% static  'js/data_man_script.js' %}"></script>
+    <script src="{% static  'js/script.js' %}"></script>
+    
 </head>
 <body>
   {% if user.is_authenticated %}
     {% if user.is_staff %}
-    <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-        <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#"><i data-feather="music" style="font-style: bold"></i>SongsDB Admin</a>
-        <ul class="navbar-nav px-3">
-          <li class="nav-item text-nowrap">
-            <a class="nav-link" href="{% url 'data_man_logout' %}">Logout</a>
-          </li>
-        </ul>
-      </nav>
+
+      <div class="header">
+          <div class="container-fluid">
+              <div class="row">
+                  <div class="col-xl">
+                      <nav style="background-color:  #343a40 !important" class="navbar navbar-dark">
+                          <div>
+                              <a class="navbar-brand" id="logo" href="/">Songs<i class="fas fa-music"></i><br><p>Database</p></a>
+                          </div>
+                          
+                              <div class="login">
+                                  <li class="nav-item text-nowrap">
+                                      <a class="btn btn-outline-success my-2 my-sm-0 btnlogout" href="{% url 'data_man_logout' %}">Logout</a>
+                                    </li>
+                              </div>
+                          
+                      </nav>
+                  </div>
+              </div>
+          </div>
+      </div> 
+      
             <div class="container-fluid">
             <div class="row">
               <nav class="col-md-2 d-none d-md-block bg-light sidebar">
@@ -79,8 +95,8 @@
                   <h1 class="h2">Dashboard</h1>
                   <div class="btn-toolbar mb-2 mb-md-0">
                     <div class="mr-2">
-                      <button class="btn btn-success" data-toggle="modal" data-target="#myModal"><i class="far fa-edit"></i></button> 
-                      <button class="btn btn-danger"><i class="far fa-trash-alt"></i></button></td>
+                      <button class="btn btn-primary" data-toggle="modal" data-target="#myModal"><i class="fas fa-plus-circle"></i> Add</button> 
+                      <button class="btn btn-danger"><i class="far fa-trash-alt"></i> Delete</button></td>
                     </div>
                   </div>
                 </div>

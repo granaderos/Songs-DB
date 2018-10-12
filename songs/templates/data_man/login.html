@@ -6,16 +6,52 @@
 
 {% block body %}
 
-    <h2>Admin Login</h2>
-    <form id="form_data_man_login" onsubmit="data_man_login()" method="POST">
-        {% csrf_token %}
-        <label>Username:</label>
-        <input required type="text" name="username" id="username" />
-        <label>Password:</label>
-        <input required type="password" id="password" name="password" />
-        <br>
+ <div class="container col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+
         
-    </form>
-    <input type="submit" onclick="data_man_login()" class="btn btn-primary" />
+
+        
+
+    <div class="row justify-content-md-center login_div" >
+        <div class ="col-md-8 text-align-center">
+            <div class="card" id="login_container">
+                <div class="card-header">
+                    <div class="card-title" >
+                        <h4 style="color:#fff;font-weight:bold;;background-color:rgba(255,255,255,0);text-align:center;margin-top: 25px">
+                            <i class="fa fa-user-circle" style="font-size:150px;"></i>
+                        </h4>
+                    </div>
+                </div>
+
+                <div class="card-block">
+                    <form method="post" id="form_data_man_login" onsubmit="data_man_login()">
+                    {% csrf_token %}
+                        <input type='hidden' name='csrfmiddlewaretoken' value='AmBTerQ7O8zqjEHp9HyHAHOpxIz37tjtxgBg1TTCLCZmH0U1Nx5i7hpmFQhsaXLo' />
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1"><i class="fars fa fa-user"></i></span>
+                            </div>
+                            <input type="text" name="username" autofocus maxlength="254" placeholder="Username" class="form-control" id="username" required />
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1"><i class="fars fa fa-lock"></i></span>
+                            </div>
+                            <input type="password" name="password" placeholder="Password" class="form-control" id="password" required />
+                        </div>
+
+                        <button type="submit" onclick="data_man_login()" class="btn btn-outline-primary btn-block" id = "btnlogin"><span class="fa fa-login"></span>Log-in</button>
+                        <a class="btn btn-outline-danger btn-block" id="btncancel" href="/">Cancel</a>
+                        
+                        <input type="hidden" name="next" value="" />
+                    </form>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
 
 {% endblock %}
