@@ -269,16 +269,17 @@ body{
     .content .card {
       background: #fff;
       margin-bottom: 20px;
-        border: 1px solid white; }
+      border: 1px solid white;}
       /* line 120, ../sass/main.scss */
       .content .card .card-body {
         padding-bottom: 10px;
-        background-color: #e6b31e; }
+        background-color: #e6b31e;}
         /* line 122, ../sass/main.scss */
-        .content .card .card-body img {
+        .content .card .card-image img {
           margin: 0 auto;
-          width: 50%;
-          height: auto; }
+          height: 218px;
+          width: 100%;
+          object-fit: cover;}
           .content .card .card-body a {
               color:#00363a; }
               .content .card .card-body:hover a,.content .card .card-body:hover{
