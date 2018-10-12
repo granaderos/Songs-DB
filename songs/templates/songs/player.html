@@ -36,8 +36,15 @@
                         Album: <strong id="current_album"></strong><br>
                         Artist: <strong id="current_artist"></strong><br>
 
+
+                        Song Duration: <strong id="current_duration"></strong><br>
+                        Audio Format: <strong id="current_format"></strong><br>
+                        File Size: <strong id="current_size"></strong><br>
+                        <div id="div_download_form_container"></div>
+
                         <input type="hidden" value="0" id="current_song_id" />
                         <input type="hidden" value="0" id="previous_playing_song_id" />
+                        <input type="hidden" value="{{ user }}" id="current_user" />
                     </p>
                 </div>
             </div>
@@ -84,13 +91,13 @@
         document.querySelector("#audio_currently_playing").addEventListener("ended", auto_next_song, false);
 
         $("#btn_close_player").click(function() {
-            document.getElementById("player_div").style.display = "none";
-            document.getElementById("div_show_player").style.display = "block";
+            // document.getElementById("player_div").style.display = "none";
+            // document.getElementById("div_show_player").style.display = "block";
         });
 
         $("#div_show_player").click(function() {
-            document.getElementById("player_div").style.display = "block";
-            document.getElementById("div_show_player").style.display = "none";
+            // document.getElementById("player_div").style.display = "block";
+            // document.getElementById("div_show_player").style.display = "none";
         });
     }
 
@@ -114,7 +121,7 @@
 
     function play_song(id, path, title, album, genre, artist, duration, audio_format, size, row_number) {
         console.log("Test");
-        document.getElementById("player_div").style.display = "block"
+        // document.getElementById("player_div").style.display = "block"
         var current_song_id = document.getElementById("current_song_id").value;
         console.log("Works here 2 " + current_song_id );
 
@@ -149,7 +156,7 @@
             document.getElementById("current_size").innerHTML = size;
 
 
-            index = path.indexOf("/");
+            index = path.lastIndexOf("/");
             fileName = path.substring(index + 1);
             console.log("fileName: " + fileName);
 
@@ -197,7 +204,7 @@
             var audio = document.getElementById("audio_currently_playing");
             var source = document.getElementById("audio_source");
 
-            var index = next_song_path.indexOf("/");
+            var index = next_song_path.lastIndexOf("/");
             var fileName = next_song_path.substring(index + 1);
             
             source.src = "/media/audios/" + fileName;
@@ -229,7 +236,7 @@
             var audio = document.getElementById("audio_currently_playing");
             var source = document.getElementById("audio_source");
 
-            var index = next_song_path.indexOf("/");
+            var index = next_song_path.lastIndexOf("/");
             var fileName = next_song_path.substring(index + 1);
             
             source.src = "/media/audios/" + fileName;
@@ -261,7 +268,7 @@
             var audio = document.getElementById("audio_currently_playing");
             var source = document.getElementById("audio_source");
 
-            var index = next_song_path.indexOf("/");
+            var index = next_song_path.lastIndexOf("/");
             var fileName = next_song_path.substring(index + 1);
             
             source.src = "/media/audios/" + fileName;
