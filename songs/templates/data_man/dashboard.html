@@ -5,27 +5,40 @@
 {% endblock %}
 
 {% block body %}
-    <div class="container" id="Dashboard">
-        <div>{{ user }}</div>
-        <hr>
-        <div>
-            <div id="total_num_of_songs">
-                <h3>Songs</h3>
-                {{ total_num_of_songs }}
-            </div>
-            <div id="total_num_of_artists">
-                <h3>Artists</h3>
-                {{ total_num_of_artists }}
-            </div>            
-            <div id="total_num_of_albums">
-                <h3>Albums</h3>
-                {{ total_num_of_albums }}
-            </div>
-            <div id="total_num_of_genres">
-                <h3>Genre</h3>
-                {{ total_num_of_genres }}
-            </div>
-        </div>
-    </div>
+<div class="container">
+    <div>{{ user }}</div>
+    <div class="row">
+		<div class="col-md-6">
+			<div class="panel panel-primary">
+				<div class="panel-heading" id="total_num_of_songs">
+					<h3 class="panel-title">Songs</h3>
+					{{ total_num_of_songs }}
+				</div>
+		</div>
+		<div class="col-md-6">
+			<div class="panel panel-success">
+				<div class="panel-heading" id="total_num_of_artists">
+					<h3 class="panel-title">Artists</h3>
+					{{ total_num_of_artists }}
+				</div>
+	</div>
+	</div>
+	<div class="row">
+		<div class="col-md-6">
+			<div class="panel panel-info">
+				<div class="panel-heading" id="total_num_of_albums">
+					<h3 class="panel-title">Albums</h3>
+					{{ total_num_of_albums }}
+				</div>
+		</div>
+		<div class="col-md-6">
+			<div class="panel panel-warning">
+				<div class="panel-heading" id="total_num_of_genres">
+					<h3 class="panel-title">Genres</h3>
+                    {{ total_num_of_genres}}
+				</div>
+		</div>
+	</div>
+</div>
 
 {% endblock %}
