@@ -2,29 +2,81 @@
     <i class="fa fa-volume-up"></i>
 </div>
 
-<div id="player_div" class="fixed text-center footer navbar-fixed-bottom">
-    <button id="btn_close_player">x</button>
-    <p>
-        Currently Playing: <strong id="current_song"></strong><br>
-        Genre: <strong id="current_genre"></strong><br>
-        Album: <strong id="current_album"></strong><br>
-        Artist: <strong id="current_artist"></strong><br>
+<div class="player fixed-bottom">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-md-12">
+                <div class="card my_playlist">
+                    <div class="card-header text-center">
+                        <h5>Playlists</h5>
+                    </div>
+                    <div class="playlist-content">
+                        <ul>
+                            <li>Playlist 1</li>
+                            <li>Playlist 2</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        <input type="hidden" value="0" id="current_song_id" />
-        <input type="hidden" value="0" id="previous_playing_song_id" />
-    </p>
-    <div>
-        <i title="Previous" id="prevbtn" onclick="play_previous()" class="fa fa-caret-left"></i>
-        <audio controls preload="auto" id="audio_currently_playing" onclick="paused_played()">
-            <source id="audio_source" src="" type="audio/mpeg">
-        </audio>
-        <i title="Next" id="nextbtn" onclick="play_next()" class="fa fa-caret-right"></i>
+        <div class="row">
+            <div class="col-1">
+                <div class="album-image">
+                    <img src="../../static/images/sa-ngalan-ng-pagibig.jpeg" width="100%">
+                    <p>Album title</p>
+                </div>
+            </div>
+            <div class="col-3">
+                <!-- <button id="btn_close_player">x</button> -->
+                <div class="details">
+                    <h6>Currently Playing: <strong id="current_song"></strong></h6>
+                    <p>
+                        Genre: <strong id="current_genre"></strong><br>
+                        Album: <strong id="current_album"></strong><br>
+                        Artist: <strong id="current_artist"></strong><br>
+
+                        <input type="hidden" value="0" id="current_song_id" />
+                        <input type="hidden" value="0" id="previous_playing_song_id" />
+                    </p>
+                </div>
+            </div>
+            <div class="col-8 col-centered">
+                <div class="controls">
+                    <div>
+                        <button class="open-playlist">
+                            <i class="fas fa-list-ul"></i>
+                        </button>
+                    </div>
+                    <div>
+                        <button>
+                            <i title="Previous" onclick="play_previous()" class="fas fa-backward"></i>
+                        </button>
+                    </div>
+                    <div>
+                        <audio controls preload="auto" id="audio_currently_playing" onclick="paused_played()">
+                            <source id="audio_source" src="" type="audio/mpeg">
+                        </audio>
+                    </div>
+                    <div>
+                        <button>
+                            <i title="Next" onclick="play_next()" class="fas fa-forward"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>        
     </div>
 </div>
 
 <input type="hidden" id="current_playing_row">
 
 <script>
+
+    $(".controls .open-playlist").click(function(){
+        $(".player .my_playlist").toggle();
+    });
+
     window.onload = function() {
         document.querySelector("#audio_currently_playing").addEventListener("ended", auto_next_song, false);
 
@@ -220,5 +272,7 @@
         document.getElementById("song_tr_"+(current_playing_row)).cells[1].getElementsByTagName("i")[0].classList.remove("fa-pause-circle");
         document.getElementById("song_tr_"+(current_playing_row)).cells[1].getElementsByTagName("i")[0].classList.add("fa-play-circle");
     }
+
+
 
 </script>
