@@ -110,16 +110,6 @@ def list_songs_based_on_genre(request, genre_id):
 def search_song(request):
     # search_filter = request.GET["search_filter"]
     search_keyword = request.GET["search_keyword"]
-
-    # if search_filter == "title":
-    #     songs = Song.objects.filter(title__icontains=search_keyword)
-    # elif search_filter == "genre":
-    #     songs = Song.objects.filter(genre__genre__icontains=search_keyword)
-    # elif search_filter == "album":
-    #     songs = Song.objects.filter(album__title__icontains=search_keyword)
-    # else:
-    #     songs = Song.objects.filter(album__artist__name__icontains=search_keyword)
-
     songs = Song.objects.filter(Q(title__icontains=search_keyword) | Q(genre__genre__icontains=search_keyword) | Q(album__title__icontains=search_keyword) | Q(album__artist__name__icontains=search_keyword)).order_by("title")
 
     data = {"songs": songs, "search_keyword": search_keyword}
@@ -473,4 +463,110 @@ def add_genre(request):
     else:
         data = {"message": "incorrect method"}
 
+    return JsonResponse(data)
+
+def data_man_search_song(request):
+    search_keyword = request.GET["keyword"]
+
+    songs = Song.objects.filter(Q(title__icontains=search_keyword) | Q(genre__genre__icontains=search_keyword) | Q(album__title__icontains=search_keyword) | Q(album__artist__name__icontains=search_keyword)).order_by("title")
+    
+    content = ""
+
+    i = 1
+    for song in songs:
+        content += "<tr id='song_tr_" + str(i) + "'>"
+        content += "<td>" + str(i) + "</td>"
+        content += "<td><span id='song_title_"+ str(i) +"'>" + str(song) + "</span><input type='hidden' value='" + str(song.path) + "' id='song_path_" + str(i) + "'></td>"
+        content += "<td id='song_artist_" + str(i) + "'>" + str(song.album.artist) + "</td>"
+        content += "<td id='song_album_" + str(i) + "'>" + str(song.album) + "</td>"
+        content += "<td id='song_genre_" + str(i) + "'>"
+        for genre in song.genre.all():
+            content += str(genre) + "; "
+        content += "</td>"
+        content += "<td>" + str(song.duration) + " mins</td>"
+        content += "<td>" + str(song.size) + " MB </td>"
+        content += "<td>" + str(song.audio_format) + "</td>"
+        content += "</tr>"
+
+        i += 1
+
+    data = {"content": content}
+    return JsonResponse(data)
+
+def data_man_search_artist(request):
+    search_keyword = request.GET["keyword"]
+
+    artists = Artist.objects.filter(name__icontains=search_keyword).order_by("name")
+    
+    content = ""
+
+    i = 1
+    for artist in artists:
+        content += "<tr>"
+        content += "<td>" + str(i) + "</td>"
+        content += "<td>" + str(artist.name) + "</td>"
+
+        albums = Album.objects.filter(artist=artist).order_by("title")
+
+        content += "<td><ol>"
+        for album in albums:
+            content += "<li>" + str(album.title) + "</li>"
+        content += "</ol></td></tr>"
+
+        i += 1
+
+    data = {"content": content}
+    return JsonResponse(data)
+
+def data_man_search_album(request):
+    search_keyword = request.GET["keyword"]
+
+    albums = Album.objects.filter(title__icontains=search_keyword).order_by("title")
+    
+    content = ""
+
+    i = 1
+    for album in albums:
+        content += "<tr>"
+        content += "<td>" + str(i) + "</td>"
+        content += "<td><img height='50px' width='50px' src='/media/" + str(album.cover) + "' /></td>"
+        content += "<td>" + str(album.title) + "</td>"
+        content += "<td>" + str(album.artist) + "</td>"
+
+        songs = Song.objects.filter(album=album).order_by("title")
+
+        content += "<td><ol>"
+        for song in songs:
+            content += "<li>" + str(song) + "</li>"
+        content += "</ol></td></tr>"
+
+        i += 1
+
+    data = {"content": content}
+    return JsonResponse(data)
+
+def data_man_search_genre(request):
+    search_keyword = request.GET["keyword"]
+
+    genres = Genre.objects.filter(genre__icontains=search_keyword).order_by("genre")
+    
+    content = ""
+
+    i = 1
+    for genre in genres:
+        content += "<tr>"
+        content += "<td>" + str(i) + "</td>"
+        content += "<td><img height='50px' width='50px' src='/media/" + str(genre.image) + "' /></td>"
+        content += "<td>" + str(genre) + "</td>"
+
+        songs = genre.song_set.all().order_by("title")
+        
+        content += "<td><ol>"
+        for song in songs:
+            content += "<li>" + str(song) + "</li>"
+        content += "</ol></td></tr>"
+
+        i += 1
+
+    data = {"content": content}
     return JsonResponse(data)

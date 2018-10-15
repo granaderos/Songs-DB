@@ -6,14 +6,14 @@
     background-color: #343a40 !important;
 }
  .header, .header nav{
-    height: 80px !important;
+    height: 65px !important;
     background-color: black !important;
     border-bottom: 1px solid #e6b31e;
 }
 
 #logo{
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    font-size: 25px;
+    font-size: 23px;
     font-weight: bold;
     line-height: 25px;
     margin-left: 10px;
@@ -59,7 +59,7 @@
 }
 
 .navigation {
-    height: 58px;
+    height: 54px;
     background: #e6b31e;
     margin-top: -16px;
     border-bottom:2px solid #212121;
@@ -81,9 +81,9 @@
        
 .navigation ul li a {
     display: inline-block;
-    padding: 16px 25px 11px 25px;
+    padding: 11px 25px 11px 25px;
     font-size: 20px;
-    line-height: 20 px;
+    line-height: 22 px;
     font-weight: 500;
     color: black; 
     
@@ -241,12 +241,33 @@ body{
     padding: 10px;
 }
 
-#sign_container, #tbody_songs, .login_div {
+#sign_container, #tbody_songs{
     margin-top: 180px;
 }
 
+.errormsg{
+    margin-top:50px;
+}
+
+.login_div {
+    margin-top: 10px;
+}
+
+.login_div .card .card-header .card-title{
+    margin-bottom:0px;
+}
+
+.login_div .card .card-block #div_oauth{
+    margin-top: 5px;
+} 
+
+.login_div .card .card-block #div_oauth .oauth-icons a{
+    font-size: 15px;
+    color: white;
+}
+
 #login_container{
-    margin-top: 80px;
+    margin-top: 50px;
 }
 
 .content {
@@ -499,7 +520,7 @@ body{
     font-size: 14px;
 }
 
-.player .my_playlist {
+.player .playlist {
     display: none;
     height: 150px;
     width: 100%;
@@ -510,12 +531,12 @@ body{
     opacity: .9;
  }
 
-.player .my_playlist .card-header{
+.player .playlist .card-header{
     background-color: #343a40;
     color: white;
 }
 
-.player .my_playlist .card-header h5{
+.player .playlist .card-header h5{
     font-size: 15px;
     font-weight: bold;
     margin-bottom: 0;
@@ -542,4 +563,10 @@ body{
     margin-bottom: 0;
     font-size: 14px;
     font-weight: bold;
+}
+
+.player .share a{
+    float:none;
+    color:white;
+    font-size:13px;
 }

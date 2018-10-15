@@ -6,7 +6,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-12 col-md-12">
-                <div class="card my_playlist">
+                <div class="card playlist">
                     <div class="card-header text-center">
                         <h5>Playlists</h5>
                     </div>
@@ -40,15 +40,16 @@
                         Song Duration: <strong id="current_duration"></strong><br>
                         Audio Format: <strong id="current_format"></strong><br>
                         File Size: <strong id="current_size"></strong><br>
+                        
                         <div id="div_download_form_container"></div>
-
+                        
                         <input type="hidden" value="0" id="current_song_id" />
                         <input type="hidden" value="0" id="previous_playing_song_id" />
                         <input type="hidden" value="{{ user }}" id="current_user" />
                     </p>
                 </div>
             </div>
-            <div class="col-8 col-centered">
+            <div class="col-6 col-centered">
                 <div class="controls d-flex align-items-center">
                     <div>
                         <button class="open-playlist">
@@ -72,6 +73,19 @@
                     </div>
                 </div>
             </div>
+
+            <div class="share col-2" style="color: white" id="">
+                <a href="https%3A%2F%2Ftwitter.com%2Fintent%2Ftweet%3Ftext%3DVisit%20https%3A%2F%2Fsongsdb.com%3A8000%20and%20enjoy%20listening%20to%20your%20favorite%20songs!">
+                   <i class="fab fa-twitter"></i>
+                   Share on Twitter
+                </a>
+                <br>
+                <a href="http%3A%2F%2Fwww.facebook.com%2Fsharer.php%3Fu%3Dhttps%3A%2F%2Fsongsdb.com%3A8000">
+                    <i class="fab fa-facebook"></i>
+                    Share on Facebook
+                </a>
+            </div>
+
         </div>        
 
     </div>
@@ -139,13 +153,18 @@
                     previous_i.classList.add("fa-play-circle");
                 }
             }
-            var form_element = "<form id='form_song_download' method='GET' action='{% url 'download_song' %}'>"+
-                                "<input type='hidden' name='path' value='"+ path +"' />"+
-                                "<i title='download song' onclick=\"document.getElementById('form_song_download').submit();\" style='cursor: pointer;' class='fa fa-download'></i>"+                         
-                                "&nbsp;<span>Download Song</span>" +
-                                "</form>";
 
-            document.getElementById("div_download_form_container").innerHTML = form_element;
+            if($("#current_user").val() != "AnonymousUser" && $("#current_user").val() != "AnonymousUser") {
+                var form_element = "<form id='form_song_download' method='GET' action='{% url 'download_song' %}'>"+
+                                    "<input type='hidden' name='path' value='"+ path +"' />"+
+                                    "<i title='download song' onclick=\"document.getElementById('form_song_download').submit();\" style='cursor: pointer;' class='fa fa-download'></i>"+                         
+                                    "&nbsp;<span>Download Song</span>" +
+                                    "</form>";
+
+
+                document.getElementById("div_download_form_container").innerHTML = form_element;    
+            }
+
             document.getElementById("current_song").innerHTML = title;
             document.getElementById("current_genre").innerHTML = genre;
             document.getElementById("current_album").innerHTML = album;
