@@ -5,21 +5,92 @@
 {% endblock %}
 
 {% block body %}
-    <div class="container">
-        <div id="div_add_genres">
-            <h2>Add Genre</h2>
-            <form method="POST" id="form_add_genres">
-                {% csrf_token %}
-                <label>Genre:</label>
-                <input class="form-control" required id="genre" name="genre" />
-                <label>Genre Image:</label>
-                <input class="form-control" type="file" accept="image/*" required id="genre_image" name="genre_image" />
-                <br>
-                <button class="btn btn-primary">Add Genre</button>
-            </form>
+ 
+<div class="container-fluid">
+        <div class="row">
+            <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+            <div class="sidebar-sticky">
+                <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'data_man_dashboard' %}">
+                    <span class="fas fa-chart-line"></i></span>
+                    Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'data_man_songs' %}">
+                    <i class="fas fa-music"></i> 
+                    Songs
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'data_man_artists' %}">
+                    <span class="fas fa-user"></span> 
+                    Artists
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'data_man_albums' %}">
+                    <span class="fas fa-compact-disc"></span>
+                    Albums
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="{% url 'data_man_genres' %}">
+                    <span class="fas fa-chart-bar"></span>
+                    Genres
+                    </a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <span class="fas fa-cogs"></span>
+                    Settings
+                </a>
+                </li>
+                </ul>
+            </div>
+        </nav>
+
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Genres</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+      <div class="mr-2">
+        <button class="btn btn-primary" data-toggle="modal" data-target="#genreModal"><i class="fas fa-plus-circle"></i> Add</button> 
+        <button class="btn btn-danger"><i class="far fa-trash-alt"></i> Delete</button></td>
+      </div>
+    </div>
+  </div>
+
+
+ <!-- The Modal -->
+ <div class="modal fade" id="genreModal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+          
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title">Add Songs</h4>
+              <button type="button" class="close" data-dismiss="modal">×</button>
+            </div>
+            
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div id="div_ass_song">
+                        <form method="POST" id="form_add_genres">
+                                {% csrf_token %}
+                                <label>Genre:</label>
+                                <input class="form-control" required id="genre" name="genre" />
+                                <label>Genre Image:</label>
+                                <input class="form-control" type="file" accept="image/*" required id="genre_image" name="genre_image" />
+                                <br>
+                                <button class="btn btn-primary">Add Genre</button>
+                            </form>
+            </div>        
+          </div>
         </div>
-        <br>
-        <h2>Genres</h2>
+      </div>
+    </div>
         <table class="table table-striped table-hover">
             <tr>
                 <th></th>
