@@ -20,6 +20,11 @@
         </div>
         <br>
         <h2>Genres</h2>
+        <form method="GET" onsubmit="return false;" id="form_data_man_search_genre">
+            {% csrf_token %}
+            <input type="text" class="form-control" placeholder="search genre" id="search_genre_key_word" onkeyup="data_man_search_genre()" />
+        </form>
+        <br>
         <table class="table table-striped table-hover">
             <tr>
                 <th></th>
@@ -27,20 +32,22 @@
                 <th>Genre</th>
                 <th>Songs</th>
             </tr>
-            {% for data in genres_data %}
-                <tr>
-                    <td>{{ forloop.counter }}</td>
-                    <td><img height="50px" width="50px" src="/media/{{ data.genre.image }}" /></td>                    
-                    <td>{{ data.genre }}</td>
-                    <td>
-                        <ol>
-                            {% for song in data.songs %}
-                                <li>{{ song }}</li>
-                            {% endfor %}
-                        </ol>
-                    </td>
-                </tr>
-            {% endfor %}
+            <tbody id="tbody_data_man_genres">
+                {% for data in genres_data %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td><img height="50px" width="50px" src="/media/{{ data.genre.image }}" /></td>                    
+                        <td>{{ data.genre }}</td>
+                        <td>
+                            <ol>
+                                {% for song in data.songs %}
+                                    <li>{{ song }}</li>
+                                {% endfor %}
+                            </ol>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
         </table>
     </div>
 

@@ -72,7 +72,7 @@ $(document).ready(function() {
         var title = $("#album_title").val();
         var artist = $("#album_artist").val();
 
-        if(title.trim().length > 0) {
+        if(title.trim().length > 0 && artist != "0") {
             formData.append("title", title);
             formData.append("artist", artist);
             formData.append("csrfmiddlewaretoken", getCookie("csrftoken"));
@@ -94,7 +94,7 @@ $(document).ready(function() {
                 }
             });
         } else {
-            alert("You missed album title.");
+            alert("Please fill-out all fields.");
         }
     });
 
@@ -200,6 +200,78 @@ function data_man_search_song() {
     }
 }
 
+function data_man_search_artist() {
+    var search_artist_key_word = $("#search_artist_key_word").val();
+    if(search_artist_key_word.trim().length > 0) {
+        $.ajax({
+            url: "search_artist/",
+            type: "GET",
+            data: {"keyword": search_artist_key_word, "csrfmiddlewaretoken": getCookie("csrftoken")},
+            success: function (data) {
+                console.log("data search artist =  " + JSON.stringify(data))
+                if(data.content != "") {
+                    $("#tbody_data_man_artists").html(data.content);
+                } else {
+                    alert("No artists retrieved with that keyword.")
+                }
+            },
+            error: function(data) {
+                console.log("error in searching artists: " + JSON.stringify(data))
+            }
+        });
+    } else {
+        location.reload();
+    }
+}
+
+function data_man_search_album() {
+    var search_album_key_word = $("#search_album_key_word").val();
+    if(search_album_key_word.trim().length > 0) {
+        $.ajax({
+            url: "search_album/",
+            type: "GET",
+            data: {"keyword": search_album_key_word, "csrfmiddlewaretoken": getCookie("csrftoken")},
+            success: function (data) {
+                console.log("data search album =  " + JSON.stringify(data))
+                if(data.content != "") {
+                    $("#tbody_data_man_albums").html(data.content);
+                } else {
+                    alert("No albums retrieved with that keyword.")
+                }
+            },
+            error: function(data) {
+                console.log("error in searching albums: " + JSON.stringify(data))
+            }
+        });
+    } else {
+        location.reload();
+    }
+}
+
+function data_man_search_genre() {
+    var search_genre_key_word = $("#search_genre_key_word").val();
+    if(search_genre_key_word.trim().length > 0) {
+        $.ajax({
+            url: "search_genre/",
+            type: "GET",
+            data: {"keyword": search_genre_key_word, "csrfmiddlewaretoken": getCookie("csrftoken")},
+            success: function (data) {
+                console.log("data search genre =  " + JSON.stringify(data))
+                if(data.content != "") {
+                    $("#tbody_data_man_genres").html(data.content);
+                } else {
+                    alert("No genres retrieved with that keyword.")
+                }
+            },
+            error: function(data) {
+                console.log("error in searching genres: " + JSON.stringify(data))
+            }
+        });
+    } else {
+        location.reload();
+    }
+}
+
 function data_man_login() {
     var username = $("#username").val();
     var password = $("#password").val();
@@ -225,23 +297,19 @@ function data_man_login() {
 function add_song() {
     
     var title = $("#title").val();
+    var album = $("#album").val();
     
-    if(title.trim().length != "") {
+    if(title.trim().length != "" && album != "0") {
         var audio_file = $("#path").val();
         console.log("path: " + audio_file);
 
-        var album = $("#album").val();
         var genres = $("#genres").val();
-
-        console.log("genres = " + genres)
 
         formData.append("title", title);
         formData.append("album", album);
         formData.append("genres", genres);
         formData.append("csrfmiddlewaretoken", getCookie("csrftoken"));
         
-        console.log(formData.keys());
-        console.log(formData.values());
 
         $.ajax({
             url: "add_song/",
@@ -259,7 +327,7 @@ function add_song() {
                 console.log("error in adding song: " + JSON.stringify(data))
             }
         });
-    }
+    } else alert("Please check your inputs.");
     
     
 }
@@ -269,7 +337,7 @@ function add_album_with_songs() {
     var title = $("#album_title").val();
     var artist = $("#album_artist").val();
 
-    if(title.trim().length > 0) {
+    if(title.trim().length > 0 && artist != "0") {
         formData.append("album_title", title);
         formData.append("artist", artist);
         formData.append("csrfmiddlewaretoken", getCookie("csrftoken"));
@@ -328,7 +396,7 @@ function add_album_with_songs() {
 
         return false;
     } else {
-        alert("You missed album title.");
+        alert("Please fill-out all fields.");
     }
 }
 
