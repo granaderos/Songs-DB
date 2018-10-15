@@ -241,8 +241,38 @@ body{
     padding: 10px;
 }
 
-#sign_container, #tbody_songs, .login_div {
+#sign_container, #tbody_songs{
     margin-top: 180px;
+}
+
+.login_div {
+    margin-top: 150px;
+}
+
+.login_div .card .card-header .card-title{
+    margin-bottom:0px;
+}
+
+.login_div .card .card-block #div_oauth h5{
+    font-size: 15px;
+    color: white;
+}
+
+.login_div .card .card-block #div_oauth{
+    margin-top: 8px;
+}
+
+.login_div .card .card-block .oauth-icons{
+    font-size: 25px;
+}
+.login_div .card .card-block .oauth-icons a{
+    color:white;
+    margin-right:5px;
+}
+
+.login_div .card .card-block #div_oauth .oauth-icons a:hover{
+    color:#e6b31e;
+    margin-right:5px;
 }
 
 #login_container{
@@ -499,7 +529,7 @@ body{
     font-size: 14px;
 }
 
-.player .my_playlist {
+.player .playlist {
     display: none;
     height: 150px;
     width: 100%;
@@ -510,12 +540,12 @@ body{
     opacity: .9;
  }
 
-.player .my_playlist .card-header{
+.player .playlist .card-header{
     background-color: #343a40;
     color: white;
 }
 
-.player .my_playlist .card-header h5{
+.player .playlist .card-header h5{
     font-size: 15px;
     font-weight: bold;
     margin-bottom: 0;

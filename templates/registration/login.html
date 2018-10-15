@@ -50,19 +50,24 @@
                             
                             <input type="hidden" name="next" value="{{ next }}" />
                         </form>
-                        <div id="div_oauth" style="color: white;">
-                            <br>
-                            <h5>or Log-in with</h5>
-                            <p>
-                                <a href="{% url 'social:begin' 'google-oauth2' %}"><i class="fab fa-google"></i> Google</a>
-                                <a href="{% url 'social:begin' 'facebook' %}"><i class="fab fa-facebook"></i> Facebook</a>
-                                <a href="{% url 'social:begin' 'twitter' %}"><i class="fab fa-twitter"></i> Twitter</a>
-                            </p>
+                        <div class="oauth def-font" id="div_oauth" >
+                            
+                            <div class="oauth-icons">
+                                    <a>SignUp with:</a>
+                                    <a href="{% url 'social:begin' 'google-oauth2' %}"><i class="fab fa-google fa-2" style="color: #DB4437"></i></a>
+                                    <a href="{% url 'social:begin' 'facebook' %}"><i class="fab fa-facebook fa-2" style="color:rgb(72, 109, 190)"></i></a>
+                                    <a href="{% url 'social:begin' 'twitter' %}"><i class="fab fa-twitter fa-2" style="color:#1DA1F2;"></i></a>
+                            </div>
                         </div>
-
+                        
 
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="row justify-content-md-center">
+            <div class="col-6">
+                
             </div>
         </div>    
     </div>
