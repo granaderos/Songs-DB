@@ -50,14 +50,15 @@
                             
                             <input type="hidden" name="next" value="{{ next }}" />
                         </form>
-                        <div class="oauth def-font" id="div_oauth" >
+                        <div class="def-font d-flex flex-row" id="div_oauth" >
                             
                             <div class="oauth-icons">
-                                    <a>SignUp with:</a>
+                                    <a>Login with:</a>
                                     <a href="{% url 'social:begin' 'google-oauth2' %}"><i class="fab fa-google fa-2" style="color: #DB4437"></i></a>
                                     <a href="{% url 'social:begin' 'facebook' %}"><i class="fab fa-facebook fa-2" style="color:rgb(72, 109, 190)"></i></a>
                                     <a href="{% url 'social:begin' 'twitter' %}"><i class="fab fa-twitter fa-2" style="color:#1DA1F2;"></i></a>
                             </div>
+                            
                         </div>
                         
 

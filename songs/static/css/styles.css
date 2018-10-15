@@ -253,30 +253,26 @@ body{
     margin-bottom:0px;
 }
 
-.login_div .card .card-block #div_oauth h5{
-    font-size: 15px;
-    color: white;
-}
-
 .login_div .card .card-block #div_oauth{
     margin-top: 8px;
 }
 
 .login_div .card .card-block .oauth-icons{
-    font-size: 25px;
+    font-size: 50px;
 }
 .login_div .card .card-block .oauth-icons a{
     color:white;
     margin-right:5px;
+    font-size: 16px;
 }
 
 .login_div .card .card-block #div_oauth .oauth-icons a:hover{
-    color:#e6b31e;
+    color:white;
     margin-right:5px;
 }
 
 #login_container{
-    margin-top: 80px;
+    margin-top: 50px;
 }
 
 .content {
