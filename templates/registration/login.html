@@ -3,22 +3,26 @@
 {% block body %}
 
     <div class="container col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+        <div class="row justify-content-md-center">
+            <div class="errormsg">
+                <div class="col-12">
+                    {% if form.errors %}
+                        <p class="alert alert-danger">Your username and password didn't match. Please try again.</p>
+                    {% endif %}
 
-        {% if form.errors %}
-            <p class="alert alert-danger">Your username and password didn't match. Please try again.</p>
-        {% endif %}
-
-        {% if next %}
-            {% if user.is_authenticated %}
-                <p class="text-warning">
-                    Your account doesn't have access to this page. To proceed,
-                    please login with an account that has access.
-                </p>
-            {% else %}
-                <p class="alert alert-danger">Please login to see this page: {{ next }}</p>
-            {% endif %}
-        {% endif %}
-
+                    {% if next %}
+                        {% if user.is_authenticated %}
+                            <p class="text-warning">
+                                Your account doesn't have access to this page. To proceed,
+                                please login with an account that has access.
+                            </p>
+                        {% else %}
+                            <p class="alert alert-danger">Please login to see this page: {{ next }}</p>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
         <div class="row justify-content-md-center login_div" >
             <div class ="col-md-8 text-align-center">
                 <div class="card" id="login_container">
