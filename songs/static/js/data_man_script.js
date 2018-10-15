@@ -400,6 +400,125 @@ function add_album_with_songs() {
     }
 }
 
+function delete_song(id, title, artist) {
+    var confirmation = confirm("Delete song " + title + " by  " + artist + "?");
+    if(confirmation == true) {
+        $.ajax({
+            url: "delete_song/",
+            type: "POST",
+            data: {"song_id": id, "csrfmiddlewaretoken": getCookie("csrftoken")},
+            success: function (data) {
+                if(data.message == "deleted") {
+                    console.log("success in deleting a song = " + JSON.stringify(data))
+                    location.reload();
+                } else console.log(data)
+            },
+            error: function(data) {
+                console.log("error in deleting song: " + JSON.stringify(data))
+            }
+        });
+    } else {
+        console.log("Delete cancelled.");
+    }
+}
+
+function show_update_artist_form(id, artist) {
+    $("#td_artist_"+id).html($("#new_artist_form_container").html());
+    $("#new_artist").val(artist);
+    $("#new_artist_id").val(id);
+    $("#new_artist").focus();
+}
+
+function update_artist() {
+    var id = $("#new_artist_id").val();
+    var artist = $("#new_artist").val();
+
+    if(artist.trim().length > 0) {
+        $.ajax({
+            url: "update_artist/",
+            type: "POST",
+            data: {"artist_id": id, "artist": artist, "csrfmiddlewaretoken": getCookie("csrftoken")},
+            success: function (data) {
+                $("#td_artist_"+id).html(artist);
+
+            },
+            error: function(data) {
+                console.log("error in updating artist: " + JSON.stringify(data))
+            }
+        });
+    } else {
+        alert("Artist name cannot be empty!");
+        $("#new_artist").focus();
+    }
+}
+
+function delete_artist(id, artist) {
+    var confirmation = confirm("Delete " + artist + "?");
+    if(confirmation == true) {
+        $.ajax({
+            url: "delete_artist/",
+            type: "POST",
+            data: {"artist_id": id, "csrfmiddlewaretoken": getCookie("csrftoken")},
+            success: function (data) {
+                alert("Successfully deleted!");
+                location.reload();
+            },
+            error: function(data) {
+                console.log("error in adding album and songs: " + JSON.stringify(data))
+            }
+        });
+    }
+}
+
+function show_update_album_form(id, album) {
+    $("#td_album_"+id).html($("#new_album_form_container").html());
+    $("#new_album").val(album);
+    $("#new_album_id").val(id);
+    $("#new_album").focus();
+}
+
+function update_album() {
+    var id = $("#new_album_id").val();
+    var album = $("#new_album").val();
+
+    if(album.trim().length > 0) {
+        $.ajax({
+            url: "update_album/",
+            type: "POST",
+            data: {"album_id": id, "album": album, "csrfmiddlewaretoken": getCookie("csrftoken")},
+            success: function (data) {
+                $("#td_album_"+id).html(album);
+
+            },
+            error: function(data) {
+                console.log("error in updating album: " + JSON.stringify(data))
+            }
+        });
+    } else {
+        alert("Album title cannot be empty!");
+        $("#new_album").focus();
+    }
+
+    return false;
+}
+
+function delete_album(id, album) {
+    var confirmation = confirm("Delete " + album + "?");
+    if(confirmation == true) {
+        $.ajax({
+            url: "delete_album/",
+            type: "POST",
+            data: {"album_id": id, "csrfmiddlewaretoken": getCookie("csrftoken")},
+            success: function (data) {
+                alert("Successfully deleted!");
+                location.reload();
+            },
+            error: function(data) {
+                console.log("error in deleting album: " + JSON.stringify(data))
+            }
+        });
+    }
+}
 
 function getCookie(c_name) {
     if (document.cookie.length > 0) {

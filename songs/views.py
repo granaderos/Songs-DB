@@ -468,13 +468,15 @@ def add_genre(request):
 def data_man_search_song(request):
     search_keyword = request.GET["keyword"]
 
-    songs = Song.objects.filter(Q(title__icontains=search_keyword) | Q(genre__genre__icontains=search_keyword) | Q(album__title__icontains=search_keyword) | Q(album__artist__name__icontains=search_keyword)).order_by("title")
+    songs = Song.objects.filter(Q(title__icontains=search_keyword) | Q(genre__genre__icontains=search_keyword) | Q(album__title__icontains=search_keyword) | Q(album__artist__name__icontains=search_keyword)).order_by("title").distinct()
     
     content = ""
 
     i = 1
     for song in songs:
         content += "<tr id='song_tr_" + str(i) + "'>"
+        content += "<td></td>"
+        content += "<td title='Delete Song' onclick=\"delete_song('" + str(song.id) + "', '" + str(song.title) + "', '" + str(song.album.artist) + "')\"><i class='fa fa-trash'></i></td>"
         content += "<td>" + str(i) + "</td>"
         content += "<td><span id='song_title_"+ str(i) +"'>" + str(song) + "</span><input type='hidden' value='" + str(song.path) + "' id='song_path_" + str(i) + "'></td>"
         content += "<td id='song_artist_" + str(i) + "'>" + str(song.album.artist) + "</td>"
@@ -569,4 +571,50 @@ def data_man_search_genre(request):
         i += 1
 
     data = {"content": content}
+    return JsonResponse(data)
+
+def data_man_delete_song(request):
+    song_id = request.POST["song_id"]
+    Song.objects.filter(id=song_id).delete()
+    data = {"message": "deleted"}
+
+    return JsonResponse(data)
+
+def data_man_update_artist(request):
+    artist_id = request.POST["artist_id"]
+    artist_name = request.POST["artist"]
+
+    artist = Artist.objects.get(id=artist_id)
+    artist.name = artist_name
+    artist.save()
+
+    data = {"message": "updated"}
+
+    return JsonResponse(data)
+
+def data_man_delete_artist(request):
+    artist_id = request.POST["artist_id"]
+    Artist.objects.filter(id=artist_id).delete()
+    
+    data = {"message": "deleted"}
+    return JsonResponse(data)
+
+
+def data_man_update_album(request):
+    album_id = request.POST["album_id"]
+    album_title = request.POST["album"]
+
+    album = Album.objects.get(id=album_id)
+    album.title = album_title
+    album.save()
+
+    data = {"message": "updated"}
+
+    return JsonResponse(data)
+
+def data_man_delete_album(request):
+    album_id = request.POST["album_id"]
+    Album.objects.filter(id=album_id).delete()
+    
+    data = {"message": "deleted"}
     return JsonResponse(data)
