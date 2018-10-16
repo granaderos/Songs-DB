@@ -149,6 +149,7 @@ body {
   background-color: #e6b31e  !important;
   border-color: #e6b31e  !important;
   color: #343a40 !important;
+  text-align: right;
 }
 
 .header, .header nav{
@@ -162,7 +163,7 @@ body {
   background-color: #343a40 !important;
 }
 
-.login {
+.login-admin {
   margin: 7% 0 0 0;
 }
 
