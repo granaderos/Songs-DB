@@ -162,7 +162,7 @@ body {
   background-color: #343a40 !important;
 }
 
-.login {
+.login-admin {
   margin: 7% 0 0 0;
 }
 
@@ -179,4 +179,8 @@ body {
   background-color: #343a40;
   color: white;
   text-align: center;
+}
+
+.login {
+  float: right !important;
 }
