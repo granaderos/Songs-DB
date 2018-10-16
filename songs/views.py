@@ -176,7 +176,8 @@ def playlist_songs(request, playlist_id):
     if request.user.is_authenticated:
         playlists = Playlist.objects.filter(user=request.user).order_by("name")
         data["playlists"] = playlists
-    return render(request, "songs/playlist_songs.html", data)
+    # return render(request, "songs/playlist_songs.html", data)
+    return render(request, "songs/display_playlist.html", data)
 
 @login_required
 def add_song_to_a_playlist(request):

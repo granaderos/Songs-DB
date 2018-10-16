@@ -2,65 +2,109 @@
 {% extends "songs/base.html" %}
 
 {% block body %}
-
+    {% load escape_quotes %}
+    
     {%  include "songs/search.html" %}
 
     {%  include "songs/navigation.html" %}
-<div class="playlist">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-2">
-                <div class="my-playlist">
-                    <div class="card">
-                        <div class="card-header text-center">
-                            <h4>Your Playlists&nbsp;<i title="Add a playlist" class="fa fa-plus-circle" data-toggle="modal" data-target="#modal_add_playlist"></i></h4>
+    <div class="playlist">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-2">
+                    <div class="my-playlist">
+                        <div class="card">
+                            <div class="card-header text-center">
+                                <h4>Your Playlists&nbsp;<i title="Add a playlist" class="fa fa-plus-circle" data-toggle="modal" data-target="#modal_add_playlist"></i></h4>
+                            </div>
+                            <div class="card-body">
+                                <table id = "table_playlists" class="table_playlists">
+                                    {% for playlist in playlists %}
+                                        <tr id="tr_playlist_{{ playlist.id }}">
+                                            <td><i title="Rename playlist" onclick="rename_playlist('{{ playlist.id }}', '{{ playlist.name }}')" class="fa fa-edit"></i></td>
+                                            <td><i title="Delete playlist" onclick="remove_playlist('{{ playlist.id }}', '{{ playlist.name }}')" class="fa fa-trash-alt"></i></td>
+                                            <td><a href="{% url 'playlist_songs' playlist.id %}" id="a_playlist_{{ playlist.id }}">{{ playlist }}</a></td>
+                                        </tr>
+                                    {% empty %}
+                                        <p id="p_no_playlist_message" class="alert alert-danger">You have not create a playlist yet.</p>
+                                    {% endfor %}
+                                </table>
+                            </div>
                         </div>
-                        <div class="card-body">
-                            <table class="table_playlists">
-                                {% for playlist in playlists %}
-                                    <tr id="tr_playlist_{{ playlist.id }}">
-                                        <td><i title="Rename playlist" onclick="rename_playlist('{{ playlist.id }}', '{{ playlist.name }}')" class="fa fa-edit"></i></td>
-                                        <td><i title="Delete playlist" onclick="remove_playlist('{{ playlist.id }}', '{{ playlist.name }}')" class="fa fa-trash-alt"></i></td>
-                                        <td><a href="{% url 'playlist_songs' playlist.id %}" id="a_playlist_{{ playlist.id }}">{{ playlist }}</a></td>
+                    </div>
+
+                    <div class="modal fade" id="modal_add_playlist" tabindex="-1" role="dialog" aria-labelledby="modal_add_playlist_label" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="modal_add_playlist_label">New Playlist</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form method="POST" id="form_add_playlist">
+                                        {% csrf_token %}
+                                        <label>Title:</label>
+                                        <input type="text" placeholder="playlist title" class="form-control" name="playlist_name" id="playlist_name" />
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" id="btn_add_playlist" class="btn btn-primary">Create Playlist</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+                
+                {% if playlist %}
+                    <div class="col-8">
+                        <br>
+                        <h2 class="alert alert-info">Playlist: <strong>{{ playlist }}</strong></h2>
+            
+                        <table class="table table-hover">
+                            <tr >
+                            </tr>
+                            <tbody>
+                                {% for song in songs %}
+                                <tr id="song_tr_{{ forloop.counter }}">
+                                        <td>
+                                            {{ forloop.counter }}
+                                        </td>
+                                        <td title="play" onclick="play_song('{{ song.id }}', '{{ song.path }}', '{{ song.title|escape_quotes }}', '{{ song.album|escape_quotes }}', '{{ song.album.cover|escape_quotes }}', '{% for genre in song.genre.all %}{{ genre|escape_quotes }}; {% endfor %}', '{{ song.album.artist|escape_quotes }}', '{{ song.duration }}', '{{ song.audio_format }}', '{{ song.size }}', '{{ forloop.counter }}')" style="cursor: pointer;">
+                                            <i id="song_{{ song.id }}" class="fa fa-play-circle"></i>
+                                            &nbsp;
+                                            <span id="song_title_{{ forloop.counter }}">{{ song }}</span><input type="hidden" value="{{ song.path }}" id="song_path_{{ forloop.counter }}">
+                                        </td>
+                                        
+                                        {% if user.is_authenticated %}
+                                            <td>
+                                                <i onclick="remove_song_from_a_play_list('{{ playlist.id }}', '{{ song.id }}', '{{ song.title|escape_quotes }}', '{{ forloop.counter }}')" title="Remove this song from this playlist" style="cursor: pointer;" class="fa fa-minus-circle"></i>
+                                            </td>
+                                        {% endif %}
+                                        
+                                        <span style="visibility: hidden;" id="song_artist_{{ forloop.counter }}">{{ song.album.artist }}</span>
+                                        <span style="visibility: hidden;" id="song_path_{{ forloop.counter }}">{{ song.path }}</span>
+                                        <span style="visibility: hidden;" id="song_album_{{ forloop.counter }}">{{ song.album }}</span>
+                                        <span style="visibility: hidden;" id="song_album_cover_{{ forloop.counter }}">{{ song.album.cover }}</span>
+                                        <span style="visibility: hidden;" id="song_genre_{{ forloop.counter }}">{% for genre in song.genre.all %}{{ genre }}; {% endfor %}</span>
+                                        <span style="visibility: hidden;" id="song_duration_{{ forloop.counter }}">{{ song.duration }}</span>
+                                        <span style="visibility: hidden;" id="song_audio_format_{{ forloop.counter }}">{{ song.audio_format }}</span>
+                                        <span style="visibility: hidden;" id="song_size_{{ forloop.counter }}">{{ song.size }}</span>
                                     </tr>
-                                {% empty %}
-                                    <p id="p_no_playlist_message" class="alert alert-danger">You have not create a playlist yet.</p>
-                                {% endfor %}
-                            </table>
-                        </div>
+                            {% empty %}
+                                <tr><td colspan="8" class="alert alert-warning">No songs retrieved.</td></tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                        <hr>
                     </div>
-                </div>
-
-                <div class="modal fade" id="modal_add_playlist" tabindex="-1" role="dialog" aria-labelledby="modal_add_playlist_label" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="modal_add_playlist_label">New Playlist</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <form method="POST" id="form_add_playlist">
-                                    {% csrf_token %}
-                                    <label>Title:</label>
-                                    <input type="text" placeholder="playlist title" class="form-control" name="playlist_name" id="playlist_name" />
-                                </form>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" id="btn_add_playlist" class="btn btn-primary">Create Playlist</button>
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {% include "songs/playlist_songs.html" %}    
-        </div>    
-    </div>   
-</div>
-{% include "songs/player.html" %}
+                {% endif %}
+            </div>    
+        </div>   
+    </div>
+    {% include "songs/player.html" %}
 
 {% endblock %}
 

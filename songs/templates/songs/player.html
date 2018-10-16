@@ -108,16 +108,6 @@
 
     window.onload = function() {
         document.querySelector("#audio_currently_playing").addEventListener("ended", auto_next_song, false);
-
-        $("#btn_close_player").click(function() {
-            // document.getElementById("player_div").style.display = "none";
-            // document.getElementById("div_show_player").style.display = "block";
-        });
-
-        $("#div_show_player").click(function() {
-            // document.getElementById("player_div").style.display = "block";
-            // document.getElementById("div_show_player").style.display = "none";
-        });
     }
 
     function paused_played() {
