@@ -11,11 +11,6 @@
     <div class="container-fluid">
         {% include "songs/search.html" %}
         <div class="row">
-            {% if user.is_authenticated %}
-                <div class="col-2">
-                    {% include "songs/display_playlist.html" %}
-                </div>
-            {% endif %}
 
             <div class="col-8">
                 <br>
@@ -71,5 +66,7 @@
             </div>
         </div>
     </div>
+
+    {% include "songs/player.html" %}
 
 {% endblock %}

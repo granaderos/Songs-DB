@@ -12,12 +12,7 @@ Results | {{ search_keyword }}
 
     <div class="container-fluid">
         <div class="row">
-            {% if user.is_authenticated %}
-                <div class="col-md-3">
-                    {% include "songs/display_playlist.html" %}
-                </div>
-            {% endif %}
-
+    
             <div class="col-8">
                 <br>
                 <p class="alert alert-info">
@@ -33,4 +28,5 @@ Results | {{ search_keyword }}
     </div>
 
     {% include "songs/player.html" %}
+    
 {% endblock %}
