@@ -43,4 +43,7 @@ urlpatterns = [
     path("data_man/update_album/", views.data_man_update_album, name="data_man_update_album"),
     path("data_man/delete_album/", views.data_man_delete_album, name="data_man_delete_album"),
     
+    path("data_man/update_genre/", views.data_man_update_genre, name="data_man_update_genre"),
+    path("data_man/delete_genre/", views.data_man_delete_genre, name="data_man_delete_genre"),
+
 ]

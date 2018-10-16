@@ -5,20 +5,95 @@
 {% endblock %}
 
 {% block body %}
-    <div class="container">
+ 
+<div class="container-fluid">
+        <div class="row">
+            <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+            <div class="sidebar-sticky">
+                <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'data_man_dashboard' %}">
+                    <span class="fas fa-chart-line"></i></span>
+                    Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'data_man_songs' %}">
+                    <i class="fas fa-music"></i> 
+                    Songs
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="{% url 'data_man_artists' %}">
+                    <span class="fas fa-user"></span> 
+                    Artists
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'data_man_albums' %}">
+                    <span class="fas fa-compact-disc"></span>
+                    Albums
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'data_man_genres' %}">
+                    <span class="fas fa-chart-bar"></span>
+                    Genres
+                    </a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <span class="fas fa-cogs"></span>
+                    Settings
+                </a>
+                </li>
+                </ul>
+            </div>
+        </nav>
 
-        <div id="div_add_artists">
-            <h2>Add Artist</h2>
-            <form method="POST" id="form_add_artist">
-                {% csrf_token %}
-                <label>Name:</label>
-                <input class="form-control" required id="artist_name" name="artist_name" />
-                <br>
-                <button class="btn btn-primary">Add Artist</button>
-            </form>
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Artists</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+      <div class="mr-2">
+        <button class="btn btn-primary" data-toggle="modal" data-target="#artistModal"><i class="fas fa-plus-circle"></i> Add</button> 
+        <!-- <button class="btn btn-danger"><i class="far fa-trash-alt"></i> Delete</button></td> -->
+      </div>
+    </div>
+  </div>
+
+
+    <div class="container-fluid">
+
+            <!-- The Modal -->
+ <div class="modal fade" id="artistModal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+          
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title">Add Artist</h4>
+              <button type="button" class="close" data-dismiss="modal">×</button>
+            </div>
+            
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div id="div_ass_song">
+                    <form class="form" id="form_add_artist" method="POST">
+                        {% csrf_token %}
+                        <div class="form-group">
+                          <label for="title">Artist Name:</label>
+                          <input type="text" name="artist_name" id="artist_name" class="form-control"><br>
+                            <button class="btn btn-primary">Add Artist</button>
+                        </div>
+                      </form>
+                </div>
+            </div>        
+          </div>
         </div>
+      </div>
         <br>
-        <h2>Artists</h2>
+        <!-- <h2>Artists</h2> -->
         <form method="GET" onsubmit="return false;" id="form_data_man_search_artist">
             {% csrf_token %}
             <input type="text" class="form-control" placeholder="search artist" id="search_artist_key_word" onkeyup="data_man_search_artist()" />
@@ -50,12 +125,12 @@
             {% endfor %}
             </tbody>
         </table>
-    </div>
 
-    <div class="hidden" id="new_artist_form_container">
-        <form onsubmit="update_artist(); return false;">
-            <input onblur="update_artist()" type="text" class="form-control" id="new_artist" name="new_artist" /> 
-            <input type="hidden" id="new_artist_id" />
-        </form>
+        <div style="visibility: hidden" id="new_artist_form_container">
+            <form onsubmit="update_artist(); return false;">
+                <input onblur="update_artist()" type="text" class="form-control" id="new_artist" name="new_artist" /> 
+                <input type="hidden" id="new_artist_id" />
+            </form>
+        </div>
     </div>
 {% endblock %}

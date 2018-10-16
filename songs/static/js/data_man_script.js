@@ -6,27 +6,13 @@ $(document).ready(function() {
         data_man_login();
     });
 
-    // $("#search_song_key_word").keyup(function() {
-    //     alert("keyup")
-    //     data_man_search_song();
-    // });
-
-        $("#form_data_man_search_song").submit(function(e) {
-            e.preventDefault();
-            data_man_search_song();
-        });
-
     $('#path').change(function(){
         console.log("changed.") 
         if($(this).prop('files').length > 0) {
             file = $(this).prop('files')[0];
-            // var audio = document.getElementById("audio_to_upload");
-            // audio.src = file.;
-            // audio.load();
             formData.append("audio", file);
             formData.append("size", file.size);
             formData.append("type", file.type);
-            // formData.append("duration", audio.duration);
             console.log(file);
         }
     });
@@ -85,9 +71,14 @@ $(document).ready(function() {
                 processData: false,
                 contentType: false,
                 success: function (data) {
-                    console.log("success = " + JSON.stringify(data))
-                    alert("New album has been successfully added!")
-                    location.reload();
+                    if(data.message != "successful") {
+                        alert(data.message)
+                    } else {
+                        console.log("success = " + JSON.stringify(data))
+                        alert("New album has been successfully added!")
+                        location.reload();
+                    }
+                    
                 },
                 error: function(data) {
                     console.log("error in adding album: " + JSON.stringify(data))
@@ -179,22 +170,24 @@ $(document).ready(function() {
 function data_man_search_song() {
     var search_song_key_word = $("#search_song_key_word").val();
     if(search_song_key_word.trim().length > 0) {
-        $.ajax({
-            url: "search_song/",
-            type: "GET",
-            data: {"keyword": search_song_key_word, "csrfmiddlewaretoken": getCookie("csrftoken")},
-            success: function (data) {
-                console.log("data search song=  " + JSON.stringify(data))
-                if(data.content != "") {
-                    $("#tbody_data_man_songs").html(data.content);
-                } else {
-                    alert("No songs retrieved with that keyword.")
+        // if(search_song_key_word[search_song_key_word.length-1] == " ") {
+            $.ajax({
+                url: "search_song/",
+                type: "GET",
+                data: {"keyword": search_song_key_word, "csrfmiddlewaretoken": getCookie("csrftoken")},
+                success: function (data) {
+                    console.log("data search song=  " + JSON.stringify(data))
+                    if(data.content != "") {
+                        $("#tbody_data_man_songs").html(data.content);
+                    } else {
+                        alert("No songs retrieved with that keyword.")
+                    }
+                },
+                error: function(data) {
+                    console.log("error in searching song: " + JSON.stringify(data))
                 }
-            },
-            error: function(data) {
-                console.log("error in searching song: " + JSON.stringify(data))
-            }
-        });
+            });
+        // }
     } else {
         location.reload();
     }
@@ -333,7 +326,6 @@ function add_song() {
 }
 
 function add_album_with_songs() {
-    alert("works");
     var title = $("#album_title").val();
     var artist = $("#album_artist").val();
 
@@ -515,6 +507,56 @@ function delete_album(id, album) {
             },
             error: function(data) {
                 console.log("error in deleting album: " + JSON.stringify(data))
+            }
+        });
+    }
+}
+
+function show_update_genre_form(id, genre) {
+    $("#td_genre_"+id).html($("#new_genre_form_container").html());
+    $("#new_genre").val(genre);
+    $("#new_genre_id").val(id);
+    $("#new_genre").focus();
+}
+
+function update_genre() {
+    var id = $("#new_genre_id").val();
+    var genre = $("#new_genre").val();
+
+    if(genre.trim().length > 0) {
+        $.ajax({
+            url: "update_genre/",
+            type: "POST",
+            data: {"genre_id": id, "genre": genre, "csrfmiddlewaretoken": getCookie("csrftoken")},
+            success: function (data) {
+                $("#td_genre_"+id).html(genre);
+
+            },
+            error: function(data) {
+                console.log("error in updating genre: " + JSON.stringify(data))
+            }
+        });
+    } else {
+        alert("Genre cannot be empty!");
+        $("#new_genre").focus();
+    }
+
+    return false;
+}
+
+function delete_genre(id, genre) {
+    var confirmation = confirm("Delete " + genre + "?");
+    if(confirmation == true) {
+        $.ajax({
+            url: "delete_genre/",
+            type: "POST",
+            data: {"genre_id": id, "csrfmiddlewaretoken": getCookie("csrftoken")},
+            success: function (data) {
+                alert("Successfully deleted!");
+                location.reload();
+            },
+            error: function(data) {
+                console.log("error in deleting genre: " + JSON.stringify(data))
             }
         });
     }

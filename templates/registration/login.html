@@ -3,22 +3,26 @@
 {% block body %}
 
     <div class="container col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+        <div class="row justify-content-md-center">
+            <div class="errormsg">
+                <div class="col-12">
+                    {% if form.errors %}
+                        <p class="alert alert-danger">Your username and password didn't match. Please try again.</p>
+                    {% endif %}
 
-        {% if form.errors %}
-            <p class="alert alert-danger">Your username and password didn't match. Please try again.</p>
-        {% endif %}
-
-        {% if next %}
-            {% if user.is_authenticated %}
-                <p class="text-warning">
-                    Your account doesn't have access to this page. To proceed,
-                    please login with an account that has access.
-                </p>
-            {% else %}
-                <p class="alert alert-danger">Please login to see this page: {{ next }}</p>
-            {% endif %}
-        {% endif %}
-
+                    {% if next %}
+                        {% if user.is_authenticated %}
+                            <p class="text-warning">
+                                Your account doesn't have access to this page. To proceed,
+                                please login with an account that has access.
+                            </p>
+                        {% else %}
+                            <p class="alert alert-danger">Please login to see this page: {{ next }}</p>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
         <div class="row justify-content-md-center login_div" >
             <div class ="col-md-8 text-align-center">
                 <div class="card" id="login_container">
@@ -50,19 +54,25 @@
                             
                             <input type="hidden" name="next" value="{{ next }}" />
                         </form>
-                        <div id="div_oauth" style="color: white;">
-                            <br>
-                            <h5>or Log-in with</h5>
-                            <p>
-                                <a href="{% url 'social:begin' 'google-oauth2' %}"><i class="fab fa-google"></i> Google</a>
-                                <a href="{% url 'social:begin' 'facebook' %}"><i class="fab fa-facebook"></i> Facebook</a>
-                                <a href="{% url 'social:begin' 'twitter' %}"><i class="fab fa-twitter"></i> Twitter</a>
-                            </p>
+                        <div class="def-font d-flex flex-row" id="div_oauth" >
+                            
+                            <div class="oauth-icons">
+                                    <a>Login with:</a>
+                                    <a href="{% url 'social:begin' 'google-oauth2' %}"><i class="fab fa-google fa-2" style="color: #DB4437"></i></a>
+                                    <a href="{% url 'social:begin' 'facebook' %}"><i class="fab fa-facebook fa-2" style="color:rgb(72, 109, 190)"></i></a>
+                                    <a href="{% url 'social:begin' 'twitter' %}"><i class="fab fa-twitter fa-2" style="color:#1DA1F2;"></i></a>
+                            </div>
+                            
                         </div>
-
+                        
 
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="row justify-content-md-center">
+            <div class="col-6">
+                
             </div>
         </div>    
     </div>

@@ -1,12 +1,11 @@
 {% extends "data_man/base.html" %}
-
 {% block page_title %}
     Admin Login
 {% endblock %}
 
 {% block body %}
-
- <div class="container col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+<body class="bg">
+ <div class="container col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 login-admin">
 
         
 
@@ -24,9 +23,8 @@
                 </div>
 
                 <div class="card-block">
-                    <form method="post" id="form_data_man_login" onsubmit="data_man_login()">
-                    {% csrf_token %}
-                        <input type='hidden' name='csrfmiddlewaretoken' value='AmBTerQ7O8zqjEHp9HyHAHOpxIz37tjtxgBg1TTCLCZmH0U1Nx5i7hpmFQhsaXLo' />
+                    <form method="post" id="form_data_man_login">
+                        {% csrf_token %}
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="basic-addon1"><i class="fars fa fa-user"></i></span>
@@ -41,8 +39,8 @@
                             <input type="password" name="password" placeholder="Password" class="form-control" id="password" required />
                         </div>
 
-                        <button type="submit" onclick="data_man_login()" class="btn btn-outline-primary btn-block" id = "btnlogin"><span class="fa fa-login"></span>Log-in</button>
-                        <a class="btn btn-outline-danger btn-block" id="btncancel" href="/">Cancel</a>
+                        <button type="submit" class="btn btn-sdb btn-block" id ="btnlogin"><span class="fa fa-login"></span>Log-in</button>
+                        <a class="btn btn-sdb btn-block" id="btncancel" href="/">Cancel</a>
                         
                         <input type="hidden" name="next" value="" />
                     </form>
@@ -53,5 +51,10 @@
         </div>
     </div>
 </div>
-
+<footer class="footer">
+        <div class="container">
+          <span class="text-muted">Copyright © 2018 SongsDB Project</span>
+        </div>
+      </footer>
+</body>
 {% endblock %}
