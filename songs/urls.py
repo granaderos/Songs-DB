@@ -8,6 +8,7 @@ urlpatterns = [
     path("search/", views.search_song, name="search_song"),
     path("download/", views.download_song, name="download_song"),
     path("song/<int:song_id>", views.play_song, name="play_song"),
+    path("playlist/", views.display_playlist, name="display_playlist"),
     path("playlist/add/", views.add_playlist, name="add_playlist"),
     path("playlist/<int:playlist_id>/songs", views.playlist_songs, name="playlist_songs"),
     path("playlist/song/add/", views.add_song_to_a_playlist, name="add_song_to_a_playlist"),
@@ -35,5 +36,15 @@ urlpatterns = [
     path("data_man/search_album/", views.data_man_search_album, name="data_man_search_album"),
     path("data_man/search_genre/", views.data_man_search_genre, name="data_man_search_genre"),
 
+    path("data_man/delete_song/", views.data_man_delete_song, name="data_man_delete_song"),
+
+    path("data_man/update_artist/", views.data_man_update_artist, name="data_man_update_artist"),
+    path("data_man/delete_artist/", views.data_man_delete_artist, name="data_man_delete_artist"),
+
+    path("data_man/update_album/", views.data_man_update_album, name="data_man_update_album"),
+    path("data_man/delete_album/", views.data_man_delete_album, name="data_man_delete_album"),
     
+    path("data_man/update_genre/", views.data_man_update_genre, name="data_man_update_genre"),
+    path("data_man/delete_genre/", views.data_man_delete_genre, name="data_man_delete_genre"),
+
 ]

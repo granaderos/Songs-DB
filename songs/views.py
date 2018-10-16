@@ -128,6 +128,12 @@ def download_song(request):
         response["Content-disposition"] = "attachment; filename=%s" % smart_str(path)
         return response
 
+def display_playlist(request):
+    data = {}
+    playlists = Playlist.objects.filter(user=request.user).order_by("name")
+    data["playlists"] = playlists
+    return render(request, "songs/display_playlist.html", data)
+
 def play_song(request, song_id):
     path = request.POST["path"]
     file_name = path[path.index("/")+1:]
@@ -268,8 +274,8 @@ def data_man_dashboard(request):
 
 def data_man_songs(request):
     songs = Song.objects.all().order_by("title")
-    genres = Genre.objects.all()
-    albums = Album.objects.all()
+    genres = Genre.objects.all().order_by("genre")
+    albums = Album.objects.all().order_by("title")
 
     data = {"songs": songs, "genres": genres, "albums": albums}
     return render(request, "data_man/songs.html", data)
@@ -349,11 +355,15 @@ def add_album(request):
         artist_id = request.POST["artist"]
         cover = request.FILES["cover"]
 
-        artist = Artist.objects.get(id=artist_id) 
+        artist = Artist.objects.get(id=artist_id)
 
-        new_album = Album.objects.create(title=title, artist=artist, cover=cover)
+        album = Album.objects.filter(Q(title=title), Q(artist=artist)).count()
 
-        data = {"message": "successfully added album"}
+        if(album > 0):
+            data = {"message": "That album of " + str(artist.name) + " already exist."}
+        else:
+            new_album = Album.objects.create(title=title, artist=artist, cover=cover)
+            data = {"message": "successful"}
     else:
         data = {"message": "Method is not post"}
 
@@ -376,6 +386,7 @@ def add_album_with_songs(request):
         for i in range(1, int(number_of_songs_to_add)+1):
             song_title = request.POST["song_title_"+str(i)]
             size = request.POST["size_"+str(i)]
+            size = round(size, 2)
             audio_format = request.POST["audio_format_"+str(i)]
             audio_file = request.FILES["audio_file_"+str(i)]
 
@@ -468,13 +479,15 @@ def add_genre(request):
 def data_man_search_song(request):
     search_keyword = request.GET["keyword"]
 
-    songs = Song.objects.filter(Q(title__icontains=search_keyword) | Q(genre__genre__icontains=search_keyword) | Q(album__title__icontains=search_keyword) | Q(album__artist__name__icontains=search_keyword)).order_by("title")
+    songs = Song.objects.filter(Q(title__icontains=search_keyword) | Q(genre__genre__icontains=search_keyword) | Q(album__title__icontains=search_keyword) | Q(album__artist__name__icontains=search_keyword)).order_by("title").distinct()
     
     content = ""
 
     i = 1
     for song in songs:
         content += "<tr id='song_tr_" + str(i) + "'>"
+        content += "<td title='Update' onclick=\"alert('Still working on it.')\"><i class='fa fa-edit'></i></td>"
+        content += "<td title='Delete Song' onclick=\"delete_song('" + str(song.id) + "', '" + str(song.title) + "', '" + str(song.album.artist) + "')\"><i class='fa fa-trash'></i></td>"
         content += "<td>" + str(i) + "</td>"
         content += "<td><span id='song_title_"+ str(i) +"'>" + str(song) + "</span><input type='hidden' value='" + str(song.path) + "' id='song_path_" + str(i) + "'></td>"
         content += "<td id='song_artist_" + str(i) + "'>" + str(song.album.artist) + "</td>"
@@ -503,8 +516,10 @@ def data_man_search_artist(request):
     i = 1
     for artist in artists:
         content += "<tr>"
+        content += "<td onclick=\"show_update_artist_form('" + str(artist.id) + "', '" + str(artist.name) + "' )\"><i class='fa fa-edit'></i></td>"
+        content += "<td onclick=\"delete_artist('" + str(artist.id) + "', '" + str(artist.name) + "')\"><i class='fa fa-trash'></i></td>"
         content += "<td>" + str(i) + "</td>"
-        content += "<td>" + str(artist.name) + "</td>"
+        content += "<td id='td_artist_" + str(artist.id) +  "'>" + str(artist.name) + "</td>"
 
         albums = Album.objects.filter(artist=artist).order_by("title")
 
@@ -528,9 +543,11 @@ def data_man_search_album(request):
     i = 1
     for album in albums:
         content += "<tr>"
+        content += "<td onclick=\"show_update_album_form('" + str(album.id) + "', '" + str(album) + "')\"><i class='fa fa-edit'></i></td>"
+        content += "<td onclick=\"delete_album('" + str(album.id) + "', '" + str(album) + "')\"><i class='fa fa-trash'></i></td>"
         content += "<td>" + str(i) + "</td>"
         content += "<td><img height='50px' width='50px' src='/media/" + str(album.cover) + "' /></td>"
-        content += "<td>" + str(album.title) + "</td>"
+        content += "<td id='td_album_" + str(album.id) +"'>" + str(album.title) + "</td>"
         content += "<td>" + str(album.artist) + "</td>"
 
         songs = Song.objects.filter(album=album).order_by("title")
@@ -555,9 +572,11 @@ def data_man_search_genre(request):
     i = 1
     for genre in genres:
         content += "<tr>"
+        content += "<td><i onclick=\"show_update_genre_form('" + str(genre.id) + "', '" + str(genre) + "')\" class='fa fa-edit'></i></td>"
+        content += "<td><i onclick=\"delete_genre('" + str(genre.id) + "', '" + str(genre) + "')\" class='fa fa-trash'></i></td>"
         content += "<td>" + str(i) + "</td>"
         content += "<td><img height='50px' width='50px' src='/media/" + str(genre.image) + "' /></td>"
-        content += "<td>" + str(genre) + "</td>"
+        content += "<td id='td_genre_" + str(genre.id) + "'>" + str(genre) + "</td>"
 
         songs = genre.song_set.all().order_by("title")
         
@@ -569,4 +588,69 @@ def data_man_search_genre(request):
         i += 1
 
     data = {"content": content}
+    return JsonResponse(data)
+
+def data_man_delete_song(request):
+    song_id = request.POST["song_id"]
+    Song.objects.filter(id=song_id).delete()
+    data = {"message": "deleted"}
+
+    return JsonResponse(data)
+
+def data_man_update_artist(request):
+    artist_id = request.POST["artist_id"]
+    artist_name = request.POST["artist"]
+
+    artist = Artist.objects.get(id=artist_id)
+    artist.name = artist_name
+    artist.save()
+
+    data = {"message": "updated"}
+
+    return JsonResponse(data)
+
+def data_man_delete_artist(request):
+    artist_id = request.POST["artist_id"]
+    Artist.objects.filter(id=artist_id).delete()
+    
+    data = {"message": "deleted"}
+    return JsonResponse(data)
+
+
+def data_man_update_album(request):
+    album_id = request.POST["album_id"]
+    album_title = request.POST["album"]
+
+    album = Album.objects.get(id=album_id)
+    album.title = album_title
+    album.save()
+
+    data = {"message": "updated"}
+
+    return JsonResponse(data)
+
+def data_man_delete_album(request):
+    album_id = request.POST["album_id"]
+    Album.objects.filter(id=album_id).delete()
+    
+    data = {"message": "deleted"}
+    return JsonResponse(data)
+
+def data_man_update_genre(request):
+    genre_id = request.POST["genre_id"]
+    new_genre = request.POST["genre"]
+
+    genre = Genre.objects.get(id=genre_id)
+    genre.genre = new_genre
+    genre.save()
+
+    data = {"message": "updated"}
+
+    return JsonResponse(data)
+
+def data_man_delete_genre(request):
+    genre_id = request.POST["genre_id"]
+    Genre.objects.filter(id=genre_id).delete()
+    
+    data = {"message": "deleted"}
     return JsonResponse(data)

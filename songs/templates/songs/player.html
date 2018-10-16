@@ -27,10 +27,9 @@
             </div>
         </div>
 
+
         <div class="row d-flex flex-row">
-            
             <div class="col-2">
-                <!-- <button id="btn_close_player">x</button> -->
                 <div class="details">
                     <h6>Now Playing: <strong id="current_song"></strong></h6>
                     <p>
@@ -95,15 +94,17 @@
             </div> -->
 
             <div class="share col-2" style="color: white" id="">
-                <a href="https%3A%2F%2Ftwitter.com%2Fintent%2Ftweet%3Ftext%3DVisit%20https%3A%2F%2Fsongsdb.com%3A8000%20and%20enjoy%20listening%20to%20your%20favorite%20songs!">
-                   <i class="fab fa-twitter"></i>
-                   Share on Twitter
-                </a>
-                <br>
-                <a href="http%3A%2F%2Fwww.facebook.com%2Fsharer.php%3Fu%3Dhttps%3A%2F%2Fsongsdb.com%3A8000">
-                    <i class="fab fa-facebook"></i>
-                    Share on Facebook
-                </a>
+                {% verbatim %}
+                    <a target="_blank" href="https://twitter.com/intent/tweet?text=Visit%20https%3A%2F%2Fsongsdb.com%3A8000%20and%20enjoy%20listening%20to%20your%20favorite%20songs!">
+                    <i class="fab fa-twitter"></i>
+                    Share on Twitter
+                    </a>
+                    <br>
+                    <a target="_blank" href="http://www.facebook.com/sharer.php?u=https%3A%2F%2Fsongsdb.com%3A8000">
+                        <i class="fab fa-facebook"></i>
+                        Share on Facebook
+                    </a>
+                {% endverbatim %}
             </div>
 
         </div>        

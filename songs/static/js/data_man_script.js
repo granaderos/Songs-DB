@@ -6,27 +6,13 @@ $(document).ready(function() {
         data_man_login();
     });
 
-    // $("#search_song_key_word").keyup(function() {
-    //     alert("keyup")
-    //     data_man_search_song();
-    // });
-
-        $("#form_data_man_search_song").submit(function(e) {
-            e.preventDefault();
-            data_man_search_song();
-        });
-
     $('#path').change(function(){
         console.log("changed.") 
         if($(this).prop('files').length > 0) {
             file = $(this).prop('files')[0];
-            // var audio = document.getElementById("audio_to_upload");
-            // audio.src = file.;
-            // audio.load();
             formData.append("audio", file);
             formData.append("size", file.size);
             formData.append("type", file.type);
-            // formData.append("duration", audio.duration);
             console.log(file);
         }
     });
@@ -85,9 +71,14 @@ $(document).ready(function() {
                 processData: false,
                 contentType: false,
                 success: function (data) {
-                    console.log("success = " + JSON.stringify(data))
-                    alert("New album has been successfully added!")
-                    location.reload();
+                    if(data.message != "successful") {
+                        alert(data.message)
+                    } else {
+                        console.log("success = " + JSON.stringify(data))
+                        alert("New album has been successfully added!")
+                        location.reload();
+                    }
+                    
                 },
                 error: function(data) {
                     console.log("error in adding album: " + JSON.stringify(data))
@@ -179,22 +170,24 @@ $(document).ready(function() {
 function data_man_search_song() {
     var search_song_key_word = $("#search_song_key_word").val();
     if(search_song_key_word.trim().length > 0) {
-        $.ajax({
-            url: "search_song/",
-            type: "GET",
-            data: {"keyword": search_song_key_word, "csrfmiddlewaretoken": getCookie("csrftoken")},
-            success: function (data) {
-                console.log("data search song=  " + JSON.stringify(data))
-                if(data.content != "") {
-                    $("#tbody_data_man_songs").html(data.content);
-                } else {
-                    alert("No songs retrieved with that keyword.")
+        // if(search_song_key_word[search_song_key_word.length-1] == " ") {
+            $.ajax({
+                url: "search_song/",
+                type: "GET",
+                data: {"keyword": search_song_key_word, "csrfmiddlewaretoken": getCookie("csrftoken")},
+                success: function (data) {
+                    console.log("data search song=  " + JSON.stringify(data))
+                    if(data.content != "") {
+                        $("#tbody_data_man_songs").html(data.content);
+                    } else {
+                        alert("No songs retrieved with that keyword.")
+                    }
+                },
+                error: function(data) {
+                    console.log("error in searching song: " + JSON.stringify(data))
                 }
-            },
-            error: function(data) {
-                console.log("error in searching song: " + JSON.stringify(data))
-            }
-        });
+            });
+        // }
     } else {
         location.reload();
     }
@@ -333,7 +326,6 @@ function add_song() {
 }
 
 function add_album_with_songs() {
-    alert("works");
     var title = $("#album_title").val();
     var artist = $("#album_artist").val();
 
@@ -400,6 +392,175 @@ function add_album_with_songs() {
     }
 }
 
+function delete_song(id, title, artist) {
+    var confirmation = confirm("Delete song " + title + " by  " + artist + "?");
+    if(confirmation == true) {
+        $.ajax({
+            url: "delete_song/",
+            type: "POST",
+            data: {"song_id": id, "csrfmiddlewaretoken": getCookie("csrftoken")},
+            success: function (data) {
+                if(data.message == "deleted") {
+                    console.log("success in deleting a song = " + JSON.stringify(data))
+                    location.reload();
+                } else console.log(data)
+            },
+            error: function(data) {
+                console.log("error in deleting song: " + JSON.stringify(data))
+            }
+        });
+    } else {
+        console.log("Delete cancelled.");
+    }
+}
+
+function show_update_artist_form(id, artist) {
+    $("#td_artist_"+id).html($("#new_artist_form_container").html());
+    $("#new_artist").val(artist);
+    $("#new_artist_id").val(id);
+    $("#new_artist").focus();
+}
+
+function update_artist() {
+    var id = $("#new_artist_id").val();
+    var artist = $("#new_artist").val();
+
+    if(artist.trim().length > 0) {
+        $.ajax({
+            url: "update_artist/",
+            type: "POST",
+            data: {"artist_id": id, "artist": artist, "csrfmiddlewaretoken": getCookie("csrftoken")},
+            success: function (data) {
+                $("#td_artist_"+id).html(artist);
+
+            },
+            error: function(data) {
+                console.log("error in updating artist: " + JSON.stringify(data))
+            }
+        });
+    } else {
+        alert("Artist name cannot be empty!");
+        $("#new_artist").focus();
+    }
+}
+
+function delete_artist(id, artist) {
+    var confirmation = confirm("Delete " + artist + "?");
+    if(confirmation == true) {
+        $.ajax({
+            url: "delete_artist/",
+            type: "POST",
+            data: {"artist_id": id, "csrfmiddlewaretoken": getCookie("csrftoken")},
+            success: function (data) {
+                alert("Successfully deleted!");
+                location.reload();
+            },
+            error: function(data) {
+                console.log("error in adding album and songs: " + JSON.stringify(data))
+            }
+        });
+    }
+}
+
+function show_update_album_form(id, album) {
+    $("#td_album_"+id).html($("#new_album_form_container").html());
+    $("#new_album").val(album);
+    $("#new_album_id").val(id);
+    $("#new_album").focus();
+}
+
+function update_album() {
+    var id = $("#new_album_id").val();
+    var album = $("#new_album").val();
+
+    if(album.trim().length > 0) {
+        $.ajax({
+            url: "update_album/",
+            type: "POST",
+            data: {"album_id": id, "album": album, "csrfmiddlewaretoken": getCookie("csrftoken")},
+            success: function (data) {
+                $("#td_album_"+id).html(album);
+
+            },
+            error: function(data) {
+                console.log("error in updating album: " + JSON.stringify(data))
+            }
+        });
+    } else {
+        alert("Album title cannot be empty!");
+        $("#new_album").focus();
+    }
+
+    return false;
+}
+
+function delete_album(id, album) {
+    var confirmation = confirm("Delete " + album + "?");
+    if(confirmation == true) {
+        $.ajax({
+            url: "delete_album/",
+            type: "POST",
+            data: {"album_id": id, "csrfmiddlewaretoken": getCookie("csrftoken")},
+            success: function (data) {
+                alert("Successfully deleted!");
+                location.reload();
+            },
+            error: function(data) {
+                console.log("error in deleting album: " + JSON.stringify(data))
+            }
+        });
+    }
+}
+
+function show_update_genre_form(id, genre) {
+    $("#td_genre_"+id).html($("#new_genre_form_container").html());
+    $("#new_genre").val(genre);
+    $("#new_genre_id").val(id);
+    $("#new_genre").focus();
+}
+
+function update_genre() {
+    var id = $("#new_genre_id").val();
+    var genre = $("#new_genre").val();
+
+    if(genre.trim().length > 0) {
+        $.ajax({
+            url: "update_genre/",
+            type: "POST",
+            data: {"genre_id": id, "genre": genre, "csrfmiddlewaretoken": getCookie("csrftoken")},
+            success: function (data) {
+                $("#td_genre_"+id).html(genre);
+
+            },
+            error: function(data) {
+                console.log("error in updating genre: " + JSON.stringify(data))
+            }
+        });
+    } else {
+        alert("Genre cannot be empty!");
+        $("#new_genre").focus();
+    }
+
+    return false;
+}
+
+function delete_genre(id, genre) {
+    var confirmation = confirm("Delete " + genre + "?");
+    if(confirmation == true) {
+        $.ajax({
+            url: "delete_genre/",
+            type: "POST",
+            data: {"genre_id": id, "csrfmiddlewaretoken": getCookie("csrftoken")},
+            success: function (data) {
+                alert("Successfully deleted!");
+                location.reload();
+            },
+            error: function(data) {
+                console.log("error in deleting genre: " + JSON.stringify(data))
+            }
+        });
+    }
+}
 
 function getCookie(c_name) {
     if (document.cookie.length > 0) {

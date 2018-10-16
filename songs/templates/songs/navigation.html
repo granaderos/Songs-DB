@@ -4,9 +4,14 @@
             <div class="col-12 col-xs-12">
                 <div class="d-flex flex-row justify-content-start text-center">
                     <div class="active"><a href="{% url 'index' %}">Browse</a></div>
-                    <div><a href="">My Playlists</a></div>
-                    <div><a href="">My Profile</a></div>
+                    <div><a href="{% url 'display_playlist' %}">My Playlists</a></div>
+                    {% if user.is_authenticated %}
+                        <div><a href="{% url 'user_display_profile' user.username %}">My Profile</a></div>
+                    {% else %}
+                        <div><a href="{% url 'login' %}">My Profile</a></div>
+                    {% endif %}
                 </div>
+
             </div>    
         </div>
     </div>
