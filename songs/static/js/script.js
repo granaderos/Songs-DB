@@ -233,3 +233,4 @@ function change_password() {
         alert("Password should be at least 8 characters long.");
     }
 }
+

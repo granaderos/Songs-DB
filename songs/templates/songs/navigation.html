@@ -2,13 +2,13 @@
     <div class="container">
         <div class="row">
             <div class="col-12 col-xs-12">
-                <div class="d-flex flex-row justify-content-start text-center">
-                    <div class="active"><a href="{% url 'index' %}">Browse</a></div>
-                    <div><a href="{% url 'display_playlist' %}">My Playlists</a></div>
+                <div class="d-flex flex-row justify-content-start text-center" id="btndiv">
+                    <div class="btn active"><a href="{% url 'index' %}">Browse</a></div>
+                    <div class="btn"><a href="{% url 'display_playlist' %}">My Playlists</a></div>
                     {% if user.is_authenticated %}
-                        <div><a href="{% url 'user_display_profile' user.username %}">My Profile</a></div>
+                        <div class="btn"><a href="{% url 'user_display_profile' user.username %}">My Profile</a></div>
                     {% else %}
-                        <div><a href="{% url 'login' %}">My Profile</a></div>
+                        <div class="btn"><a href="{% url 'login' %}">My Profile</a></div>
                     {% endif %}
                 </div>
 
@@ -16,3 +16,16 @@
         </div>
     </div>
 </div>
+
+<!-- <script>
+    // Add active class to the current button (highlight it)
+    var header = document.getElementById("btndiv");
+    var btns = header.getElementsByClassName("btn");
+    for (var i = 0; i < btns.length; i++) {
+        btns[i].addEventListener("click", function() {
+        var current = document.getElementsByClassName("active");
+        current[0].className = current[0].className.replace(" active", "");
+        this.className += " active";
+        });
+    }
+</script> -->
