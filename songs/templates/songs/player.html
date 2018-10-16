@@ -5,7 +5,14 @@
 <div class="player fixed-bottom">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-12 col-md-12">
+            <div class="col-1 album">
+                <div class="album-image">
+                    <img src="../../static/images/sa-ngalan-ng-pagibig.jpeg" width="100%">
+                    
+                </div>
+                <p>Album title</p>
+            </div>
+            <div class="col-11 col-md-11">
                 <div class="card playlist">
                     <div class="card-header text-center">
                         <h5>Playlists</h5>
@@ -20,23 +27,29 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-1 text-center">
-                <div class="album-image">
-                    <img src="../../static/images/sa-ngalan-ng-pagibig.jpeg" width="100%">
-                    <p>Album title</p>
-                </div>
-            </div>
-            <div class="col-3">
+        <div class="row d-flex flex-row">
+            
+            <div class="col-2">
                 <!-- <button id="btn_close_player">x</button> -->
                 <div class="details">
-                    <h6>Currently Playing: <strong id="current_song"></strong></h6>
+                    <h6>Now Playing: <strong id="current_song"></strong></h6>
                     <p>
                         Genre: <strong id="current_genre"></strong><br>
-                        Album: <strong id="current_album"></strong><br>
+                        <!-- Album: <strong id="current_album"></strong><br> -->
                         Artist: <strong id="current_artist"></strong><br>
-
-
+                        
+                        <div id="div_download_form_container"></div>
+                        
+                        <input type="hidden" value="0" id="current_song_id" />
+                        <input type="hidden" value="0" id="previous_playing_song_id" />
+                        <input type="hidden" value="{{ user }}" id="current_user" />
+                    </p>
+                </div>
+            </div>
+            <div class="col-2">
+                <!-- <button id="btn_close_player">x</button> -->
+                <div class="details">
+                    <p>
                         Song Duration: <strong id="current_duration"></strong><br>
                         Audio Format: <strong id="current_format"></strong><br>
                         File Size: <strong id="current_size"></strong><br>
@@ -49,8 +62,9 @@
                     </p>
                 </div>
             </div>
-            <div class="col-6 col-centered">
-                <div class="controls d-flex align-items-center">
+            <div class="col-6">
+                <div class="controls d-flex flex-row">
+                    <!--Display mini playlist on player-->
                     <div>
                         <button class="open-playlist">
                             <i class="fas fa-list-ul"></i>
@@ -61,11 +75,9 @@
                             <i title="Previous" onclick="play_previous()" class="fas fa-backward"></i>
                         </button>
                     </div>
-                    <div>
-                        <audio controls preload="auto" id="audio_currently_playing" onclick="paused_played()">
-                            <source id="audio_source" src="" type="audio/mpeg">
-                        </audio>
-                    </div>
+                    <audio style="width:100%" controls preload="auto" id="audio_currently_playing" onclick="paused_played()">
+                        <source id="audio_source" src="" type="audio/mpeg">
+                    </audio>
                     <div>
                         <button>
                             <i title="Next" onclick="play_next()" class="fas fa-forward"></i>
@@ -73,6 +85,14 @@
                     </div>
                 </div>
             </div>
+            <!-- <div class="col-3">
+                <div class="d-flex">
+                    <audio controls preload="auto" id="audio_currently_playing" onclick="paused_played()">
+                        <source id="audio_source" src="" type="audio/mpeg">
+                    </audio>
+                </div>
+
+            </div> -->
 
             <div class="share col-2" style="color: white" id="">
                 <a href="https%3A%2F%2Ftwitter.com%2Fintent%2Ftweet%3Ftext%3DVisit%20https%3A%2F%2Fsongsdb.com%3A8000%20and%20enjoy%20listening%20to%20your%20favorite%20songs!">
@@ -98,7 +118,7 @@
 <script>
 
     $(".controls .open-playlist").click(function(){
-        $(".player .my_playlist").toggle();
+        $(".playlist").toggle();
     });
 
     window.onload = function() {

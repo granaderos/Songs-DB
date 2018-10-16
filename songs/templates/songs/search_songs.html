@@ -6,11 +6,12 @@ Results | {{ search_keyword }}
 
 {% block body %}
     
-    <div class="container-fluid">
-        {% include "songs/search.html" %}
-        {%  include "songs/navigation.html" %}
+    
+    {% include "songs/search.html" %}
+    {%  include "songs/navigation.html" %}
 
-        <div class="row justify-content-md-center">
+    <div class="container-fluid">
+        <div class="row">
             {% if user.is_authenticated %}
                 <div class="col-md-3">
                     {% include "songs/display_playlist.html" %}
@@ -31,4 +32,5 @@ Results | {{ search_keyword }}
         </div>
     </div>
 
+    {% include "songs/player.html" %}
 {% endblock %}

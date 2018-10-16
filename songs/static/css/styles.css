@@ -7,6 +7,7 @@
 }
  .header, .header nav{
     height: 65px !important;
+    width: 100%;
     background-color: black !important;
     border-bottom: 1px solid #e6b31e;
 }
@@ -18,7 +19,6 @@
     line-height: 25px;
     margin-left: 10px;
     margin-top: 10px;
-    margin-right: 50px;
 }
 
 #logo p{
@@ -59,37 +59,33 @@
 }
 
 .navigation {
-    height: 54px;
+    width: 100%;
     background: #e6b31e;
     margin-top: -16px;
     border-bottom:2px solid #212121;
 }
   
-.navigation ul {
-    padding: 0; 
+.navigation .d-flex div{
+    margin-right: 20px;
+    padding: 5px 15px;
+    
 }
-
-.navigation ul li {
-    list-style: none;
-    float: left;
+.navigation .d-flex div.active{
+    background-color: #212121;
 }
        
-.navigation ul li.active > a {
+.navigation .d-flex div.active > a{
     background-color: #212121;
     color: #e6b31e;
 }
        
-.navigation ul li a {
-    display: inline-block;
-    padding: 11px 25px 11px 25px;
+.navigation .d-flex div a {
     font-size: 20px;
-    line-height: 22 px;
     font-weight: 500;
     color: black; 
-    
 }
           
-.navigation ul li a:hover {
+.navigation .d-flex div a:hover {
     color:white;
     text-decoration: none; 
 }
@@ -115,6 +111,9 @@
     border-color: #e6b31e  !important;
 }
 
+.header .navbar .login div{
+    margin-right: 5px;
+}
 
 body{
     background-color:#212121;
@@ -168,34 +167,7 @@ body{
     font-weight: bold;
 }
 
-#playlistContainer{
-    padding:0px;
-    margin-top:24px;
-    border:none;
-    margin-bottom: 24px;
-    
-}
 
-#playlistContainer .card{
-    background-color: #e0e0e0;
-    color:black;
-    height:100%;
-    height:100%;
-    border:none;
-}
-
-#playlistContainer .card-header{
-    background-color:#00363a;
-    color: white;
-    line-height: 30px;
-    margin-bottom: 0px;
-
-    border-color: none;
-}
-
-#playlistContainer i{
-    cursor: pointer;
-}
 
 #table_playlists a{
     color:black;
@@ -483,7 +455,7 @@ body{
 
 .player{
     background-color:#000000;
-    height: 80px;
+    height: 68px;
     width: 100%;
     border-top: 1px solid #212121;
     padding: 5px;
@@ -494,6 +466,10 @@ body{
     margin-top: 12px;
     margin-right: 5px;
     vertical-align: middle;
+}
+
+.player .controls audio{
+    margin-top: 11px;
 }
 
 .player .controls button{
@@ -549,20 +525,25 @@ body{
 .player .controls{
     margin-top: 0;
 }
-
+.player .album{
+    height: 150px;
+    margin-top: -159px;
+    background-color: #343a40;
+    padding: 10px 5px;
+}
 .player .album-image img{
+    height: 120px;
     margin: 0 auto;
-    height: 50px;
-    width: 50%;
     object-fit: cover;
     border:1px solid white;
 }
 
-.player .album-image p{
+.player .album p{
     color:#e6b31e;
     margin-bottom: 0;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: bold;
+    text-align: center;
 }
 
 .player .share a{
