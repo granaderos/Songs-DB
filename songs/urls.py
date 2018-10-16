@@ -47,4 +47,6 @@ urlpatterns = [
     path("data_man/update_genre/", views.data_man_update_genre, name="data_man_update_genre"),
     path("data_man/delete_genre/", views.data_man_delete_genre, name="data_man_delete_genre"),
 
+    path("data_man/song_edit_title/", views.data_man_song_edit_title, name="data_man_song_edit_title"),
+
 ]

@@ -167,6 +167,50 @@ $(document).ready(function() {
 
 });
 
+function show_song_edit_icons(id) {
+    var children = document.getElementById("song_tr_"+id);
+    var sups = children.getElementsByTagName("sup");
+    for(var i = 0; i < sups.length; i++) {
+        sups[i].style.visibility = "visible";
+    }
+}
+
+function hide_song_edit_icons(id) {
+    var children = document.getElementById("song_tr_"+id);
+    var sups = children.getElementsByTagName("sup");
+    for(var i = 0; i < sups.length; i++) {
+        sups[i].style.visibility = "hidden";
+    }
+}
+
+function show_song_edit_title_form(id, title) {
+    $("#td_song_title_" + id).html($("#div_song_edit_title").html())
+    $("#new_song_title").val(title);
+    $("#song_id_to_update").val(id);
+    $("#new_song_title").focus();
+}
+
+function song_edit_title() {
+    var title = $("#new_song_title").val();
+    if(title.trim().length > 0) {
+        var id = $("#song_id_to_update").val();
+        $.ajax({
+            url: "song_edit_title/",
+                type: "POST",
+                data: {"id": id, "title": title, "csrfmiddlewaretoken": getCookie("csrftoken")},
+                success: function (data) {
+                    $("#td_song_title_" + id).html(title + " <sup style='visibility: hidden;' onclick=\"show_song_edit_title_form('" + id + "', '" + title + "')\"><i class='fa fa-edit song_edit_icon'></i></sup>");
+                },
+                error: function(data) {
+                    console.log("error in editing song title: " + JSON.stringify(data))
+                }
+        });
+    } else {
+        alert("Title cannot be blank!");
+        $("#new_song_title").focus();
+    }
+}
+
 function data_man_search_song() {
     var search_song_key_word = $("#search_song_key_word").val();
     if(search_song_key_word.trim().length > 0) {

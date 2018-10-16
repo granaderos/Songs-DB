@@ -70,10 +70,9 @@
           <tr>
               <th></th>
               <th></th>
-              <th></th>
               <th>Title</th>
-              <th>Artist</th>
               <th>Album</th>
+              <th>Artist</th>
               <th>Genre</th>
               <th>Duration</th>
               <th>Size</th>
@@ -81,17 +80,19 @@
           </tr>
           <tbody id="tbody_data_man_songs">
               {% for song in songs %}
-                  <tr id="song_tr_{{ song.id }}">
-                      <td title="Update" onclick="alert('Still working on it.')"><i class="fa fa-edit"></i></td>
+                  <tr id="song_tr_{{ song.id }}" onmouseover="show_song_edit_icons('{{ song.id }}')" onmouseout="hide_song_edit_icons('{{ song.id }}')">
+                      <!-- <td title="Update" onclick="alert('Still working on it.')"><i class="fa fa-edit"></i></td> -->
                       <td title="Delete" onclick="delete_song('{{ song.id }}', '{{ song.title }}', '{{ song.album.artist }}')"><i class="fa fa-trash"></i></td>
                       <td>{{ forloop.counter }}</td>
-                      <td><span id="song_title_{{ forloop.counter }}">{{ song }}</span><input type="hidden" value="{{ song.path }}" id="song_path_{{ forloop.counter }}"></td>
+                      <td id="td_song_title_{{ song.id }}">{{ song }} <sup style="visibility: hidden;" onclick="show_song_edit_title_form('{{ song.id }}', '{{ song }}')"><i class="fa fa-edit song_edit_icon"></i></sup></td>
+                      <td id="song_album_{{ forloop.counter }}">{{ song.album }} <sup style="visibility: hidden;"><i class="fa fa-edit song_edit_icon"></i></sup></td>
                       <td id="song_artist_{{ forloop.counter }}">{{ song.album.artist }}</td>
-                      <td id="song_album_{{ forloop.counter }}">{{ song.album }}</td>
                       <td id="song_genre_{{ forloop.counter }}">
                           {% for genre in song.genre.all %}  
                               {{ genre }};
                           {% endfor %}
+
+                          <sup style="visibility: hidden;"><i class="fa fa-edit song_edit_icon"></i></sup>
                       </td>
                       <td>{{ song.duration }} mins</td>
                       <td>{{ song.size }} MB </td>
@@ -101,8 +102,16 @@
                   <p class="alert alert-warning">No songs retrieved.</p>
               {% endfor %}
           </tbody>
-          
       </table>
+
+      <div id="div_song_edit_title" style="visibility: hidden;">
+        <form method="POST" onsubmit="song_edit_title(); return false;">
+          {% csrf_token %}
+          <input type="text" id="new_song_title" class="form-control" onblur="song_edit_title()" />
+          <input type="hidden" id="song_id_to_update" class="form-control"/>
+        </form>
+      </div>
+
     </div>
 
     <!-- The Modal -->
@@ -112,7 +121,7 @@
       
         <!-- Modal Header -->
         <div class="modal-header">
-          <h4 class="modal-title">Add Songs</h4>
+          <h4 class="modal-title">Add Song</h4>
           <button type="button" class="close" data-dismiss="modal">×</button>
         </div>
         

@@ -33,7 +33,7 @@ class Song(models.Model):
     size = models.FloatField(max_length=64, default=0.0)
     duration = models.FloatField(max_length=64, default=0.0)
     audio_format  = models.CharField(max_length=64, default="audio/mp3")
-    path = models.FileField(upload_to="files/audios/", default="")
+    path = models.FileField(upload_to="audios/", default="")
 
     def __str__(self):
         return self.title
