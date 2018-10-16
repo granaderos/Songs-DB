@@ -4,7 +4,7 @@
             <div class="col-12 col-xs-12">
                 <ul>
                     <li class="active"><a href="{% url 'index' %}">Browse</a></li>
-                    <li><a href="">My Playlists</a></li>
+                    <li><a href="{% url 'display_playlist' %}">My Playlists</a></li>
                     {% if user.is_authenticated %}
                         <li><a href="{% url 'user_display_profile' user.username %}">My Profile</a></li>
                     {% else %}

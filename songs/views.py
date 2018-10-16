@@ -128,6 +128,12 @@ def download_song(request):
         response["Content-disposition"] = "attachment; filename=%s" % smart_str(path)
         return response
 
+def display_playlist(request):
+    data = {}
+    playlists = Playlist.objects.filter(user=request.user).order_by("name")
+    data["playlists"] = playlists
+    return render(request, "songs/display_playlist.html", data)
+
 def play_song(request, song_id):
     path = request.POST["path"]
     file_name = path[path.index("/")+1:]
