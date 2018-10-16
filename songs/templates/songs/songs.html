@@ -17,17 +17,9 @@
             <tr id="song_tr_{{ forloop.counter }}">
                 <td>
                     {{ forloop.counter }}
-                    <!-- <img src="/media/{{ song.album.cover }}" height="30px" width="30px"> -->
                 </td>
-                <!-- <td title="play"></td> -->
-                <!-- <td style="visibility: hidden;" title="download">
-                    <form id="form_song_download" method="GET" action="{% url 'download_song' %}">
-                        <input type="hidden" name="path" value="{{ song.path }}" />
-                        <i onclick="document.getElementById('form_song_download').submit();" style="cursor: pointer;" class="fa fa-download"></i>                            
-                    </form>
-                </td> -->
                 
-                <td title="play" onclick="play_song('{{ song.id }}', '{{ song.path }}', '{{ song.title|escape_quotes }}', '{{ song.album|escape_quotes }}', '{% for genre in song.genre.all %}{{ genre|escape_quotes }}; {% endfor %}', '{{ song.album.artist|escape_quotes }}', '{{ song.duration }}', '{{ song.audio_format }}', '{{ song.size }}', '{{ forloop.counter }}')" style="cursor: pointer;">
+                <td title="play" onclick="play_song('{{ song.id }}', '{{ song.path }}', '{{ song.title|escape_quotes }}', '{{ song.album|escape_quotes }}', '{{ song.album.cover|escape_quotes }}', '{% for genre in song.genre.all %}{{ genre|escape_quotes }}; {% endfor %}', '{{ song.album.artist|escape_quotes }}', '{{ song.duration }}', '{{ song.audio_format }}', '{{ song.size }}', '{{ forloop.counter }}')" style="cursor: pointer;">
                     <i id="song_{{ song.id }}" class="fa fa-play-circle"></i>
                     &nbsp;
                     <span id="song_title_{{ forloop.counter }}">{{ song }}</span><input type="hidden" value="{{ song.path }}" id="song_path_{{ forloop.counter }}">
@@ -40,8 +32,13 @@
                 {% endif %}
                 
                 <span style="visibility: hidden;" id="song_artist_{{ forloop.counter }}">{{ song.album.artist }}</span>
+                <span style="visibility: hidden;" id="song_path_{{ forloop.counter }}">{{ song.path }}</span>
                 <span style="visibility: hidden;" id="song_album_{{ forloop.counter }}">{{ song.album }}</span>
+                <span style="visibility: hidden;" id="song_album_cover_{{ forloop.counter }}">{{ song.album.cover }}</span>
                 <span style="visibility: hidden;" id="song_genre_{{ forloop.counter }}">{% for genre in song.genre.all %}{{ genre }}; {% endfor %}</span>
+                <span style="visibility: hidden;" id="song_duration_{{ forloop.counter }}">{{ song.duration }}</span>
+                <span style="visibility: hidden;" id="song_audio_format_{{ forloop.counter }}">{{ song.audio_format }}</span>
+                <span style="visibility: hidden;" id="song_size_{{ forloop.counter }}">{{ song.size }}</span>
             </tr>
         {% empty %}
             <tr><td colspan="8" class="alert alert-warning">No songs retrieved.</td></tr>

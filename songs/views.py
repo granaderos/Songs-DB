@@ -110,7 +110,7 @@ def list_songs_based_on_genre(request, genre_id):
 def search_song(request):
     # search_filter = request.GET["search_filter"]
     search_keyword = request.GET["search_keyword"]
-    songs = Song.objects.filter(Q(title__icontains=search_keyword) | Q(genre__genre__icontains=search_keyword) | Q(album__title__icontains=search_keyword) | Q(album__artist__name__icontains=search_keyword)).order_by("title")
+    songs = Song.objects.filter(Q(title__icontains=search_keyword) | Q(genre__genre__icontains=search_keyword) | Q(album__title__icontains=search_keyword) | Q(album__artist__name__icontains=search_keyword)).order_by("title").distinct()
 
     data = {"songs": songs, "search_keyword": search_keyword}
 
@@ -176,7 +176,8 @@ def playlist_songs(request, playlist_id):
     if request.user.is_authenticated:
         playlists = Playlist.objects.filter(user=request.user).order_by("name")
         data["playlists"] = playlists
-    return render(request, "songs/playlist_songs.html", data)
+    # return render(request, "songs/playlist_songs.html", data)
+    return render(request, "songs/display_playlist.html", data)
 
 @login_required
 def add_song_to_a_playlist(request):
@@ -485,11 +486,10 @@ def data_man_search_song(request):
 
     i = 1
     for song in songs:
-        content += "<tr id='song_tr_" + str(i) + "'>"
-        content += "<td title='Update' onclick=\"alert('Still working on it.')\"><i class='fa fa-edit'></i></td>"
+        content += "<tr id='song_tr_" + str(song.id) + "' onmouseover=\"show_song_edit_icons('" + str(song.id) + "')\" onmouseout=\"hide_song_edit_icons('" + str(song.id) + "')\">"
         content += "<td title='Delete Song' onclick=\"delete_song('" + str(song.id) + "', '" + str(song.title) + "', '" + str(song.album.artist) + "')\"><i class='fa fa-trash'></i></td>"
         content += "<td>" + str(i) + "</td>"
-        content += "<td><span id='song_title_"+ str(i) +"'>" + str(song) + "</span><input type='hidden' value='" + str(song.path) + "' id='song_path_" + str(i) + "'></td>"
+        content += "<td id='td_song_title_" + str(song.id) + "'>" + str(song) + "  <sup style='visibility: hidden;' onclick=\"show_song_edit_title_form('" + str(song.id) + "', '" + str(song.title) + "')\"><i class='fa fa-edit song_edit_icon'></i></sup></td>"
         content += "<td id='song_artist_" + str(i) + "'>" + str(song.album.artist) + "</td>"
         content += "<td id='song_album_" + str(i) + "'>" + str(song.album) + "</td>"
         content += "<td id='song_genre_" + str(i) + "'>"
@@ -653,4 +653,15 @@ def data_man_delete_genre(request):
     Genre.objects.filter(id=genre_id).delete()
     
     data = {"message": "deleted"}
+    return JsonResponse(data)
+
+def data_man_song_edit_title(request):
+    ID = request.POST["id"]
+    title = request.POST["title"]
+
+    song = Song.objects.get(id=ID)
+    song.title = title
+    song.save()
+
+    data = {"message": "updated"}
     return JsonResponse(data)
