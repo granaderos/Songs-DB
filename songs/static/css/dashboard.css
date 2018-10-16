@@ -149,7 +149,6 @@ body {
   background-color: #e6b31e  !important;
   border-color: #e6b31e  !important;
   color: #343a40 !important;
-  text-align: right;
 }
 
 .header, .header nav{
@@ -180,4 +179,8 @@ body {
   background-color: #343a40;
   color: white;
   text-align: center;
+}
+
+.login {
+  float: right !important;
 }
