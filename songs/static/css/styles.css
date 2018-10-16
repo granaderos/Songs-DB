@@ -1,3 +1,11 @@
+.table{
+    color:white;
+}
+
+.genre-container{
+    margin-bottom: 250px;
+}
+
 .def-font, #def-font{
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
 }
@@ -117,7 +125,8 @@
 
 body{
     background-color:#212121;
-    height: 100%;
+    height: 100%; 
+  
 }
 
 #search span{
@@ -135,7 +144,7 @@ body{
     margin-top: 24px;
 }
 
-.table, .backbtn, #sign h2, #sign label, #login_container .card-title{
+.backbtn, #sign h2, #sign label, #login_container .card-title{
       color: white;
 }
 
@@ -167,50 +176,39 @@ body{
     font-weight: bold;
 }
 
-
-
-#table_playlists a{
-    color:black;
+.playlist{
+   position: relative;
 }
-#table_playlists td{
-    padding:5px;
+
+.playlist .my-playlist .card{
+    border:none;
+    margin-left:-10px;
+    border-right:1px solid #00363a;
+    background-color: #111;
+}
+
+.my-playlist .card-header{
+    padding: 50px 5px 5px 5px;
+    background-color: #111 !important;
+    border-bottom: 1px solid #00363a;
+}
+
+.my-playlist .card-header h4{
+    color: white;
+    font-size: 18px;
+}
+
+.my-playlist .card-body{
+    color: white;
+    margin-bottom: 300px;
+}
+
+.my-playlist .card-body .table_playlists tr td{
+    padding: 5px;
 }
 
 .btn-primary, .btn-danger{ 
     margin: 5px 0px 5px 0px;
-}
-
-#player_div{
-    color: white;
-    background-color: #00363a;
-    display: none;
-    height: 250px;
-    width: 100%;
-    padding: 10px !important;
-    padding-top: 45px !important;
-    bottom: 0;
-    right: 0;
-    position: fixed; 
-}
-
-#btn_close_player {
-    float: right;
-    margin-top: -35px !important;
-    margin-right: -5px !important; 
-}
-
-#div_show_player {
-    bottom: 0;
-    left: 0;
-    position: fixed;
-    /* height: 50px;
-    width: 50px; */
-    display: none;
-    background-color: #00363a;
-    color: white;
-    font-size: 40px;
-    cursor: pointer;
-    padding: 10px;
 }
 
 #sign_container, #tbody_songs{
@@ -490,38 +488,18 @@ body{
     margin-bottom: 0;
     font-size: 13px;
 }
+
+.player .details p div{
+    color:white;
+    font-size: 13px;
+}
+
 .player .details h6{
     color:white;
     margin-bottom: 0;
     font-size: 14px;
 }
 
-.player .playlist {
-    display: none;
-    height: 150px;
-    width: 100%;
-    background: lightgrey;
-    margin-top: -160px;
-    border:none;
-    margin-bottom: 0;
-    opacity: .9;
- }
-
-.player .playlist .card-header{
-    background-color: #343a40;
-    color: white;
-}
-
-.player .playlist .card-header h5{
-    font-size: 15px;
-    font-weight: bold;
-    margin-bottom: 0;
-}
-
-.player .playlist-content li{
-    font-size: 12px;
-    color: black;
-}
 .player .controls{
     margin-top: 0;
 }
