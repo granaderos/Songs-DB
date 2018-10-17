@@ -58,11 +58,10 @@ $(document).ready(function() {
         var title = $("#album_title").val();
         var artist = $("#album_artist").val();
 
-        if(title.trim().length > 0 && artist != "0") {
+        if(title.trim().length > 0 && artist != "0" && $("#album_cover").val() != "") {
             formData.append("title", title);
             formData.append("artist", artist);
             formData.append("csrfmiddlewaretoken", getCookie("csrftoken"));
-
 
             $.ajax({
                 url: "add_album/",
@@ -378,6 +377,7 @@ function add_album_with_songs() {
         formData.append("artist", artist);
         formData.append("csrfmiddlewaretoken", getCookie("csrftoken"));
 
+        var valid = 1;
         for(var i = 1; i <= number_of_songs_to_add; i++) {
             var song_title = $("#song_"+i+"_title").val();
             var genres = $("#song_"+i+"_genres").val();
@@ -399,38 +399,44 @@ function add_album_with_songs() {
                         formData.append("genres_"+i, genres);
                     }
                 } else {
-                    alert("Please choose a valid file.")
+                    alert("Please choose a valid file.");
+                    valid = 0;
                     break;
                 }
             } else {
                 alert("Please don't leave blanks.");
+                valid = 0;
                 break;
             }
         }
 
-        formData.append("number_of_songs_to_add", number_of_songs_to_add);
+        if(valid == 1) {
+            formData.append("number_of_songs_to_add", number_of_songs_to_add);
 
-        $.ajax({
-            url: "add_album_with_songs/",
-            type: "POST",
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function (data) {
-                if(data.message == "incorrect method") {
-                    alert("You are not allowed to do this.")
-                } else {
-                    alert("New album and songs has been successfully added!");
+            $.ajax({
+                url: "add_album_with_songs/",
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    if(data.message == "incorrect method") {
+                        alert("You are not allowed to do this.")
+                    } else if(data.message == "success") {
+                        alert("New album and songs has been successfully added!");
+                    } else {
+                        alert(data.message);
+                    }
+                    console.log("success in adding album and songs = " + JSON.stringify(data))
+                    location.reload();
+                },
+                error: function(data) {
+                    console.log("error in adding album and songs: " + JSON.stringify(data))
                 }
-                console.log("success in adding album and songs = " + JSON.stringify(data))
-                location.reload();
-            },
-            error: function(data) {
-                console.log("error in adding album and songs: " + JSON.stringify(data))
-            }
-        });
+            });
 
-        return false;
+            return false;
+        }
     } else {
         alert("Please fill-out all fields.");
     }
