@@ -334,10 +334,10 @@ def add_song(request):
     return JsonResponse(data)
 
 def data_man_albums(request):
-    artists = Artist.objects.all().order_by("name")
-    genres = Genre.objects.all().order_by("genre")
+    artists = Artist.objects.all().order_by("name").distinct()
+    genres = Genre.objects.all().order_by("genre").distinct()
 
-    albums = Album.objects.all().order_by("title")
+    albums = Album.objects.all().order_by("title").distinct()
 
     album_data = []
 
@@ -387,7 +387,7 @@ def add_album_with_songs(request):
         for i in range(1, int(number_of_songs_to_add)+1):
             song_title = request.POST["song_title_"+str(i)]
             size = request.POST["size_"+str(i)]
-            size = round(size, 2)
+            size = round(float(size), 2)
             audio_format = request.POST["audio_format_"+str(i)]
             audio_file = request.FILES["audio_file_"+str(i)]
 
@@ -536,7 +536,7 @@ def data_man_search_artist(request):
 def data_man_search_album(request):
     search_keyword = request.GET["keyword"]
 
-    albums = Album.objects.filter(title__icontains=search_keyword).order_by("title")
+    albums = Album.objects.filter(title__icontains=search_keyword).order_by("title").distinct()
     
     content = ""
 

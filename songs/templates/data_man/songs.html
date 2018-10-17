@@ -85,14 +85,14 @@
                       <td title="Delete" onclick="delete_song('{{ song.id }}', '{{ song.title }}', '{{ song.album.artist }}')"><i class="fa fa-trash"></i></td>
                       <td>{{ forloop.counter }}</td>
                       <td id="td_song_title_{{ song.id }}">{{ song }} <sup style="visibility: hidden;" onclick="show_song_edit_title_form('{{ song.id }}', '{{ song }}')"><i class="fa fa-edit song_edit_icon"></i></sup></td>
-                      <td id="song_album_{{ forloop.counter }}">{{ song.album }} <sup style="visibility: hidden;"><i class="fa fa-edit song_edit_icon"></i></sup></td>
+                      <td id="song_album_{{ forloop.counter }}">{{ song.album }} <sup style="visibility: hidden;" onclick="alert('Oops... Still working on it.')"><i class="fa fa-edit song_edit_icon"></i></sup></td>
                       <td id="song_artist_{{ forloop.counter }}">{{ song.album.artist }}</td>
                       <td id="song_genre_{{ forloop.counter }}">
                           {% for genre in song.genre.all %}  
                               {{ genre }};
                           {% endfor %}
 
-                          <sup style="visibility: hidden;"><i class="fa fa-edit song_edit_icon"></i></sup>
+                          <sup style="visibility: hidden;" onclick="alert('Oops... Still working on it.')"><i class="fa fa-edit song_edit_icon"></i></sup>
                       </td>
                       <td>{{ song.duration }} mins</td>
                       <td>{{ song.size }} MB </td>
