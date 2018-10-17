@@ -121,7 +121,7 @@ def search_song(request):
 
 def download_song(request):
     path = request.GET["path"]
-    path = settings.MEDIA_ROOT+"/audios/"+path
+    # path = settings.MEDIA_ROOT+"/audios/"+path
     with open(path, 'rb') as mp3:
         response = HttpResponse(mp3, content_type="audio/mpeg") 
         # without the below line, the browser will play it.
