@@ -29,8 +29,9 @@
                             
                             {% if user.is_authenticated %}
                                 <div class="account def-font col-9 d-flex flex-row justify-content-end">
-                                    <div>
-                                        <span>You are logged-in as: <strong id="strong_username"><a class="user-name" href="{% url 'user_display_profile' user.username %}">{{ user.username }}</a></strong></span>
+                                    <div class="text-center">
+                                        <span>You are logged-in as: </span><br>
+                                        <strong id="strong_username"><a class="user-name" href="{% url 'user_display_profile' user.username %}">{{ user.username }}</a></strong>
                                     </div>
                                     <div>
                                         <a href="{% url 'logout' %}?next={% url 'index' %}" class="btn btn-outline-success my-2 my-sm-0 btnlogout">Log-out</a>

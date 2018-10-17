@@ -458,7 +458,6 @@ body{
 
 .player{
     background-color:#000000;
-    height: 68px;
     width: 100%;
     border-top: 1px solid #212121;
     padding: 5px;
@@ -469,6 +468,7 @@ body{
     margin-top: 12px;
     margin-right: 5px;
     vertical-align: middle;
+    
 }
 
 .player .controls audio{
