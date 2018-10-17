@@ -2,14 +2,15 @@
     <div class="container">
         <div class="row">
             <div class="col-12 col-xs-12">
-                <div class="d-flex flex-row justify-content-start text-center">
-                    <div class="active"><a href="{% url 'index' %}">Browse</a></div>
+
+                <div class="d-flex flex-row justify-content-start text-center" id="btndiv">
+                    <div class="btn" id="btnbrowse"><a href="{% url 'index' %}">Browse</a></div>
                     {% if user.is_authenticated %}
-                        <div><a href="{% url 'display_playlist' %}">My Playlists</a></div>
-                        <div><a href="{% url 'user_display_profile' user.username %}">My Profile</a></div>
+                        <div class="btn" id="btnplaylist"><a href="{% url 'display_playlist' %}">My Playlists</a></div>
+                        <div class="btn" id="btnprofile"><a href="{% url 'user_display_profile' user.username %}">My Profile</a></div>
                     {% else %}
-                        <div><a href="{% url 'login' %}">My Playlist</a></div>
-                        <div><a href="{% url 'login' %}">My Profile</a></div>
+                        <div class="btn" id="btnplaylist"><a href="{% url 'login' %}">My Playlists</a></div>
+                        <div class="btn" id="btnprofile"><a href="{% url 'login' %}">My Profile</a></div>
                     {% endif %}
                 </div>
 

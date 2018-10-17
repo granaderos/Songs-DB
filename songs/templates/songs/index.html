@@ -45,6 +45,12 @@
         </div>
 
         {%  include "songs/player.html" %}  
-    </div>    
+        <script>
+            $(document).ready(function() {
+                $("#btnbrowse").addClass("active");
+            });
+        </script>
+    </div>  
+      
     
 {% endblock %}

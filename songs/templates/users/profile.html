@@ -62,10 +62,17 @@
         </div>
     </div>
 
+    {% include "../songs/player.html" %}
+
     <script type="text/javascript">
-        document.getElementById("new_username").addEventListener('blur', function() {
-          change_username();
+        $(document).ready(function() {
+            $("#btnprofile").addClass("active");
+            
+            document.getElementById("new_username").addEventListener('blur', function() {
+                change_username();
+            });
         });
+        
     </script>
 
 {% endblock %}

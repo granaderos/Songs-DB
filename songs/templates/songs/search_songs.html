@@ -25,6 +25,11 @@ Results | {{ search_keyword }}
                 <!-- <a href="javascript:window.history.back()">&lt;&lt; Back</a> -->
             </div>
         </div>
+        <script>
+            $(document).ready(function() {
+                $("#btnbrowse").addClass("active");
+            });
+        </script>
     </div>
 
     {% include "songs/player.html" %}
