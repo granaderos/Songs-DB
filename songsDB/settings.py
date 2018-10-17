@@ -44,14 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'songs.apps.SongsConfig',
     'widget_tweaks',
-
-    # AllAuth requirements
     'django.contrib.sites',
-    # 'allauth',
-    # 'allauth.account',
-    # 'allauth.socialaccount',
-    # to login via Google
-    # 'allauth.socialaccount.providers.google',
 
     # social_django
     'social_django',
@@ -88,9 +81,6 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-
-                #require by allauth
-                # 'django.core.context_processors.request',
 
                 # for social django
                 'social_django.context_processors.backends',
@@ -136,12 +126,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
-# For AllAuth
-# AUTHENTICATION_BACKENDS = (
-#     "django.contrib.auth.backends.ModelBackend",
-#     "allauth.account.auth_backends.AuthenticationBackend",
-# )
 
 # OAuth2 Settings
 AUTHENTICATION_BACKENDS = [
@@ -197,7 +181,7 @@ LOGIN_REDIRECT_URL = "/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "files")
 MEDIA_URL = "/media/"
 
-#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'marejeanperpinosa@gmail.com'
