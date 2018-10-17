@@ -2,7 +2,7 @@
     color:white;
 }
 
-.genre-container{
+.genre-container, .search-songs{
     margin-bottom: 250px;
 }
 
@@ -509,10 +509,11 @@ body{
     margin-top: 0;
 }
 .player .album{
-    height: 150px;
-    margin-top: -159px;
+    height: 165px;
+    margin-top: -170px;
     background-color: #343a40;
     padding: 10px 5px;
+    left: -4px;
 }
 .player .album-image img{
     height: 120px;
