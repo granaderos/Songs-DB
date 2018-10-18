@@ -1,10 +1,10 @@
 
 
-.table{
+.table, .my-playlist #table_playlists tr td a{
     color:white;
 }
 
-.genre-container, .search-songs, .playlist .table{
+.genre-container, .search-songs, .playlist .table, .profile{
     margin-bottom: 250px;
 }
 
@@ -14,6 +14,7 @@
 
 #sign_container, #login_container{
     background-color: #343a40 !important;
+    margin-bottom:250px;
 }
  .header, .header nav{
     height: 65px !important;

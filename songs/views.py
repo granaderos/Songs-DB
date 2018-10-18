@@ -274,9 +274,9 @@ def data_man_dashboard(request):
 
 
 def data_man_songs(request):
-    songs = Song.objects.all().order_by("title")
-    genres = Genre.objects.all().order_by("genre")
-    albums = Album.objects.all().order_by("title")
+    songs = Song.objects.all().order_by("title").distinct()
+    genres = Genre.objects.all().order_by("genre").distinct()
+    albums = Album.objects.all().order_by("title").distinct()
 
     data = {"songs": songs, "genres": genres, "albums": albums}
     return render(request, "data_man/songs.html", data)
@@ -358,10 +358,10 @@ def add_album(request):
 
         artist = Artist.objects.get(id=artist_id)
 
-        album = Album.objects.filter(Q(title=title), Q(artist=artist)).count()
+        album = Album.objects.filter(title=title, artist=artist).count()
 
         if(album > 0):
-            data = {"message": "That album of " + str(artist.name) + " already exist."}
+            data = {"message": "That album of " + str(artist.name) + " already exists."}
         else:
             new_album = Album.objects.create(title=title, artist=artist, cover=cover)
             data = {"message": "successful"}
@@ -376,46 +376,55 @@ def add_album_with_songs(request):
         artist_id = request.POST["artist"]
         artist = Artist.objects.get(id=artist_id)
 
-        album = Album.objects.create(title=album_title, artist=artist)
-        album.save()
+        album_exists = Album.objects.filter(title=album_title, artist=artist).count()
+        if album_exists > 0:
+            data = {"message": "That album of " + str(artist.name) + " already exists."} 
+        else:
+            album = Album.objects.create(title=album_title, artist=artist)
+            album.save()
 
-        new_album_id = Album.objects.latest("id").id
-        new_album = Album.objects.get(id=new_album_id)
+            new_album_id = Album.objects.latest("id").id
+            new_album = Album.objects.get(id=new_album_id)
 
-        number_of_songs_to_add = request.POST["number_of_songs_to_add"]
+            number_of_songs_to_add = request.POST["number_of_songs_to_add"]
 
-        for i in range(1, int(number_of_songs_to_add)+1):
-            song_title = request.POST["song_title_"+str(i)]
-            size = request.POST["size_"+str(i)]
-            size = round(float(size), 2)
-            audio_format = request.POST["audio_format_"+str(i)]
-            audio_file = request.FILES["audio_file_"+str(i)]
+            for i in range(1, int(number_of_songs_to_add)+1):
+                song_title = request.POST["song_title_"+str(i)]
 
-            handle_uploaded_file(audio_file, audio_file.name)
+                song_exists = Song.objects.filter(title=song_title, album=new_album).count()
+                if song_exists > 0:
+                    pass
+                else:
+                    size = request.POST["size_"+str(i)]
+                    size = round(float(size), 2)
+                    audio_format = request.POST["audio_format_"+str(i)]
+                    audio_file = request.FILES["audio_file_"+str(i)]
 
-            with audioread.audio_open(settings.MEDIA_ROOT+"/audios/"+audio_file.name) as f:
-                duration = f.duration
-            duration = round(duration/60, 2)
+                    handle_uploaded_file(audio_file, audio_file.name)
 
-            song = Song.objects.create(title=song_title, album=new_album, path=audio_file.name, audio_format=audio_format, duration=duration, size=size)
-            song.save()
+                    with audioread.audio_open(settings.MEDIA_ROOT+"/audios/"+audio_file.name) as f:
+                        duration = f.duration
+                    duration = round(duration/60, 2)
 
-            new_song_id = Song.objects.latest("id").id
-            new_song = Song.objects.get(id=new_song_id)
+                    song = Song.objects.create(title=song_title, album=new_album, path=audio_file.name, audio_format=audio_format, duration=duration, size=size)
+                    song.save()
 
-            genre_ids = request.POST["genres_"+str(i)].split(",")
+                    new_song_id = Song.objects.latest("id").id
+                    new_song = Song.objects.get(id=new_song_id)
 
-            for genre_id in genre_ids:
-                genre = Genre.objects.get(id=genre_id)
-                genre.song_set.add(new_song)
-        data = {"message": "success", "genres": genre_ids, "name": audio_file.name, "duration": duration}
+                    genre_ids = request.POST["genres_"+str(i)].split(",")
+
+                    for genre_id in genre_ids:
+                        genre = Genre.objects.get(id=genre_id)
+                        genre.song_set.add(new_song)
+            data = {"message": "success", "genres": genre_ids, "name": audio_file.name, "duration": duration}
     else:
         data = {"message": "incorrect method"}
 
     return JsonResponse(data)
 
 def data_man_artists(request):
-    artists = Artist.objects.all().order_by("name")
+    artists = Artist.objects.all().order_by("name").distinct()
 
     artists_data = []
 
@@ -446,7 +455,7 @@ def add_artist(request):
     return JsonResponse(data)
 
 def data_man_genres(request):
-    genres = Genre.objects.all().order_by("genre")
+    genres = Genre.objects.all().order_by("genre").distinct()
 
     genres_data = []
 
@@ -470,8 +479,6 @@ def add_genre(request):
             genre = Genre.objects.create(genre=genre, image=genre_image)
             genre.save()
             data = {"message": "success"}
-
-        
     else:
         data = {"message": "incorrect method"}
 
