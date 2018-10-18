@@ -1,8 +1,10 @@
+
+
 .table{
     color:white;
 }
 
-.genre-container, .search-songs{
+.genre-container, .search-songs, .playlist .table{
     margin-bottom: 250px;
 }
 

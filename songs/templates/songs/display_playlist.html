@@ -84,14 +84,14 @@
                                             </td>
                                         {% endif %}
                                         
-                                        <span style="visibility: hidden;" id="song_artist_{{ forloop.counter }}">{{ song.album.artist }}</span>
-                                        <span style="visibility: hidden;" id="song_path_{{ forloop.counter }}">{{ song.path }}</span>
-                                        <span style="visibility: hidden;" id="song_album_{{ forloop.counter }}">{{ song.album }}</span>
-                                        <span style="visibility: hidden;" id="song_album_cover_{{ forloop.counter }}">{{ song.album.cover }}</span>
-                                        <span style="visibility: hidden;" id="song_genre_{{ forloop.counter }}">{% for genre in song.genre.all %}{{ genre }}; {% endfor %}</span>
-                                        <span style="visibility: hidden;" id="song_duration_{{ forloop.counter }}">{{ song.duration }}</span>
-                                        <span style="visibility: hidden;" id="song_audio_format_{{ forloop.counter }}">{{ song.audio_format }}</span>
-                                        <span style="visibility: hidden;" id="song_size_{{ forloop.counter }}">{{ song.size }}</span>
+                                        <span style="visibility: hidden; font-size: 0px;" id="song_artist_{{ forloop.counter }}">{{ song.album.artist }}</span>
+                                        <span style="visibility: hidden; font-size: 0px;" id="song_path_{{ forloop.counter }}">{{ song.path }}</span>
+                                        <span style="visibility: hidden; font-size: 0px;" id="song_album_{{ forloop.counter }}">{{ song.album }}</span>
+                                        <span style="visibility: hidden; font-size: 0px;" id="song_album_cover_{{ forloop.counter }}">{{ song.album.cover }}</span>
+                                        <span style="visibility: hidden; font-size: 0px;" id="song_genre_{{ forloop.counter }}">{% for genre in song.genre.all %}{{ genre }}; {% endfor %}</span>
+                                        <span style="visibility: hidden; font-size: 0px;" id="song_duration_{{ forloop.counter }}">{{ song.duration }}</span>
+                                        <span style="visibility: hidden; font-size: 0px;" id="song_audio_format_{{ forloop.counter }}">{{ song.audio_format }}</span>
+                                        <span style="visibility: hidden; font-size: 0px;" id="song_size_{{ forloop.counter }}">{{ song.size }}</span>
                                     </tr>
                             {% empty %}
                                 <tr><td colspan="8" class="alert alert-warning">No songs retrieved.</td></tr>
